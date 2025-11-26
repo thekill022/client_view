@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { getApiUrl } from "../config/api";
 
 export function PromoBanner() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -9,7 +10,7 @@ export function PromoBanner() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:3000/api/banner/highlight")
+    fetch(getApiUrl("/api/banner/highlight"))
       .then((res) => res.json())
       .then((data) => {
         const slides = (data.data || []).map((b) => ({

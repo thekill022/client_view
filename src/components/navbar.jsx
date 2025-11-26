@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, Menu, Globe, Check, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { getApiUrl } from "../config/api";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,7 +48,7 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
     searchTimeout = setTimeout(() => {
       setLoading(true);
 
-      fetch(`http://localhost:3000/api/search/${key}`)
+      fetch(getApiUrl(`/api/search/${key}`))
         .then((res) => res.json())
         .then((data) => {
           const mapped = data.data.map((item) => item.search);

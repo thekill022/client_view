@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getApiUrl } from "../config/api";
 
 export function MarqueeConnector() {
   const { t } = useTranslation("common");
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/pengumuman")
+    fetch(getApiUrl("/api/pengumuman"))
       .then((res) => res.json())
       .then((data) => {
         const items = (data.data || []).filter((a) => a.highlight).map((a) => a.pengumuman);

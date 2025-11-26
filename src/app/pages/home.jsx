@@ -8,6 +8,7 @@ import { WhyChoose } from "../../components/whyChoose";
 import { ContactUs } from "../../components/contactUs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { getApiUrl } from "../../config/api";
 
 export default function Home() {
   const route = useLocation();
@@ -17,7 +18,7 @@ export default function Home() {
 
   useEffect(() => {
     // check apakah ada banner highlight
-    fetch("http://localhost:3000/api/banner/highlight")
+    fetch(getApiUrl("/api/banner/highlight"))
       .then((res) => res.json())
       .then((data) => {
         setHasBanners(data.data && data.data.length > 0);

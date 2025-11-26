@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { ShoppingCart, Star, Zap } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useTranslation } from "react-i18next";
+import { getApiUrl } from "../config/api";
 
 const gradients = [
   "from-purple-600 to-pink-600",
@@ -34,7 +35,7 @@ export function PromoCarousel({ lang }) {
   // useEffect fetch
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:3000/api/produk/highlight")
+    fetch(getApiUrl("/api/produk/highlight"))
       .then((res) => res.json())
       .then((data) => {
         const sorted = (data.data || []).sort((a, b) => b.id - a.id);

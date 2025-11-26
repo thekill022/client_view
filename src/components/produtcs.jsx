@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { ShoppingCart, Star, Filter, Search } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Input } from "./ui/input";
+import { getApiUrl } from "../config/api";
 import {
   Pagination,
   PaginationContent,
@@ -61,7 +62,7 @@ export function Product({ onProductClick, lang }) {
 
   useEffect(() => {
     setLoadingProducts(true);
-    fetch("http://localhost:3000/api/akun/all")
+    fetch(getApiUrl("/api/akun/all"))
       .then((res) => res.json())
       .then((data) => {
         const products = (data.data || []).map((item, index) => ({
@@ -149,7 +150,7 @@ export function Product({ onProductClick, lang }) {
     searchTimeout = setTimeout(() => {
       setLoading(true);
 
-      fetch(`http://localhost:3000/api/search/${key}`)
+      fetch(getApiUrl(`/api/search/${key}`))
         .then((res) => res.json())
         .then((data) => {
           const mapped = data.data.map((item) => item.search);
@@ -163,9 +164,9 @@ export function Product({ onProductClick, lang }) {
   const fetchByHeroSkin = (hero, skin) => {
     setLoading(true);
 
-    const url = `http://localhost:3000/api/akun?hero=${encodeURIComponent(
+    const url = getApiUrl(`/api/akun?hero=${encodeURIComponent(
       hero
-    )}&skin=${encodeURIComponent(skin)}`;
+    )}&skin=${encodeURIComponent(skin)}`);
 
     fetch(url)
       .then((res) => res.json())

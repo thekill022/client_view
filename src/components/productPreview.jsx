@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { getApiUrl, getPaymentApiUrl } from "../config/api";
 import {
   ChevronLeft,
   ChevronRight,
@@ -68,7 +69,7 @@ export function ProductPreview({ lang, id }) {
         setIsLoading(true);
         setError(null);
 
-        const res = await fetch(`http://localhost:3000/api/akun/${id}`);
+        const res = await fetch(getApiUrl(`/api/akun/${id}`));
 
         if (!res.ok) {
           if (res.status === 404) {
@@ -119,7 +120,7 @@ export function ProductPreview({ lang, id }) {
   }, [id]);
 
   async function translateDescription() {
-    const res = await fetch("http://localhost:3000/api/translate", {
+    const res = await fetch(getApiUrl("/api/translate"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: descriptionTranslate, lang: lang }),
@@ -191,7 +192,7 @@ export function ProductPreview({ lang, id }) {
       const totalDisc = getTotalDiscount();
 
       const res = await fetch(
-        "https://7e3901043ba2.ngrok-free.app/api/duitku/callback",
+        getPaymentApiUrl("/api/duitku/callback"),
         {
           method: "POST",
           headers: {
@@ -487,9 +488,9 @@ export function ProductPreview({ lang, id }) {
                           setPromoLoading(true);
                           setPromoError("");
 
-                          const res = await fetch(
-                            "http://localhost:3000/api/kodepromo/validate"
-                          );
+          const res = await fetch(
+            getApiUrl("/api/kodepromo/validate")
+          );
                           const json = await res.json();
 
                           const list = json.data || [];
