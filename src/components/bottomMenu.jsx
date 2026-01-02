@@ -8,7 +8,7 @@ export default function BottomMenu() {
   const route = useLocation();
 
   return (
-    <div className="sticky bottom-0 w-full bg-[#09052b] z-999999 py-2 flex justify-around px-2">
+    <div className="sticky lg:hidden bottom-0 w-full bg-[#09052b] z-999999 py-2 flex justify-around px-2 border-t-3 border-white">
       <a
         href="/"
         className={`flex flex-col justify-center items-center ${

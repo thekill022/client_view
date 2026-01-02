@@ -4,7 +4,7 @@ export function WhyChoose() {
   const { t } = useTranslation("common");
 
   return (
-    <section className="py-16 pt-4">
+    <section className="py-30 pt-4">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* GRADIENT BORDER */}
         <div className="rounded-2xl bg-gradient-to-b from-blue-700 to-blue-400 p-[3px]">

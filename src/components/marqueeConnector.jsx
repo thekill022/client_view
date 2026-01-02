@@ -33,7 +33,7 @@ export function MarqueeConnector() {
   const messages = announcements.length > 0 ? announcements : defaultMessages;
 
   return (
-    <div className="relative py-4 bg-[#0b0530] border-4 border-x-0 border-white overflow-hidden">
+    <div className="relative py-1 bg-[#0b0530] border-4 border-x-0 border-white overflow-hidden">
       {/* Animated Shimmer Glow Effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent animate-pulse" />
 
