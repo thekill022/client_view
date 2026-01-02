@@ -13,9 +13,8 @@
   "price_range": "Price Range",
   "min_price": "Minimum Price",
   "max_price": "Maximum Price",
-  "exclusive": "Exclusive offers on verified accounts. Grab them before they're gone!",
 
-  "why_title": "Why Choose Merz Store?",
+  "why_title": "Why Choose Merzz MLBB?",
   "why_subtitle": "We provide the best gaming experience with trusted service and guaranteed satisfaction.",
   "why_secure_title": "Secure Transactions",
   "why_secure_desc": "100% safe and secure payment with encrypted data protection for all transactions.",
@@ -31,7 +30,6 @@
   "why_price_desc": "Competitive pricing with regular discounts and special promotions.",
 
   "faq_title": "Frequently Asked Questions",
-  "faq_subtitle": "Got questions? We've got answers! Find everything you need to know below.",
   "faq_q1": "How do I purchase an account through Merzz MLBB?",
   "faq_a1": "The process is simple: 1. Choose Account: Browse the Merzz MLBB catalog and select an MLBB account with the specifications (Rank, Skin, Win Rate) you want. 2. Checkout: Proceed to checkout and fill in your contact details. 3. Payment: Complete the payment. 4. Delivery: The account details will be sent to you via Merzz MLBB's official WhatsApp or Instagram for record-keeping and transaction security.",
   "faq_q2": "What payment methods are accepted by Merzz MLBB?",
@@ -119,11 +117,9 @@
   "products_empty_title": "No products found",
   "products_empty_desc": "Try adjusting your search or filters to find what you're looking for.",
 
-  "hot_deals": "Hot Deals",
-  "premium_accounts": "Premium Game Accounts",
+  "popular": "POPULAR",
 
   "footer_desc": "Your trusted partner for premium game accounts and top-up services. We deliver quality and satisfaction for gamers worldwide.",
-  "footer_follow_us": "Follow Us",
   "footer_quick_links": "Quick Links",
   "footer_contact_support": "Contact & Support",
   "email": "Email",

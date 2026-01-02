@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDownIcon } from "lucide-react";
 import { cn } from "./utils";
 
 function Accordion(props) {
@@ -17,19 +16,35 @@ function AccordionItem({ className, ...props }) {
   );
 }
 
-function AccordionTrigger({ className, children, ...props }) {
+function AccordionTrigger({ className, children, btn, ...props }) {
+  const [open, setOpen] = useState(false);
+
+  const toggle = () => setOpen(!open);
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
+          "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-center justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 px-2",
           className
         )}
         {...props}
       >
-        {children}
-        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+        <div className="flex gap-1 items-center">
+          <h1 className="text-3xl font-black">{open ? "-" : "+"} </h1>
+          {children}
+        </div>
+        <div className="flex items-center justify-center w-6 h-6">
+          <img
+            onClick={() => {
+              setOpen(!open);
+            }}
+            src="/assets/images/arrow.png"
+            className={`w-4 h-4 ${
+              open ? "rotate-180" : "rotate-0"
+            } transition-transform duration-500 ease-in-out`}
+          />
+        </div>
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );

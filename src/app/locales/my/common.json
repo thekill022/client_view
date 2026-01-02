@@ -13,9 +13,8 @@
   "price_range": "Julat Harga",
   "min_price": "Harga Minimum",
   "max_price": "Harga Maksimum",
-  "exclusive": "Tawaran eksklusif untuk akaun yang disahkan. Rebut sebelum kehabisan!",
 
-  "why_title": "Mengapa Pilih Merz Store?",
+  "why_title": "Mengapa Pilih Merzz MLBB?",
   "why_subtitle": "Kami menawarkan pengalaman permainan terbaik dengan perkhidmatan yang boleh dipercayai dan kepuasan terjamin.",
   "why_secure_title": "Transaksi Selamat",
   "why_secure_desc": "Pembayaran 100% selamat dengan perlindungan data yang disulitkan untuk setiap transaksi.",
@@ -30,8 +29,7 @@
   "why_price_title": "Harga Terbaik",
   "why_price_desc": "Harga yang kompetitif dengan diskaun tetap dan promosi istimewa.",
 
-  "faq_title": "Soalan Lazim",
-  "faq_subtitle": "Ada soalan? Kami ada jawapan! Dapatkan semua maklumat yang anda perlukan di bawah.",
+  "faq_title": "Frequently Asked Questions",
   "faq_q1": "Bagaimana cara membeli akaun melalui Merzz MLBB?",
   "faq_a1": "Prosesnya mudah: 1. Pilih Akaun: Layari katalog Merzz MLBB, pilih akaun MLBB dengan spesifikasi (Rank, Skin, Win Rate) yang anda inginkan. 2. Checkout: Lakukan checkout dan masukkan butiran kontak anda. 3. Pembayaran: Selesaikan pembayaran. 4. Penyerahan: Butiran akaun akan dihantar kepada anda melalui WhatsApp atau Instagram rasmi Merzz MLBB untuk tujuan rekod dan keselamatan transaksi.",
   "faq_q2": "Apakah kaedah pembayaran yang diterima oleh Merzz MLBB?",
@@ -119,11 +117,9 @@
   "products_empty_title": "Tiada produk dijumpai",
   "products_empty_desc": "Cuba ubah carian atau penapis untuk mencari apa yang anda perlukan.",
 
-  "hot_deals": "Tawaran Panas",
-  "premium_accounts": "Akaun Permainan Premium",
+  "popular": "POPULAR",
 
   "footer_desc": "Rakan dipercayai anda untuk akaun game premium dan perkhidmatan top-up. Kami memberikan kualiti dan kepuasan untuk gamer di seluruh dunia.",
-  "footer_follow_us": "Ikuti Kami",
   "footer_quick_links": "Pautan Pantas",
   "footer_contact_support": "Hubungi & Sokongan",
   "email": "Email",

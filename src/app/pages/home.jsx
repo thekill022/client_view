@@ -5,10 +5,10 @@ import Navbar from "../../components/navbar";
 import { PromoBanner } from "../../components/promoBanner";
 import { PromoCarousel } from "../../components/promoCarousel";
 import { WhyChoose } from "../../components/whyChoose";
-import { ContactUs } from "../../components/contactUs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getApiUrl } from "../../config/api";
+import About from "../../components/about";
 
 export default function Home() {
   const route = useLocation();
@@ -27,7 +27,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div className="bg-[url('/assets/images/bg-merzz.png')] bg-cover bg-center">
       <Navbar
         currentPage={route.pathname}
         onNavigate={(pages) => {
@@ -43,8 +43,8 @@ export default function Home() {
       {!hasBanners && <MarqueeConnector />}
       <WhyChoose />
       <FAQ />
+      <About />
       <Footer />
-      <ContactUs />
-    </>
+    </div>
   );
 }

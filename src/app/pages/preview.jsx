@@ -11,7 +11,7 @@ export default function Preview() {
   const { id } = useParams();
 
   return (
-    <>
+    <div className="bg-[url('/assets/images/bg-merzz.png')] bg-cover bg-center">
       <Navbar
         currentPage={route.pathname}
         onNavigate={(pages) => {
@@ -23,6 +23,6 @@ export default function Preview() {
       />
       <ProductPreview lang={lang} id={id} />
       <Footer />
-    </>
+    </div>
   );
 }

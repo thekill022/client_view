@@ -10,7 +10,9 @@ export function MarqueeConnector() {
     fetch(getApiUrl("/api/pengumuman"))
       .then((res) => res.json())
       .then((data) => {
-        const items = (data.data || []).filter((a) => a.highlight).map((a) => a.pengumuman);
+        const items = (data.data || [])
+          .filter((a) => a.highlight)
+          .map((a) => a.pengumuman);
         setAnnouncements(items);
       })
       .catch((err) => {
@@ -31,7 +33,7 @@ export function MarqueeConnector() {
   const messages = announcements.length > 0 ? announcements : defaultMessages;
 
   return (
-    <div className="relative py-6 bg-slate-950 border-y border-cyan-500/20 overflow-hidden">
+    <div className="relative py-4 bg-[#0b0530] border-4 border-x-0 border-white overflow-hidden">
       {/* Animated Shimmer Glow Effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent animate-pulse" />
 
@@ -40,7 +42,7 @@ export function MarqueeConnector() {
 
       <div className="relative flex animate-marquee whitespace-nowrap">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="flex items-center gap-8 px-4">
+          <div key={i} className="flex items-center gap-8">
             {messages.map((msg, idx) => (
               <span
                 key={idx}

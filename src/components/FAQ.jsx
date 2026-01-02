@@ -29,11 +29,10 @@ export function FAQ() {
   const { t } = useTranslation("common");
 
   return (
-    <section className="py-16 bg-gradient-to-br bg-gray-800">
+    <section className="relative z-20 py-16 bg-[url('/assets/images/bg-faq.png')] bg-cover bg-center shadow-xl">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-blue-600 mb-3">{t("faq_title")}</h2>
-          <p className="text-white">{t("faq_subtitle")}</p>
+          <img src="/assets/images/faq-text.png" />
         </div>
 
         <Accordion type="single" collapsible className="space-y-4">
@@ -41,13 +40,13 @@ export function FAQ() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="bg-gray-800 border-2 border-gray-200 rounded-lg px-6 hover:border-blue-500 transition-colors duration-300"
+              className="bg-gradient-to-r from-gray-300 to-white rounded-lg hover:border-blue-500 transition-colors duration-300 overflow-hidden"
             >
-              <AccordionTrigger className="text-white hover:text-blue-600 hover:no-underline">
-                {t(faq.questionKey)}
+              <AccordionTrigger className="text-black font-bold hover:text-blue-600 hover:no-underline">
+                <div className="px-4">{t(faq.questionKey)}</div>
               </AccordionTrigger>
-              <AccordionContent className="text-gray-200">
-                {t(faq.answerKey)}
+              <AccordionContent className="text-gray-200 bg-[#11309e] w-full">
+                <div className="p-2 px-4 text-justify">{t(faq.answerKey)}</div>
               </AccordionContent>
             </AccordionItem>
           ))}

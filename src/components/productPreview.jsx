@@ -68,6 +68,7 @@ export function ProductPreview({ lang, id }) {
       try {
         setIsLoading(true);
         setError(null);
+        console.log("Fetching product data for ID:", id);
 
         const res = await fetch(getApiUrl(`/api/akun/${id}`));
 
@@ -191,27 +192,24 @@ export function ProductPreview({ lang, id }) {
       setIsLoadingSnap(true);
       const totalDisc = getTotalDiscount();
 
-      const res = await fetch(
-        getPaymentApiUrl("/api/duitku/callback"),
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "ngrok-skip-browser-warning": "true",
-          },
-          body: JSON.stringify({
-            paymentAmount: productData.harga_rupiah,
-            diskon: totalDisc,
-            produkId: productData.id,
-            buyerEmail: buyerWA,
-            buyerLang: lang,
-            paymentMethod: "I1",
-            itemDetails: [
-              { name: productData.nama, harga: productData.harga_rupiah },
-            ],
-          }),
-        }
-      );
+      const res = await fetch(getPaymentApiUrl("/api/duitku/callback"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
+        body: JSON.stringify({
+          paymentAmount: productData.harga_rupiah,
+          diskon: totalDisc,
+          produkId: productData.id,
+          buyerEmail: buyerWA,
+          buyerLang: lang,
+          paymentMethod: "I1",
+          itemDetails: [
+            { name: productData.nama, harga: productData.harga_rupiah },
+          ],
+        }),
+      });
 
       const data = await res.json();
       console.log(data);
@@ -247,7 +245,7 @@ export function ProductPreview({ lang, id }) {
   // loading state
   if (isLoading) {
     return (
-      <section className="relative min-h-screen py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      <section className="relative min-h-screen py-20 pt-5 overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
             <Loader2 className="h-16 w-16 text-blue-500 animate-spin" />
@@ -261,7 +259,7 @@ export function ProductPreview({ lang, id }) {
   // error state (404 not found atau error lainnya)
   if (error) {
     return (
-      <section className="relative min-h-screen py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-red-900 to-slate-900">
+      <section className="relative min-h-screen py-20 pt-5 overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="bg-slate-800/90 backdrop-blur-xl border-red-500/50 p-8 shadow-2xl max-w-2xl mx-auto">
             <div className="flex flex-col items-center text-center space-y-6">
@@ -313,7 +311,7 @@ export function ProductPreview({ lang, id }) {
   }
 
   return (
-    <section className="relative min-h-screen py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <section className="relative min-h-screen py-20 pt-5 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Button
           onClick={() => navigate(-1)}
@@ -392,77 +390,57 @@ export function ProductPreview({ lang, id }) {
                     Verified
                   </Badge>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-700/50">
-                  <div className="text-center p-3 bg-slate-700/30 rounded-lg">
-                    <p className="text-2xl text-white">
-                      {productData.heroes.length}
-                    </p>
-                    <p className="text-sm text-gray-400">{t("heroes_label")}</p>
-                  </div>
-                  <div className="text-center p-3 bg-slate-700/30 rounded-lg">
-                    <p className="text-2xl text-white">
-                      {productData.skins.length}
-                    </p>
-                    <p className="text-sm text-gray-400">{t("skins_label")}</p>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="bg-slate-800/90 backdrop-blur-xl border-slate-700/50 p-6 shadow-2xl">
-              <div className="space-y-6">
-                <h3 className="text-white flex items-center gap-2">
-                  <DollarSign className="h-5 w-5 text-green-400" />
-                  {t("price")}
-                </h3>
-
-                <div className="space-y-4">
-                  {["idr", "myr", "usd"].map((cur) => (
-                    <div key={cur} className="space-y-1">
-                      <div className="text-xs text-gray-400 uppercase tracking-wider">
-                        {cur.toUpperCase() === "IDR"
-                          ? "Indonesian Rupiah"
-                          : cur.toUpperCase() === "MYR"
-                          ? "Malaysian Ringgit"
-                          : "US Dollar"}
-                      </div>
-                      <div className="flex items-baseline gap-3">
-                        <span className="text-2xl text-white">
-                          {formatPrice(cur)}
-                        </span>
-                        {productData.diskon > 0 && (
-                          <span className="text-sm text-gray-400 line-through">
-                            {formatOriginalPrice(cur)}
+                <div className="space-y-6">
+                  <h3 className="text-white flex items-center gap-2">
+                    <DollarSign className="h-5 w-5 text-green-400" />
+                    {t("price")}
+                  </h3>
+                  <div className="space-y-4">
+                    {["idr", "myr", "usd"].map((cur) => (
+                      <div key={cur} className="space-y-1">
+                        <div className="text-xs text-gray-400 uppercase tracking-wider">
+                          {cur.toUpperCase() === "IDR"
+                            ? "Indonesian Rupiah"
+                            : cur.toUpperCase() === "MYR"
+                            ? "Malaysian Ringgit"
+                            : "US Dollar"}
+                        </div>
+                        <div className="flex items-baseline gap-3">
+                          <span className="text-2xl text-white">
+                            {formatPrice(cur)}
                           </span>
-                        )}
+                          {productData.diskon > 0 && (
+                            <span className="text-sm text-gray-400 line-through">
+                              {formatOriginalPrice(cur)}
+                            </span>
+                          )}
+                        </div>
                       </div>
+                    ))}
+
+                    {/* info diskon asli + promo */}
+                    <div className="pt-2 border-t border-slate-700/50 space-y-1">
+                      {productData.diskon > 0 && (
+                        <p className="text-sm text-green-400 flex items-center gap-2">
+                          <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                            {productData.diskon}% OFF
+                          </Badge>
+                          <span>{t("discount_save_label")}</span>
+                        </p>
+                      )}
+
+                      {promoDiscount > 0 && (
+                        <p className="text-xs text-emerald-300">
+                          {t("discount_promo_extra", { value: promoDiscount })}
+                        </p>
+                      )}
+
+                      <p className="text-xs text-slate-400">
+                        {t("discount_total", { value: getTotalDiscount() })}
+                      </p>
                     </div>
-                  ))}
-
-                  {/* info diskon asli + promo */}
-                  <div className="pt-2 border-t border-slate-700/50 space-y-1">
-                    {productData.diskon > 0 && (
-                      <p className="text-sm text-green-400 flex items-center gap-2">
-                        <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                          {productData.diskon}% OFF
-                        </Badge>
-                        <span>{t("discount_save_label")}</span>
-                      </p>
-                    )}
-
-                    {promoDiscount > 0 && (
-                      <p className="text-xs text-emerald-300">
-                        {t("discount_promo_extra", { value: promoDiscount })}
-                      </p>
-                    )}
-
-                    <p className="text-xs text-slate-400">
-                      {t("discount_total", { value: getTotalDiscount() })}
-                    </p>
                   </div>
                 </div>
-
                 {/* form kode promo */}
                 <div className="mt-4 space-y-2">
                   <label className="block text-xs text-slate-300">
@@ -488,9 +466,9 @@ export function ProductPreview({ lang, id }) {
                           setPromoLoading(true);
                           setPromoError("");
 
-          const res = await fetch(
-            getApiUrl("/api/kodepromo/validate")
-          );
+                          const res = await fetch(
+                            getApiUrl("/api/kodepromo/validate")
+                          );
                           const json = await res.json();
 
                           const list = json.data || [];

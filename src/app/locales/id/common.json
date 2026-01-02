@@ -13,9 +13,8 @@
   "price_range": "Kisaran Harga",
   "min_price": "Harga Minimum",
   "max_price": "Harga Maksimum",
-  "exclusive": "Penawaran eksklusif untuk akun terverifikasi. Dapatkan sebelum kehabisan!",
 
-  "why_title": "Kenapa Memilih Merz Store?",
+  "why_title": "Kenapa Memilih Merzz MLBB?",
   "why_subtitle": "Kami memberikan pengalaman bermain terbaik dengan layanan terpercaya dan kepuasan yang terjamin.",
   "why_secure_title": "Transaksi Aman",
   "why_secure_desc": "Pembayaran 100% aman dengan perlindungan data terenkripsi untuk setiap transaksi.",
@@ -30,8 +29,7 @@
   "why_price_title": "Harga Terbaik",
   "why_price_desc": "Harga kompetitif dengan diskon rutin dan promo spesial.",
 
-  "faq_title": "Pertanyaan yang Sering Diajukan",
-  "faq_subtitle": "Punya pertanyaan? Kami punya jawabannya! Temukan semua informasi yang Anda butuhkan di bawah ini.",
+  "faq_title": "Frequently Asked Questions",
   "faq_q1": "Bagaimana cara membeli akun melalui Merzz MLBB?",
   "faq_a1": "Prosesnya mudah: 1. Pilih akun: Jelajahi katalog Merzz MLBB dan pilih akun MLBB dengan spesifikasi (Rank, Skin, Win Rate) yang kamu inginkan. 2. Checkout: Lakukan checkout dan isi data kontak kamu. 3. Pembayaran: Selesaikan pembayaran. 4. Penyerahan: Detail akun akan dikirimkan kepadamu melalui WhatsApp atau Instagram resmi Merzz MLBB untuk keperluan pencatatan dan keamanan transaksi.",
   "faq_q2": "Metode pembayaran apa saja yang diterima oleh Merzz MLBB?",
@@ -119,11 +117,9 @@
   "products_empty_title": "Produk tidak ditemukan",
   "products_empty_desc": "Coba sesuaikan pencarian atau filter untuk menemukan yang kamu cari.",
 
-  "hot_deals": "Promo Panas",
-  "premium_accounts": "Akun Game Premium",
+  "popular": "POPULER",
 
   "footer_desc": "Partner terpercaya untuk akun game premium dan layanan top-up. Kami memberikan kualitas dan kepuasan untuk gamer di seluruh dunia.",
-  "footer_follow_us": "Ikuti Kami",
   "footer_quick_links": "Tautan Cepat",
   "footer_contact_support": "Kontak & Bantuan",
   "email": "Email",

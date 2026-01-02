@@ -164,9 +164,11 @@ export function Product({ onProductClick, lang }) {
   const fetchByHeroSkin = (hero, skin) => {
     setLoading(true);
 
-    const url = getApiUrl(`/api/akun?hero=${encodeURIComponent(
-      hero
-    )}&skin=${encodeURIComponent(skin)}`);
+    const url = getApiUrl(
+      `/api/akun?hero=${encodeURIComponent(hero)}&skin=${encodeURIComponent(
+        skin
+      )}`
+    );
 
     fetch(url)
       .then((res) => res.json())
@@ -368,55 +370,59 @@ export function Product({ onProductClick, lang }) {
             } gap-4 mb-12`}
           >
             {displayedProducts.map((product) => (
-            <div key={product.id} className="group relative">
-              <div
-                className={`absolute -inset-0.5 bg-gradient-to-r ${product.gradient} rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500`}
-              />
-              <div className="relative bg-slate-800/90 backdrop-blur-xl rounded-2xl overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-all duration-500">
-                <div className="relative aspect-[9/13] overflow-hidden">
-                  <ImageWithFallback
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-fit object-center group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div
-                    className={`absolute inset-0 opacity-40 group-hover:opacity-30 transition-opacity duration-500`}
-                  />
-                  <div className="absolute top-4 left-4">
-                    <Badge
-                      className={`bg-gradient-to-r ${product.gradient} border-0 shadow-lg backdrop-blur-sm text-xs`}
-                    >
-                      <Star className="h-3 w-3 mr-1 fill-current" />
-                      {product.rank}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="p-3 bg-slate-900/50 backdrop-blur-sm">
-                  <div className="flex flex-col gap-2">
-                    <div>
-                      <p className="text-xs text-gray-400">{t("price")}</p>
-                      <p className="text-white text-sm">
-                        {lang === "id"
-                          ? `Rp ${product.harga_rupiah?.toLocaleString() || 0}`
-                          : lang === "my"
-                          ? `RM ${product.harga_ringgit?.toLocaleString() || 0}`
-                          : `$${product.harga_dolar?.toLocaleString() || 0}`}
-                      </p>
-                    </div>
-                    <a href={"/preview/" + product.id}>
-                      <Button
-                        size="sm"
-                        onClick={onProductClick}
-                        className={`w-full bg-gradient-to-r ${product.gradient} hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 border-0 group-hover:scale-105 text-xs`}
+              <div key={product.id} className="group relative">
+                <div
+                  className={`absolute -inset-0.5 bg-gradient-to-r ${product.gradient} rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500`}
+                />
+                <div className="relative bg-slate-800/90 backdrop-blur-xl rounded-2xl overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-all duration-500">
+                  <div className="relative aspect-[9/13] overflow-hidden">
+                    <ImageWithFallback
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-fit-cover object-center"
+                    />
+                    <div
+                      className={`absolute inset-0 opacity-40 group-hover:opacity-30 transition-opacity duration-500`}
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Badge
+                        className={`bg-gradient-to-r ${product.gradient} border-0 shadow-lg backdrop-blur-sm text-xs`}
                       >
-                        <ShoppingCart className="h-3 w-3 mr-1" />
-                        {t("view")}
-                      </Button>
-                    </a>
+                        <Star className="h-3 w-3 mr-1 fill-current" />
+                        {product.rank}
+                      </Badge>
+                    </div>
                   </div>
+                  <div className="p-3 bg-slate-900/50 backdrop-blur-sm">
+                    <div className="flex flex-col gap-2">
+                      <div>
+                        <p className="text-xs text-gray-400">{t("price")}</p>
+                        <p className="text-white text-sm">
+                          {lang === "id"
+                            ? `Rp ${
+                                product.harga_rupiah?.toLocaleString() || 0
+                              }`
+                            : lang === "my"
+                            ? `RM ${
+                                product.harga_ringgit?.toLocaleString() || 0
+                              }`
+                            : `$${product.harga_dolar?.toLocaleString() || 0}`}
+                        </p>
+                      </div>
+                      <a href={"/preview/" + product.id}>
+                        <Button
+                          size="sm"
+                          onClick={onProductClick}
+                          className={`w-full bg-gradient-to-r ${product.gradient} hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 border-0 group-hover:scale-105 text-xs`}
+                        >
+                          <ShoppingCart className="h-3 w-3 mr-1" />
+                          {t("view")}
+                        </Button>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 </div>
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-              </div>
               </div>
             ))}
           </div>

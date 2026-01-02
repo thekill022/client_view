@@ -1,80 +1,54 @@
-import {
-  Shield,
-  Zap,
-  HeadphonesIcon,
-  Award,
-  CreditCard,
-  Clock,
-} from "lucide-react";
-import { Card, CardContent } from "./ui/card";
 import { useTranslation } from "react-i18next";
-
-const features = [
-  {
-    icon: Shield,
-    titleKey: "why_secure_title",
-    descriptionKey: "why_secure_desc",
-  },
-  {
-    icon: Zap,
-    titleKey: "why_instant_title",
-    descriptionKey: "why_instant_desc",
-  },
-  {
-    icon: HeadphonesIcon,
-    titleKey: "why_support_title",
-    descriptionKey: "why_support_desc",
-  },
-  {
-    icon: Award,
-    titleKey: "why_verified_title",
-    descriptionKey: "why_verified_desc",
-  },
-  {
-    icon: CreditCard,
-    titleKey: "why_payment_title",
-    descriptionKey: "why_payment_desc",
-  },
-  {
-    icon: Clock,
-    titleKey: "why_price_title",
-    descriptionKey: "why_price_desc",
-  },
-];
 
 export function WhyChoose() {
   const { t } = useTranslation("common");
 
   return (
-    <section className="py-16 bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-blue-600 mb-3">{t("why_title")}</h2>
-          <p className="text-white max-w-2xl mx-auto">
-            {t("why_subtitle")}
-          </p>
-        </div>
+    <section className="py-16 pt-4">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* GRADIENT BORDER */}
+        <div className="rounded-2xl bg-gradient-to-b from-blue-700 to-blue-400 p-[3px]">
+          {/* CONTENT */}
+          <div className="w-full rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 px-6 py-8 text-white">
+            <h2 className="mb-8 text-center text-xl font-extrabold md:text-2xl italic">
+              WHY CHOOSE <span className="text-yellow-300">MERZZ</span> ?
+            </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Card
-                key={index}
-                className="border-2 hover:border-blue-500 hover:shadow-lg transition-all duration-300 group"
-              >
-                <CardContent className="p-6">
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="p-4 bg-blue-100 rounded-full group-hover:bg-blue-600 transition-colors duration-300">
-                      <Icon className="h-8 w-8 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                    </div>
-                    <h3 className="text-white">{t(feature.titleKey)}</h3>
-                    <p className="text-gray-400">{t(feature.descriptionKey)}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+            <div className="grid grid-cols-3 items-center justify-items-center gap-6 sm:gap-8 md:gap-12">
+              <div className="flex flex-col items-center text-center">
+                <img
+                  src="/assets/images/shield1.png"
+                  alt="Proses Kilat"
+                  className="mb-3 w-20 sm:w-24 md:w-28"
+                />
+                <p className="text-xs sm:text-sm font-bold md:text-base">
+                  PROSES KILAT
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center text-center">
+                <img
+                  src="/assets/images/shield2.png"
+                  alt="Aman & Bergaransi"
+                  className="mb-3 w-20 sm:w-24 md:w-28"
+                />
+                <p className="text-xs sm:text-sm font-bold md:text-base">
+                  AMAN &amp; BERGARANSI
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center text-center">
+                <img
+                  src="/assets/images/shield3.png"
+                  alt="Terpercaya"
+                  className="mb-3 w-20 sm:w-24 md:w-28"
+                />
+                <p className="text-xs sm:text-sm font-bold md:text-base">
+                  TERPERCAYA
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

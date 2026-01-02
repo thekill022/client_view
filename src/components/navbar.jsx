@@ -31,7 +31,6 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState("ms");
-  const [menuOpen, setMenuOpen] = useState(false);
   const { t, i18n } = useTranslation("common");
 
   // ini untuk searching
@@ -51,8 +50,13 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
       fetch(getApiUrl(`/api/search/${key}`))
         .then((res) => res.json())
         .then((data) => {
-          const mapped = data.data.map((item) => item.search);
+          if (!query.trim()) {
+            setResults([]);
+            setLoading(false);
+            return;
+          }
 
+          const mapped = data.data.map((item) => item.search);
           setResults(mapped);
           setLoading(false);
         })
@@ -102,75 +106,26 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
   return (
     <nav
       id="translate-root"
-      className="sticky top-0 z-9999 bg-gray-800/95 backdrop-blur-md border-b border-gray-800 shadow-sm"
+      className="sticky top-0 z-9999 bg-[#09052b] backdrop-blur-md border-b border-gray-800 shadow-sm"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center">
               <img
-                src="/assets/merz-gif.gif"
+                src="/assets/images/merzz-icon.png"
                 alt="Merz Store Logo"
-                className="h-15 w-15 md:h-20 md:w-30 object-contain"
+                className="h-7 w-7 md:h-10 md:w-10 object-contain"
               />
-            </div>
-
-            <div className="hidden md:block ml-10">
-              <div className="flex items-baseline gap-4">
-                <button
-                  onClick={() => onNavigate("/")}
-                  className={`gaming-text px-3 py-2 rounded-md transition-all duration-300 relative group ${
-                    currentPage === "/"
-                      ? "text-blue-600"
-                      : "text-white hover:text-blue-600"
-                  }`}
-                >
-                  {t("home")}
-                  <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-300 ${
-                      currentPage === "/" ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </button>
-                <button
-                  onClick={() => onNavigate("/product")}
-                  className={`gaming-text px-3 py-2 rounded-md transition-all duration-300 relative group ${
-                    currentPage === "/product"
-                      ? "text-blue-600"
-                      : "text-white hover:text-blue-600"
-                  }`}
-                >
-                  {t("products")}
-                  <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-300 ${
-                      currentPage === "/product"
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </button>
-                <button
-                  onClick={() => onNavigate("/rules")}
-                  className={`gaming-text px-3 py-2 rounded-md transition-all duration-300 relative group ${
-                    currentPage === "/rules"
-                      ? "text-blue-600"
-                      : "text-white hover:text-blue-600"
-                  }`}
-                >
-                  {t("how")}
-                  <span
-                    className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-300 ${
-                      currentPage === "/rules"
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </button>
-              </div>
+              <img
+                src="/assets/images/merzz-text.png"
+                alt="Merz Store text Logo"
+                className="h-25 w-25 md:h-37 md:w-37 object-contain"
+              />
             </div>
           </div>
 
-          <div className="flex flex-1 max-w-md mx-8">
+          <div className="flex flex-1 mx-2 sm:mx-4 md:mx-8 max-w-full md:max-w-md">
             <div className="relative w-full group">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-hover:text-blue-500 transition-colors" />
               <Input
@@ -181,6 +136,7 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
                   setQuery(val);
 
                   if (val.trim() === "") {
+                    clearTimeout(window.searchDelay);
                     setResults([]);
                     setLoading(false);
                     return;
@@ -202,7 +158,14 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
               {(results.length > 0 ||
                 loading ||
                 (query.trim() !== "" && results.length === 0)) && (
-                <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2">
+                <div
+                  className="
+                  absolute top-full left-0 w-full mt-1
+                  bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2
+                  max-h-60 sm:max-h-72
+                  overflow-y-auto
+                "
+                >
                   {loading && (
                     <div className="text-center py-2 text-sm text-gray-500 animate-pulse">
                       {t("loading")}
@@ -239,7 +202,7 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 relative">
+          <div className="flex items-center relative">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -278,58 +241,8 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              {menuOpen ? (
-                <X className="h-5 w-5 text-white" />
-              ) : (
-                <Menu className="h-5 w-5 text-white" />
-              )}
-            </Button>
           </div>
         </div>
-
-        {menuOpen && (
-          <div className="md:hidden my-2 border-t border-gray-200 bg-gray-800 shadow-lg rounded-md p-4">
-            <div className="flex flex-col gap-2">
-              <button
-                onClick={() => onNavigate("/")}
-                className={`text-left px-3 py-2 rounded-md transition-all duration-300 ${
-                  currentPage === "/"
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-                }`}
-              >
-                Home
-              </button>
-              <button
-                onClick={() => onNavigate("/product")}
-                className={`text-left px-3 py-2 rounded-md transition-all duration-300 ${
-                  currentPage === "/product"
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-                }`}
-              >
-                Products
-              </button>
-              <button
-                onClick={() => onNavigate("/rules")}
-                className={`text-left px-3 py-2 rounded-md transition-all duration-300 ${
-                  currentPage === "/rules"
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-                }`}
-              >
-                How To Buy?
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );
