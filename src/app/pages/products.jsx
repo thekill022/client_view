@@ -3,6 +3,7 @@ import Navbar from "../../components/navbar";
 import { Footer } from "../../components/Footer";
 import { Product } from "../../components/produtcs";
 import { useState } from "react";
+import BottomMenu from "../../components/bottomMenu";
 
 export default function Products() {
   const route = useLocation();
@@ -10,7 +11,7 @@ export default function Products() {
   const [lang, setLang] = useState(localStorage.getItem("lang") || "my");
 
   return (
-    <>
+    <div className="bg-[url('/assets/images/bg-merzz.png')] bg-cover bg-center">
       <Navbar
         currentPage={route.pathname}
         onNavigate={(pages) => {
@@ -22,6 +23,7 @@ export default function Products() {
       />
       <Product lang={lang} />
       <Footer />
-    </>
+      <BottomMenu />
+    </div>
   );
 }

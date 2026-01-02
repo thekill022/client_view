@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getApiUrl } from "../../config/api";
 import About from "../../components/about";
+import BottomMenu from "../../components/bottomMenu";
 
 export default function Home() {
   const route = useLocation();
@@ -45,6 +46,7 @@ export default function Home() {
       <FAQ />
       <About />
       <Footer />
+      <BottomMenu />
     </div>
   );
 }

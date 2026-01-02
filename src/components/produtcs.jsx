@@ -209,12 +209,7 @@ export function Product({ onProductClick, lang }) {
   };
 
   return (
-    <section className="relative min-h-screen py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700" />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000" />
-      </div>
+    <section className="relative min-h-screen py-20 pt-8 overflow-hidden">
       <div className="absolute inset-0">
         {[...Array(30)].map((_, i) => (
           <div
@@ -270,7 +265,7 @@ export function Product({ onProductClick, lang }) {
                   fetchByHeroSkin(hero, skin);
                 }
               }}
-              className="pl-12 h-12 bg-slate-800/90 backdrop-blur-xl border-slate-700/50 text-white placeholder:text-gray-400 focus:border-blue-500/50 transition-all shadow-lg"
+              className="pl-4 h-12 bg-slate-800/90 backdrop-blur-xl border-slate-700/50 text-white placeholder:text-gray-400 focus:border-blue-500/50 transition-all shadow-lg"
             />
 
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -370,58 +365,87 @@ export function Product({ onProductClick, lang }) {
             } gap-4 mb-12`}
           >
             {displayedProducts.map((product) => (
-              <div key={product.id} className="group relative">
-                <div
-                  className={`absolute -inset-0.5 bg-gradient-to-r ${product.gradient} rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500`}
-                />
-                <div className="relative bg-slate-800/90 backdrop-blur-xl rounded-2xl overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-all duration-500">
-                  <div className="relative aspect-[9/13] overflow-hidden">
+              <div key={product.id} className="relative group h-full">
+                {/* CARD UTAMA */}
+                <div className="relative flex flex-col h-full bg-[#007aff] rounded-lg sm:rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10 hover:-translate-y-2 transition-transform duration-300">
+                  {/* DISKON BADGE */}
+                  <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 z-20">
+                    <div className="bg-[#FF0000] text-yellow-300 font-black italic text-[9px] xs:text-[10px] sm:text-xs md:text-sm px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-bl-[15px] sm:rounded-bl-[25px] rounded-tr-[12px] sm:rounded-tr-[20px] shadow-lg border-b border-l sm:border-b-2 sm:border-l-2 border-white/20 skew-x-[-5deg]">
+                      DISKON {product.discount}
+                    </div>
+                  </div>
+
+                  {/* IMAGE */}
+                  <div className="flex-grow relative min-h-[120px] sm:min-h-[140px] md:min-h-[180px]">
                     <ImageWithFallback
                       src={product.image}
-                      alt={product.name}
-                      className="w-full h-full object-fit-cover object-center"
+                      alt={product.nama}
+                      className="w-full h-full object-cover"
                     />
-                    <div
-                      className={`absolute inset-0 opacity-40 group-hover:opacity-30 transition-opacity duration-500`}
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge
-                        className={`bg-gradient-to-r ${product.gradient} border-0 shadow-lg backdrop-blur-sm text-xs`}
-                      >
-                        <Star className="h-3 w-3 mr-1 fill-current" />
-                        {product.rank}
-                      </Badge>
-                    </div>
                   </div>
-                  <div className="p-3 bg-slate-900/50 backdrop-blur-sm">
-                    <div className="flex flex-col gap-2">
-                      <div>
-                        <p className="text-xs text-gray-400">{t("price")}</p>
-                        <p className="text-white text-sm">
+
+                  {/* INFO */}
+                  <div className="px-2 sm:px-3 md:px-4 pb-2 sm:pb-3 md:pb-4 pt-1.5 sm:pt-2 relative z-10">
+                    {/* TITLE */}
+                    <h3 className="text-white font-black text-xs xs:text-sm sm:text-base md:text-xl italic uppercase leading-tight tracking-wide drop-shadow-md line-clamp-1 mb-1">
+                      {product.nama}
+                    </h3>
+
+                    {/* PRICE + LOGO */}
+                    <div className="flex justify-between items-end mb-2 sm:mb-3 gap-1">
+                      <div className="flex flex-col flex-1 min-w-0">
+                        {/* HARGA CORET */}
+                        <div className="relative w-fit mb-0.5">
+                          <span className="text-white/60 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs font-bold italic whitespace-nowrap">
+                            {lang === "id"
+                              ? `Rp.${product.harga_rupiah.toLocaleString()}`
+                              : lang === "my"
+                              ? `RM${product.harga_ringgit.toLocaleString()}`
+                              : `$${product.harga_dolar.toLocaleString()}`}
+                          </span>
+                          <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-red-600 -rotate-2" />
+                        </div>
+
+                        {/* HARGA AKHIR */}
+                        <div className="text-white font-black text-xs xs:text-sm sm:text-base md:text-2xl italic leading-none tracking-tight">
                           {lang === "id"
-                            ? `Rp ${
-                                product.harga_rupiah?.toLocaleString() || 0
-                              }`
+                            ? `Rp.${Math.round(
+                                (product.harga_rupiah *
+                                  (100 - parseInt(product.discount))) /
+                                  100
+                              ).toLocaleString()}`
                             : lang === "my"
-                            ? `RM ${
-                                product.harga_ringgit?.toLocaleString() || 0
-                              }`
-                            : `$${product.harga_dolar?.toLocaleString() || 0}`}
-                        </p>
+                            ? `RM${Math.round(
+                                (product.harga_ringgit *
+                                  (100 - parseInt(product.discount))) /
+                                  100
+                              ).toLocaleString()}`
+                            : `$${Math.round(
+                                (product.harga_dolar *
+                                  (100 - parseInt(product.discount))) /
+                                  100
+                              ).toLocaleString()}`}
+                        </div>
                       </div>
-                      <a href={"/preview/" + product.id}>
-                        <Button
-                          size="sm"
-                          onClick={onProductClick}
-                          className={`w-full bg-gradient-to-r ${product.gradient} hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 border-0 group-hover:scale-105 text-xs`}
-                        >
-                          <ShoppingCart className="h-3 w-3 mr-1" />
-                          {t("view")}
-                        </Button>
-                      </a>
+
+                      {/* FREE ICON */}
+                      <img
+                        src="/assets/images/free.png"
+                        alt="Free"
+                        className="h-5 xs:h-6 sm:h-7 md:h-10 w-auto object-contain drop-shadow-lg translate-y-1 sm:translate-y-2"
+                      />
                     </div>
+
+                    {/* BUTTON */}
+                    <a href={`/preview/${product.id}`} className="block w-full">
+                      <Button
+                        className={`w-full bg-gradient-to-r ${product.gradient} text-white font-black italic text-[9px] xs:text-[10px] sm:text-xs md:text-base py-2 sm:py-3 md:py-5 rounded-lg sm:rounded-xl hover:translate-y-[2px] transition-all border-none uppercase tracking-wider`}
+                      >
+                        <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-1" />
+                        {t("buy")}
+                      </Button>
+                    </a>
                   </div>
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 </div>
               </div>
             ))}
