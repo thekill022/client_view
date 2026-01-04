@@ -361,7 +361,7 @@ export function Product({ onProductClick, lang }) {
         ) : (
           <div
             className={`grid grid-cols-2 ${
-              gridView === "4" ? "md:grid-cols-4" : "md:grid-cols-6"
+              gridView === "4" ? "lg:grid-cols-4" : "md:grid-cols-6"
             } gap-4 mb-12`}
           >
             {displayedProducts.map((product) => (
