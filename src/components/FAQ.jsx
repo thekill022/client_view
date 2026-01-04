@@ -20,12 +20,12 @@ export function FAQ() {
     <section className="relative z-20 overflow-hidden">
       <div className="absolute inset-0 bg-[url('/assets/images/bg-faq.png')] bg-cover bg-no-repeat bg-top min-h-[520px]" />
 
-      <div className="relative z-10 py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+      <div className="relative z-10 py-24 w-full px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 mx-auto">
           <img src="/assets/images/faq-text.png" />
         </div>
 
-        <Accordion type="single" collapsible className="space-y-4">
+        <Accordion type="single" collapsible className="space-y-4 w-full">
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}

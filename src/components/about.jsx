@@ -7,7 +7,7 @@ export default function About() {
   ];
 
   return (
-    <div className="bg-white py-6 px-2 pt-16 -translate-y-6 relative z-10">
+    <div className="bg-white py-6 px-4 sm:px-6 lg:px-8 pt-16 -translate-y-6 relative z-10">
       <div className="flex justify-center">
         <div className="bg-[#172385] rounded-full p-2 mb-4">
           <img
@@ -28,7 +28,7 @@ export default function About() {
         Indonesia!
       </p>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 px-0 md:p-8 justify-items-center mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 px-0 justify-items-center mb-12">
         {stats.map((stat, index) => (
           <div
             key={index}

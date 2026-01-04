@@ -15,14 +15,9 @@ import {
 } from "./ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { replace, useLocation } from "react-router-dom";
-import { FiMenu } from "react-icons/fi";
 import { FaClipboardList } from "react-icons/fa";
 import { MdSell } from "react-icons/md";
 export default function Navbar({ currentPage, onNavigate, languange }) {
-  const [placeholderIndex, setPlaceholderIndex] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [charIndex, setCharIndex] = useState(0);
   const [selectedLanguage, setSelectedLanguage] = useState("ms");
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const { t, i18n } = useTranslation("common");
@@ -78,10 +73,10 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
       id="translate-root"
       className="sticky top-0 z-9999 bg-[#09052b] backdrop-blur-md border-b border-gray-800 shadow-sm"
     >
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="max-w-full mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex lg:hidden w-full items-center gap-2">
-            <div className="flex items-center">
+            <div className="flex items-center pl-2">
               <img
                 src="/assets/images/merzz-icon.png"
                 alt="Merz Store Logo"
@@ -90,7 +85,7 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
               <img
                 src="/assets/images/merzz-text.png"
                 alt="Merz Store text Logo"
-                className="h-25 w-25 md:h-37 md:w-37 object-contain"
+                className="h-30 w-30 md:h-43 md:w-47 object-contain"
               />
             </div>
 
@@ -99,7 +94,7 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("src")}
-                className="bg-[#383966] text-white rounded-full h-9 placeholder:text-white"
+                className="bg-[#383966] text-white rounded-full h-9 text-sm py-0 placeholder:text-white"
               />
             </div>
 
@@ -109,7 +104,11 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
               onClick={() => setOpenMobileMenu(!openMobileMenu)}
               className="text-white"
             >
-              {openMobileMenu ? <X /> : <Menu />}
+              {openMobileMenu ? (
+                <X className="size-8" />
+              ) : (
+                <Menu className="size-8" />
+              )}
             </Button>
           </div>
 
