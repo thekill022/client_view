@@ -18,8 +18,16 @@ export function FAQ() {
 
   return (
     <section className="relative z-20 overflow-hidden">
-      <div className="absolute inset-0 bg-[url('/assets/images/bg-faq.png')] bg-cover bg-no-repeat bg-top min-h-[520px]" />
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-[url('/assets/images/bg-faq.png')] 
+               bg-cover bg-no-repeat bg-top min-h-[520px] opacity-80"
+      />
 
+      {/* Overlay opacity */}
+      <div className="absolute inset-0" />
+
+      {/* Content */}
       <div className="relative z-10 py-24 w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 mx-auto">
           <img src="/assets/images/faq-text.png" />
