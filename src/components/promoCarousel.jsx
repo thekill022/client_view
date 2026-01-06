@@ -23,6 +23,7 @@ export function PromoCarousel({ lang }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isFlashSaleActive, setIsFlashSaleActive] = useState(false);
 
   const { t, i18n } = useTranslation("common");
 
@@ -83,6 +84,32 @@ export function PromoCarousel({ lang }) {
 
   const displayedProducts = pages.length ? pages[currentIndex] : [];
 
+  // flash sale logicnya
+  useEffect(() => {
+    fetch(getApiUrl("/api/flash-sale"))
+      .then((res) => {
+        if (!res.ok) throw new Error("Flash sale not found");
+        return res.json();
+      })
+      .then((res) => {
+        const flash = res.data;
+
+        if (!flash?.start_date || !flash?.end_date) {
+          setIsFlashSaleActive(false);
+          return;
+        }
+
+        const now = new Date();
+        const start = new Date(flash.start_date);
+        const end = new Date(flash.end_date);
+
+        setIsFlashSaleActive(now >= start && now <= end);
+      })
+      .catch(() => {
+        setIsFlashSaleActive(false);
+      });
+  }, []);
+
   return (
     <section className="relative py-16 pt-10 overflow-hidden">
       {/* Background Grid Pattern */}
@@ -120,9 +147,17 @@ export function PromoCarousel({ lang }) {
                   <div className="relative flex flex-col h-full bg-[#007aff] rounded-lg sm:rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10 hover:-translate-y-2 transition-transform duration-300">
                     {/* --- DISKON BADGE (Pojok Kanan Atas) --- */}
                     <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 z-20">
-                      <div className="bg-[#FF0000] text-yellow-300 font-black italic text-[9px] xs:text-[10px] sm:text-xs md:text-sm px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-bl-[15px] sm:rounded-bl-[25px] rounded-tr-[12px] sm:rounded-tr-[20px] shadow-lg border-b border-l sm:border-b-2 sm:border-l-2 border-white/20 transform skew-x-[-5deg]">
-                        DISKON {product.discount}
-                      </div>
+                      {isFlashSaleActive ? (
+                        <img
+                          src="/assets/images/flash.png"
+                          alt="Flash Sale"
+                          className="h-16 md:h-30 w-auto drop-shadow-xl animate-pulse"
+                        />
+                      ) : (
+                        <div className="bg-[#FF0000] text-yellow-300 font-black italic text-[9px] xs:text-[10px] sm:text-xs md:text-sm px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-bl-[15px] sm:rounded-bl-[25px] rounded-tr-[12px] sm:rounded-tr-[20px] shadow-lg border-b border-l sm:border-b-2 sm:border-l-2 border-white/20 transform skew-x-[-5deg]">
+                          DISKON {product.discount}
+                        </div>
+                      )}
                     </div>
 
                     {/* --- IMAGE AREA (Mengisi sebagian besar atas) --- */}
