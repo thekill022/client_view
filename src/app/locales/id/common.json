@@ -132,5 +132,10 @@
   "product_not_found_desc": "Produk yang Anda cari tidak ada atau telah dihapus.",
   "error_occurred": "Terjadi Kesalahan",
   "error_desc": "Terjadi kesalahan saat memuat produk ini. Silakan coba lagi nanti.",
-  "browse_products": "Lihat Daftar Produk"
+  "browse_products": "Lihat Daftar Produk",
+
+  "proses": "Proses Cepat & Otomatis",
+  "jaminan": "Jaminan Layanan",
+  "bayar": "Pembayaran Terpercaya",
+  "layan": "Layanan 24 Jam"
 }

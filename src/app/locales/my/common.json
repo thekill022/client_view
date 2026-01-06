@@ -132,5 +132,10 @@
   "product_not_found_desc": "Produk yang anda cari tidak wujud atau telah dikeluarkan.",
   "error_occurred": "Ralat Berlaku",
   "error_desc": "Ralat berlaku semasa memuatkan produk ini. Sila cuba lagi kemudian.",
-  "browse_products": "Lihat Senarai Produk"
+  "browse_products": "Lihat Senarai Produk",
+
+  "proses": "Proses Cepat & Automatik",
+  "jaminan": "Jaminan Layanan",
+  "bayar": "Pembayaran Terpercaya",
+  "layan": "Layanan 24 Jam"
 }

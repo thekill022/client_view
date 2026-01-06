@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-export function WhyChoose() {
+export function WhyChoose({ lang }) {
   const { t } = useTranslation("common");
 
   return (
@@ -12,7 +12,7 @@ export function WhyChoose() {
           <div class="grid grid-cols-2 md:grid-cols-4 text-white text-center rounded py-3">
             <div class="relative flex flex-col items-center justify-center p-3">
               <img src="/assets/images/jam.png" className="w-10" />
-              <span className="font-medium text-md">Layanan 24 Jam</span>
+              <span className="font-medium text-md">{t("layan")}</span>
               <div
                 style={{
                   position: "absolute",
@@ -28,9 +28,7 @@ export function WhyChoose() {
 
             <div class="relative flex flex-col items-center justify-center p-3">
               <img src="/assets/images/petir.png" className="w-10" />
-              <span className="font-medium text-md">
-                Proses Cepat &amp; Otomatis
-              </span>
+              <span className="font-medium text-md">{t("proses")}</span>
               <div
                 class="hidden md:block"
                 style={{
@@ -46,7 +44,7 @@ export function WhyChoose() {
 
             <div class="relative flex flex-col items-center justify-center p-3">
               <img src="/assets/images/shield.png" className="w-10" />
-              <span className="font-medium text-md">Pembayaran Terpercaya</span>
+              <span className="font-medium text-md">{t("bayar")}</span>
               <div
                 style={{
                   position: "absolute",
@@ -61,8 +59,8 @@ export function WhyChoose() {
             </div>
 
             <div class="flex flex-col items-center justify-center p-3">
-              <img src="/assets/images/atm.png" className="w-10" />
-              <span className="font-medium text-md">Jaminan Layanan</span>
+              <img src="/assets/images/atm.png" className="w-10 lg:pt-4" />
+              <span className="font-medium text-md">{t("jaminan")}</span>
             </div>
           </div>
         </div>

@@ -132,5 +132,10 @@
   "product_not_found_desc": "The product you're looking for doesn't exist or has been removed.",
   "error_occurred": "Something Went Wrong",
   "error_desc": "An error occurred while loading this product. Please try again later.",
-  "browse_products": "Browse Products"
+  "browse_products": "Browse Products",
+
+  "proses": "Fast & Automatic Process",
+  "jaminan": "Service Guarantee",
+  "bayar": "Trusted Payment",
+  "layan": "24 Hour Service"
 }
