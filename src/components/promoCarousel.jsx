@@ -88,7 +88,7 @@ export function PromoCarousel({ lang }) {
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center text-white text-2xl sm:text-3xl md:text-5xl font-black mb-8 sm:mb-12 italic uppercase drop-shadow-md tracking-tighter">
           {t("popular")} <span className="text-red-600">!!!</span>
         </div>
@@ -105,7 +105,7 @@ export function PromoCarousel({ lang }) {
             </div>
           </div>
         ) : (
-          <div className="max-w-6xl mx-auto">
+          <div className="mx-auto">
             <div
               className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 transition-all duration-300 ${
                 isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
