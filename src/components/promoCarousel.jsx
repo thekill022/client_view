@@ -86,6 +86,8 @@ export function PromoCarousel({ lang }) {
 
   // flash sale logicnya
   useEffect(() => {
+    let timeout;
+
     fetch(getApiUrl("/api/flash-sale"))
       .then((res) => {
         if (!res.ok) throw new Error("Flash sale not found");
@@ -93,7 +95,6 @@ export function PromoCarousel({ lang }) {
       })
       .then((res) => {
         const flash = res.data;
-
         if (!flash?.start_date || !flash?.end_date) {
           setIsFlashSaleActive(false);
           return;
@@ -103,11 +104,19 @@ export function PromoCarousel({ lang }) {
         const start = new Date(flash.start_date);
         const end = new Date(flash.end_date);
 
-        setIsFlashSaleActive(now >= start && now <= end);
+        const isActive = now >= start && now <= end;
+        setIsFlashSaleActive(isActive);
+
+        if (isActive) {
+          const msUntilEnd = end.getTime() - now.getTime();
+          timeout = setTimeout(() => {
+            setIsFlashSaleActive(false);
+          }, msUntilEnd);
+        }
       })
-      .catch(() => {
-        setIsFlashSaleActive(false);
-      });
+      .catch(() => setIsFlashSaleActive(false));
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
