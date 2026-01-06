@@ -5,18 +5,14 @@ export function WhyChoose() {
 
   return (
     <section className="py-30 pt-4">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto">
         {/* GRADIENT BORDER */}
         <div className="rounded-2xl bg-gradient-to-b from-blue-700 to-blue-400 p-[1px]">
           {/* CONTENT */}
           <div class="grid grid-cols-2 md:grid-cols-4 text-white text-center rounded py-3">
             <div class="relative flex flex-col items-center justify-center p-3">
               <img src="/assets/images/jam.png" className="w-10" />
-              <span className="font-medium text-md">
-                Layanan
-                <br />
-                24 Jam
-              </span>
+              <span className="font-medium text-md">Layanan 24 Jam</span>
               <div
                 style={{
                   position: "absolute",
