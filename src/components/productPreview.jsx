@@ -55,6 +55,7 @@ export function ProductPreview({ lang, id }) {
   const [openDesc, setOpenDesc] = useState(false);
   const [isFlashSale, setIsFlashSale] = useState(false);
   const [flashDiscount, setFlashDiscount] = useState(null);
+  const [flashEndTime, setFlashEndTime] = useState(null);
 
   // loading & error state
   const [isLoading, setIsLoading] = useState(true);
@@ -156,19 +157,17 @@ export function ProductPreview({ lang, id }) {
   };
 
   async function flashSale() {
-    // Cek response fetch dulu
     try {
       const response = await fetch(getApiUrl("/api/flash-sale"));
-
-      // Jika 404 (tidak ada flash sale) atau error lain, stop
       if (!response.ok) return;
 
-      const json = await response.json(); // TAMBAHKAN AWAIT
+      const json = await response.json();
       const res = json.data;
 
       if (res) {
         setIsFlashSale(true);
-        setFlashDiscount(Number(res.diskon)); // GUNAKAN SETTER & PERBAIKI TYPO
+        setFlashDiscount(Number(res.diskon));
+        setFlashEndTime(new Date(res.end_date));
       }
     } catch (err) {
       console.error("Gagal load flash sale:", err);
@@ -178,6 +177,22 @@ export function ProductPreview({ lang, id }) {
   useEffect(() => {
     flashSale();
   }, []);
+
+  useEffect(() => {
+    if (!isFlashSale || !flashEndTime) return;
+
+    const timer = setInterval(() => {
+      const now = new Date();
+      if (now >= flashEndTime) {
+        setIsFlashSale(false);
+        setFlashDiscount(null);
+        setFlashEndTime(null);
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isFlashSale, flashEndTime]);
 
   const formatPrice = () => {
     const totalDisc = flashDiscount ? flashDiscount : getTotalDiscount();
@@ -609,10 +624,10 @@ export function ProductPreview({ lang, id }) {
               <div class="text-white ">
                 <div>
                   <p class="text-sm text-red-500 line-through">
-                    Rp {formatOriginalPrice()}
+                    {formatOriginalPrice()}
                   </p>
                   <p class="text-2xl font-bold text-green-400 -mt-1">
-                    Rp {formatPrice()}
+                    {formatPrice()}
                   </p>
                 </div>
               </div>
