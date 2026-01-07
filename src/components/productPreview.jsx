@@ -8,8 +8,6 @@ import { getApiUrl, getPaymentApiUrl } from "../config/api";
 import {
   ChevronLeft,
   ChevronRight,
-  CheckCircle,
-  Sparkles,
   ArrowLeft,
   AlertCircle,
   Loader2,
@@ -19,6 +17,22 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { WhyChoose } from "./whyChoose";
+import {
+  Drawer,
+  Button as Btn,
+  Typography,
+  IconButton,
+} from "@material-tailwind/react";
+import {
+  FaInstagram,
+  FaUserFriends,
+  FaBullhorn,
+  FaQuestionCircle,
+  FaTag,
+  FaShoppingCart,
+  FaCreditCard,
+  FaTimes,
+} from "react-icons/fa";
 
 export function ProductPreview({ lang, id }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -27,6 +41,31 @@ export function ProductPreview({ lang, id }) {
   const [buyerWA, setBuyerWA] = useState("");
   const { t, i18n } = useTranslation("common");
   const navigate = useNavigate();
+  const [openBottom, setOpenBottom] = useState(false);
+
+  const openDrawerBottom = () => setOpenBottom(true);
+  const closeDrawerBottom = () => setOpenBottom(false);
+
+  // untuk checkbox survei
+  const [source, setSource] = useState("");
+  const [otherSource, setOtherSource] = useState("");
+
+  const selectSource = (value) => {
+    setSource(value);
+    if (value !== "lain") {
+      setOtherSource("");
+    }
+  };
+
+  const toggleSource = (value) => {
+    setSources((prev) => {
+      if (prev.includes(value)) {
+        if (value === "lain") setOtherSource("");
+        return prev.filter((v) => v !== value);
+      }
+      return [...prev, value];
+    });
+  };
 
   const [productData, setProductData] = useState({
     id: null,
@@ -378,7 +417,7 @@ export function ProductPreview({ lang, id }) {
         <WhyChoose />
 
         <div className="grid lg:grid-cols-2 gap-8 -translate-y-25 lg:-translate-y-15">
-          <div className="col-span-4 lg:col-span-1 lg:col-span-1 lg:flex lg:top-24 md:mt-0 mt-10 h-fit mb-10">
+          <div className="col-span-4 lg:col-span-1 lg:sticky lg:top-24 md:mt-0 mt-10 h-fit mb-10">
             <div className="bg-gradient-to-r from-blue-700  to-blue-400 backdrop-blur-xl rounded-lg w-full max-w-full xl:max-w-md border border-slate-700/50">
               {/* MAIN SLIDER */}
               <div className="relative w-full overflow-hidden rounded-t-lg rounded-b-3xl">
@@ -439,7 +478,7 @@ export function ProductPreview({ lang, id }) {
             </div>
           </div>
 
-          <div className="space-y-6 col-span-4 lg:col-span-1 md:max-h-screen overflow-scroll">
+          <div className="space-y-6 col-span-4 lg:col-span-1">
             {/* PRICE CARD */}
             <Card className="overflow-hidden border-0 shadow-2xl">
               {/* HEADER */}
@@ -490,28 +529,12 @@ export function ProductPreview({ lang, id }) {
                       Rank: {productData.rank || "-"}
                     </div>
                     <div className="mt-4 w-full flex flex-col gap-3">
-                      <input
-                        type="text"
-                        placeholder={t("promo_placeholder")}
-                        className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                        value={promoCode}
-                        onChange={(e) => setPromoCode(e.target.value)}
-                      />
-                      <Button
-                        onClick={() => sendWhatsAppOrder()}
-                        className="bg-green-500 text-white w-full mt-2"
+                      <Btn
+                        onClick={openDrawerBottom}
+                        className="bg-green-500 text-white w-full text-xl mt-2"
                       >
                         {t("buy")}
-                      </Button>
-                      <Button
-                        disabled={promoLoading || !promoCode}
-                        onClick={applyPromoCode}
-                        className="bg-yellow-500 text-white w-full"
-                      >
-                        {promoLoading
-                          ? t("loading")
-                          : t("promo_apply") || "Apply"}
-                      </Button>
+                      </Btn>
 
                       {promoError && (
                         <p className="text-red-500 text-sm text-center">
@@ -556,50 +579,6 @@ export function ProductPreview({ lang, id }) {
         </div>
       </div>
 
-      {showForm && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-          <div className="bg-slate-800 p-6 rounded-xl w-96 border border-slate-700">
-            <h2 className="text-white text-xl mb-4">{t("checkout_title")}</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <input
-                className="w-full mb-3 p-3 rounded bg-slate-700 text-white"
-                placeholder={t("checkout_name_placeholder")}
-                value={buyerName}
-                onChange={(e) => setBuyerName(e.target.value)}
-              />
-
-              <input
-                className="w-full mb-4 p-3 rounded bg-slate-700 text-white"
-                placeholder={t("checkout_email_placeholder")}
-                type="email"
-                value={buyerWA}
-                onChange={(e) => setBuyerWA(e.target.value)}
-              />
-
-              <Button
-                disabled={isLoadingSnap}
-                type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white"
-              >
-                {isLoadingSnap ? "Loading..." : t("checkout_go_to_payment")}
-              </Button>
-
-              <Button
-                onClick={() => setShowForm(false)}
-                variant="ghost"
-                className="mt-2 w-full text-gray-300"
-              >
-                {t("cancel")}
-              </Button>
-            </form>
-          </div>
-        </div>
-      )}
-
       {isFlashSale && (
         <div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
           <div class="w-full flex space-y-2 flex-col gap-2">
@@ -641,14 +620,12 @@ export function ProductPreview({ lang, id }) {
               <button
                 onClick={sendWhatsAppOrder}
                 class="font-bold w-1/2 px-5 py-2 rounded-lg border text-sm transition-opacity bg-transparent border-white text-white"
-                fdprocessedid="dwoaaa"
               >
                 {lang == "en" ? "Negotiate" : "Nego"}
               </button>
               <button
                 onClick={sendWhatsAppOrder}
                 class="bg-white w-1/2 text-[#042057] font-bold px-6 py-3 rounded-lg shadow-md text-sm"
-                fdprocessedid="fbiaku"
               >
                 {t("buy")}
               </button>
@@ -656,6 +633,151 @@ export function ProductPreview({ lang, id }) {
           </div>
         </div>
       )}
+
+      {/* buttom drawer */}
+      <Drawer
+        placement="bottom"
+        open={openBottom}
+        onClose={closeDrawerBottom}
+        className="bg-gray-900 text-white z-9999 rounded-t-2xl p-4 overflow-y-scroll"
+        size={500}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <FaShoppingCart className="text-blue-500 text-xl" />
+            <Typography variant="h5" color="white">
+              Merzz MLBB
+            </Typography>
+          </div>
+
+          <button onClick={closeDrawerBottom}>
+            <FaTimes className="text-white text-lg opacity-70 hover:opacity-100" />
+          </button>
+        </div>
+
+        {/* Promo Section */}
+        <div className="bg-gray-800 rounded-xl p-4 mb-6 space-y-3">
+          <div className="flex items-center gap-2 text-sm text-gray-300">
+            <FaTag className="text-yellow-400" />
+            Gunakan kode promo
+          </div>
+
+          <input
+            type="text"
+            placeholder={t("promo_placeholder")}
+            value={promoCode}
+            onChange={(e) => setPromoCode(e.target.value)}
+            className="w-full p-3 rounded-lg bg-gray-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+
+          <Button
+            disabled={promoLoading || !promoCode}
+            onClick={applyPromoCode}
+            className="w-full bg-yellow-400 text-black font-semibold py-3 rounded-lg"
+          >
+            {promoLoading ? t("loading") : t("promo_apply")}
+          </Button>
+
+          {promoError && (
+            <p className="text-red-400 text-xs text-center">
+              {t("promo_check_failed")}
+            </p>
+          )}
+
+          {promoDiscount > 0 && (
+            <p className="text-green-400 text-sm text-center font-semibold">
+              🎉 Diskon {promoDiscount}% (~{formatPrice()})
+            </p>
+          )}
+        </div>
+
+        {/* Survey Title */}
+        <Typography className="mb-4 font-medium text-white text-base">
+          Kamu tahu Merzz MLBB dari mana?
+        </Typography>
+
+        {/* Survey Options */}
+        <div className="space-y-3 mb-8">
+          {[
+            {
+              value: "instagram",
+              label: "Instagram",
+              icon: <FaInstagram />,
+            },
+            {
+              value: "influencer",
+              label: "Influencer",
+              icon: <FaBullhorn />,
+            },
+            {
+              value: "teman",
+              label: "Rekomendasi Teman",
+              icon: <FaUserFriends />,
+            },
+            {
+              value: "lain",
+              label: "Lain-lain",
+              icon: <FaQuestionCircle />,
+            },
+          ].map((item) => (
+            <div key={item.value}>
+              <label
+                className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
+            ${
+              source === item.value
+                ? "bg-blue-500/20 border border-blue-500"
+                : "bg-gray-800 hover:bg-gray-700"
+            }`}
+              >
+                <input
+                  type="radio"
+                  name="survey-source"
+                  checked={source === item.value}
+                  onChange={() => selectSource(item.value)}
+                  className="hidden"
+                />
+
+                <div
+                  className={`w-9 h-9 flex items-center justify-center rounded-full
+              ${
+                source === item.value
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-700 text-gray-300"
+              }`}
+                >
+                  {item.icon}
+                </div>
+
+                <span className="text-sm">{item.label}</span>
+              </label>
+
+              {item.value === "lain" && source === "lain" && (
+                <input
+                  type="text"
+                  placeholder="Contoh: Facebook, Google, Iklan Website"
+                  value={otherSource}
+                  onChange={(e) => setOtherSource(e.target.value)}
+                  className="mt-2 w-full p-3 rounded-lg bg-gray-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-3">
+          <Btn className="flex items-center justify-center gap-2 bg-gray-700 text-white w-1/2 py-3 rounded-xl">
+            <FaCreditCard />
+            Angsur
+          </Btn>
+
+          <Btn className="flex items-center justify-center gap-2 bg-blue-500 w-1/2 py-3 rounded-xl font-semibold">
+            <FaShoppingCart />
+            Beli Sekarang
+          </Btn>
+        </div>
+      </Drawer>
     </section>
   );
 }
