@@ -12,6 +12,7 @@ import {
   AlertCircle,
   Loader2,
   Triangle,
+  ShoppingCart,
 } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useNavigate } from "react-router-dom";
@@ -42,19 +43,47 @@ export function ProductPreview({ lang, id }) {
   const { t, i18n } = useTranslation("common");
   const navigate = useNavigate();
   const [openBottom, setOpenBottom] = useState(false);
+  const [openBottomCicil, setOpenBottomCicil] = useState(false);
+
+  const resetPromo = () => {
+    setPromoCode("");
+    setPromoDiscount(0);
+    setPromoError("");
+  };
 
   const openDrawerBottom = () => setOpenBottom(true);
-  const closeDrawerBottom = () => setOpenBottom(false);
+  const closeDrawerBottom = () => {
+    setOpenBottom(false);
+    resetPromo();
+  };
+  const openDrawerBottomCicil = () => setOpenBottomCicil(true);
+  const closeDrawerBottomCicil = () => {
+    setOpenBottomCicil(false);
+    resetPromo();
+  };
 
   // untuk checkbox survei
   const [source, setSource] = useState("");
   const [otherSource, setOtherSource] = useState("");
+
+  const isSurveyValid =
+    source && (source !== "lain" || otherSource.trim() !== "");
 
   const selectSource = (value) => {
     setSource(value);
     if (value !== "lain") {
       setOtherSource("");
     }
+  };
+
+  const submitSurvey = async () => {
+    const keterangan = source === "lain" ? otherSource.trim() : source;
+
+    await fetch("/api/survei", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ keterangan }),
+    });
   };
 
   const toggleSource = (value) => {
@@ -313,25 +342,137 @@ export function ProductPreview({ lang, id }) {
     }
   }
 
+  // untuk rekomendasi product lainnya
+  const [recommendations, setRecommendations] = useState([]);
+  const [recLoading, setRecLoading] = useState(true);
+  const [recError, setRecError] = useState(null);
+
+  const gradients = [
+    "from-purple-600 to-pink-600",
+    "from-red-600 to-orange-600",
+    "from-orange-600 to-yellow-600",
+    "from-yellow-600 to-orange-600",
+    "from-purple-600 to-blue-600",
+    "from-green-600 to-emerald-600",
+  ];
+
+  const getRandomGradient = () =>
+    gradients[Math.floor(Math.random() * gradients.length)];
+
+  const isPromoValid = promoDiscount > 0 && promoCode;
+
+  useEffect(() => {
+    async function getProduct() {
+      try {
+        setRecLoading(true);
+        setRecError(null);
+
+        const res = await fetch(getApiUrl("/api/produk/highlight"));
+        if (!res.ok) throw new Error("Gagal memuat rekomendasi");
+
+        const data = await res.json();
+        const raw = data.data || [];
+
+        if (raw.length === 0) {
+          setRecommendations([]);
+          return;
+        }
+
+        const sorted = raw.sort((a, b) => b.id - a.id);
+        const mapped = sorted.map((p) => ({
+          id: p.id,
+          name: p.nama,
+          rank: p.rank,
+          description: p.deskripsi,
+          harga_rupiah: p.harga_rupiah ?? 0,
+          harga_dolar: p.harga_dolar ?? 0,
+          harga_ringgit: p.harga_ringgit ?? 0,
+          discount: `${p.diskon ?? 0}%`,
+          image: p.produkimg[0]?.link || "",
+          gradient: getRandomGradient(),
+        }));
+        mapped.length = 4;
+
+        setRecommendations(mapped);
+      } catch (err) {
+        console.error(err);
+        setRecError(err.message || "Terjadi kesalahan");
+      } finally {
+        setRecLoading(false);
+      }
+    }
+
+    getProduct();
+  }, [productData.id, lang]);
+
   function sendWhatsAppOrder() {
+    const promoMessage = isPromoValid
+      ? `%0AKode Promo: ${promoCode.toUpperCase()} (${promoDiscount}% OFF)`
+      : "";
+
     let message = "";
     switch (lang) {
       case "ms":
-        message = `Halo Admin,%0ASaya ingin membuat pembelian akaun dengan butiran berikut:%0A%0AKod Akaun: ${productData.nama}%0A%0AMohon maklumkan sama ada akaun tersebut masih tersedia.%0A%0ATerima kasih.`;
+        message =
+          `Halo Admin,%0ASaya ingin membuat pembelian akaun dengan butiran berikut:%0A%0A` +
+          `Link Akaun: ${window.location.href}%0A` +
+          promoMessage +
+          `%0A%0AMohon maklumkan sama ada akaun tersebut masih tersedia.%0A%0ATerima kasih.`;
         break;
+
       case "en":
-        message = `Hello Admin,%0AI would like to purchase an account with the following details:%0A%0AAccount Code: ${productData.nama}%0A%0APlease let me know if it is still available.%0A%0AThank you.`;
+        message =
+          `Hello Admin,%0AI would like to purchase an account with the following details:%0A%0A` +
+          `Account Link: ${window.location.href}%0A` +
+          promoMessage +
+          `%0A%0APlease let me know if it is still available.%0A%0AThank you.`;
         break;
+
       default: // id
-        message = `Halo Admin,%0ASaya ingin membeli akun dengan detail berikut:%0A%0AKode Akun: ${productData.nama}%0A%0AMohon kabari jika akun ini masih tersedia.%0A%0ATerima kasih.`;
-        break;
+        message =
+          `Halo Admin,%0ASaya ingin membeli akun dengan detail berikut:%0A%0A` +
+          `Kode Link: ${window.location.href}%0A` +
+          promoMessage +
+          `%0A%0AMohon kabari jika akun ini masih tersedia.%0A%0ATerima kasih.`;
     }
 
-    // Nomor WA admin
     const waNumber = "601128011202";
-    const url = `https://wa.me/${waNumber}?text=${message}`;
+    window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
+  }
 
-    window.open(url, "_blank");
+  function sendWhatsAppOrderCicil() {
+    const promoMessage = isPromoValid
+      ? `%0AKode Promo: ${promoCode.toUpperCase()} (${promoDiscount}% OFF)`
+      : "";
+
+    let message = "";
+    switch (lang) {
+      case "ms":
+        message =
+          `Halo Admin,%0ASaya ingin membuat pembelian akaun secara ansuran dengan butiran berikut:%0A%0A` +
+          `Kod Akaun: ${window.location.href}%0A` +
+          promoMessage +
+          `%0A%0AMohon maklumkan sama ada akaun tersebut masih tersedia.%0A%0ATerima kasih.`;
+        break;
+
+      case "en":
+        message =
+          `Hello Admin,%0AI would like to purchase an account in installments with the following details:%0A%0A` +
+          `Account Code: ${window.location.href}%0A` +
+          promoMessage +
+          `%0A%0APlease let me know if it is still available.%0A%0AThank you.`;
+        break;
+
+      default: // id
+        message =
+          `Halo Admin,%0ASaya ingin membeli akun secara angsuran dengan detail berikut:%0A%0A` +
+          `Kode Akun: ${window.location.href}%0A` +
+          promoMessage +
+          `%0A%0AMohon kabari jika akun ini masih tersedia.%0A%0ATerima kasih.`;
+    }
+
+    const waNumber = "601128011202";
+    window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
   }
 
   // loading state
@@ -514,45 +655,20 @@ export function ProductPreview({ lang, id }) {
 
                   {/* STATUS & RANK */}
                   <div>
-                    <div
+                    <Btn
                       className={`py-2 text-center mb-4 font-bold rounded-lg w-full border
             ${
               productData.status
-                ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-blue-950 text-4xl"
-                : "bg-gradient-to-r from-red-600 to-red-500 text-blue-950 text-4xl"
+                ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-white text-2xl"
+                : "bg-gradient-to-r from-red-600 to-red-500 text-blue-950 text-2xl"
             }`}
                     >
                       Status: {productData.status ? "Tersedia" : "Sold Out"}
-                    </div>
+                    </Btn>
 
-                    <div className="py-2 text-center bg-[radial-gradient(circle,_#fcb205,_#fc7905)] font-bold rounded-lg w-full text-4xl text-white">
+                    <Btn className="py-2 text-center bg-[radial-gradient(circle,_#fcb205,_#fc7905)] font-bold rounded-lg w-full text-2xl text-white">
                       Rank: {productData.rank || "-"}
-                    </div>
-                    <div className="mt-4 w-full flex flex-col gap-3">
-                      <Btn
-                        onClick={openDrawerBottom}
-                        className="bg-green-500 text-white w-full text-xl mt-2"
-                      >
-                        {t("buy")}
-                      </Btn>
-
-                      {promoError && (
-                        <p className="text-red-500 text-sm text-center">
-                          {t("promo_check_failed")}
-                        </p>
-                      )}
-
-                      {promoDiscount > 0 && (
-                        <p className="text-green-700 font-bold text-center">
-                          {t("promo_apply")}: -{promoDiscount}%
-                        </p>
-                      )}
-                    </div>
-                    {promoDiscount > 0 && (
-                      <p className="text-green-700 font-bold">
-                        -{promoDiscount}% (~{formatPrice()})
-                      </p>
-                    )}
+                    </Btn>
                   </div>
                 </div>
               </div>
@@ -578,6 +694,200 @@ export function ProductPreview({ lang, id }) {
           </div>
         </div>
       </div>
+
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-2 mb-6">
+          <h2 className="flex gap-2 items-center text-[12px] md:text-2xl font-extrabold text-white">
+            <FaShoppingCart className="text-blue-500" />
+            Produk Rekomendasi
+          </h2>
+          <a
+            href="/product"
+            className="text-white font-bold text-[12px] md:text-xl"
+          >
+            Selengkapnya {">"}
+          </a>
+        </div>
+
+        {/* LOADING */}
+        {recLoading && (
+          <div className="flex justify-center py-10">
+            <Loader2 className="w-10 h-10 text-blue-500 animate-spin" />
+          </div>
+        )}
+
+        {/* ERROR */}
+        {!recLoading && recError && (
+          <div className="bg-red-500/10 border border-red-500/40 rounded-xl p-6 text-center text-red-400">
+            <AlertCircle className="mx-auto mb-2" />
+            {recError}
+          </div>
+        )}
+
+        {/* EMPTY */}
+        {!recLoading && !recError && recommendations.length === 0 && (
+          <div className="bg-slate-800/60 border border-slate-700 rounded-xl p-6 text-center text-slate-400">
+            Produk rekomendasi tidak tersedia saat ini.
+          </div>
+        )}
+
+        {/* LIST */}
+        {!recLoading && !recError && recommendations.length > 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {recommendations.map((item) => (
+              <div key={`${item.id}`} className="relative group h-full">
+                {/* --- CARD CONTAINER UTAMA --- */}
+                <div className="relative flex flex-col h-full bg-[#007aff] rounded-lg sm:rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10 hover:-translate-y-2 transition-transform duration-300">
+                  {/* --- DISKON BADGE (Pojok Kanan Atas) --- */}
+                  <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 z-20">
+                    {isFlashSale ? (
+                      <img
+                        src="/assets/images/flash.png"
+                        alt="Flash Sale"
+                        className="h-16 md:h-30 w-auto drop-shadow-xl animate-pulse"
+                      />
+                    ) : (
+                      <div className="bg-[#FF0000] text-yellow-300 font-black italic text-[9px] xs:text-[10px] sm:text-xs md:text-sm px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-bl-[15px] sm:rounded-bl-[25px] rounded-tr-[12px] sm:rounded-tr-[20px] shadow-lg border-b border-l sm:border-b-2 sm:border-l-2 border-white/20 transform skew-x-[-5deg]">
+                        DISKON {item.discount}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* --- IMAGE AREA (Mengisi sebagian besar atas) --- */}
+                  <div className="pb-0 flex-grow relative min-h-[120px] sm:min-h-[140px] md:min-h-[180px]">
+                    <ImageWithFallback
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* --- INFO SECTION (Footer Biru) --- */}
+                  <div className="px-2 sm:px-3 md:px-4 pb-2 sm:pb-3 md:pb-4 pt-1.5 sm:pt-2 relative z-10">
+                    {/* Judul Produk */}
+                    <h3 className="text-white font-black text-xs xs:text-sm sm:text-base md:text-xl italic uppercase leading-tight tracking-wide drop-shadow-md line-clamp-1 min-h-[1em] mb-1 sm:mb-1.5">
+                      {item.name}
+                    </h3>
+
+                    <div className="flex justify-between items-end mb-2 sm:mb-3 gap-1">
+                      {/* Bagian Harga (Kiri) */}
+                      <div className="flex flex-col flex-1 min-w-0">
+                        {/* Harga Coret Merah */}
+                        <div className="relative w-fit mb-0.5">
+                          <span className="text-white/60 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs font-bold italic whitespace-nowrap">
+                            {lang === "id"
+                              ? `RP.${Number(
+                                  item.harga_rupiah
+                                ).toLocaleString()}`
+                              : lang === "en"
+                              ? `${Number(item.harga_dolar).toLocaleString()}`
+                              : `RM${Number(
+                                  item.harga_ringgit
+                                ).toLocaleString()}`}
+                          </span>
+                          <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-red-600 -rotate-2"></div>
+                        </div>
+                        {/* Harga Utama */}
+                        <div className="text-white font-black text-xs xs:text-sm sm:text-base md:text-2xl italic leading-none tracking-tight">
+                          {lang === "id"
+                            ? `Rp.${Math.round(
+                                (item.harga_rupiah *
+                                  (100 -
+                                    parseInt(item.discount.replace("%", "")))) /
+                                  100
+                              ).toLocaleString()}`
+                            : lang === "en"
+                            ? `$${Math.round(
+                                (item.harga_dolar *
+                                  (100 -
+                                    parseInt(item.discount.replace("%", "")))) /
+                                  100
+                              ).toLocaleString()}`
+                            : `RM${Math.round(
+                                (item.harga_ringgit *
+                                  (100 -
+                                    parseInt(item.discount.replace("%", "")))) /
+                                  100
+                              ).toLocaleString()}`}
+                        </div>
+                      </div>
+
+                      {/* Logo Free Change Name (Kanan) */}
+                      <div className="flex-shrink-0">
+                        <img
+                          src="/assets/images/free.png"
+                          alt="Free Change Name"
+                          className="h-5 xs:h-6 sm:h-7 md:h-10 w-auto object-contain drop-shadow-lg translate-y-1 sm:translate-y-2"
+                        />
+                      </div>
+                    </div>
+
+                    {/* --- TOMBOL BUY (Dibawah Free/Harga) --- */}
+                    <a href={"/preview/" + item.id} className="block w-full">
+                      <Button
+                        className={`w-full bg-gradient-to-r ${item.gradient} text-white font-black italic text-[9px] xs:text-[10px] sm:text-xs md:text-base py-2 sm:py-3 md:py-5 rounded-lg sm:rounded-xl hover:translate-y-[2px] transition-all border-none uppercase tracking-wider`}
+                      >
+                        <ShoppingCart className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 mr-0.5 xs:mr-1 md:mr-2" />
+                        <span className="leading-none">{t("buy")}</span>
+                      </Button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {!isFlashSale && (
+        <div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
+          <div class="w-full flex space-y-2 flex-col gap-2">
+            <div class="flex justify-between items-start text-white">
+              <div>
+                <p class="text-xl font-bold text-white -mt-1 truncate max-w-48">
+                  {productData.nama}
+                </p>
+              </div>
+              <div class="border border-green-400 bg-green-900/50 text-green-300 text-xs font-semibold px-3 py-1 rounded-md">
+                Status:{" "}
+                {productData.status
+                  ? lang == "en"
+                    ? "Available"
+                    : "Tersedia"
+                  : lang == "en"
+                  ? "Sold Out"
+                  : "Terjual"}
+              </div>
+            </div>
+            <div class="flex justify-between">
+              <div class="text-white ">
+                <div>
+                  <p class="text-sm text-red-500 line-through">
+                    {formatOriginalPrice()}
+                  </p>
+                  <p class="text-2xl font-bold text-green-400 -mt-1">
+                    {formatPrice()}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                onClick={openDrawerBottomCicil}
+                class="font-bold w-1/2 px-5 py-3 rounded-lg border text-sm transition-opacity border-white text-white bg-transparent"
+              >
+                {lang == "en" ? "Negotiate" : "Nego"}
+              </button>
+              <button
+                onClick={openDrawerBottom}
+                class="bg-white w-1/2 text-[#042057] font-bold px-6 py-3 rounded-lg shadow-md text-sm"
+              >
+                {t("buy")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isFlashSale && (
         <div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
@@ -617,18 +927,18 @@ export function ProductPreview({ lang, id }) {
               </div>
             </div>
             <div class="flex items-center gap-2">
-              <button
-                onClick={sendWhatsAppOrder}
+              <Btn
+                onClick={openDrawerBottomCicil}
                 class="font-bold w-1/2 px-5 py-2 rounded-lg border text-sm transition-opacity bg-transparent border-white text-white"
               >
                 {lang == "en" ? "Negotiate" : "Nego"}
-              </button>
-              <button
-                onClick={sendWhatsAppOrder}
+              </Btn>
+              <Btn
+                onClick={openDrawerBottom}
                 class="bg-white w-1/2 text-[#042057] font-bold px-6 py-3 rounded-lg shadow-md text-sm"
               >
                 {t("buy")}
-              </button>
+              </Btn>
             </div>
           </div>
         </div>
@@ -766,15 +1076,182 @@ export function ProductPreview({ lang, id }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
-          <Btn className="flex items-center justify-center gap-2 bg-gray-700 text-white w-1/2 py-3 rounded-xl">
-            <FaCreditCard />
-            Angsur
-          </Btn>
-
-          <Btn className="flex items-center justify-center gap-2 bg-blue-500 w-1/2 py-3 rounded-xl font-semibold">
+        <div className="w-full">
+          <Btn
+            disabled={!isSurveyValid}
+            onClick={() => {
+              try {
+                submitSurvey();
+              } catch (e) {
+                alert("Somethink went wrong, please try again");
+              }
+              sendWhatsAppOrder();
+            }}
+            className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
+      ${
+        isSurveyValid
+          ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          : "bg-blue-400 cursor-not-allowed opacity-60"
+      }`}
+          >
             <FaShoppingCart />
-            Beli Sekarang
+            Lanjut Ke Pembelian
+          </Btn>
+        </div>
+      </Drawer>
+
+      {/* buttom drawer */}
+      <Drawer
+        placement="bottom"
+        open={openBottomCicil}
+        onClose={closeDrawerBottomCicil}
+        className="bg-gray-900 text-white z-9999 rounded-t-2xl p-4 overflow-y-scroll"
+        size={500}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <FaShoppingCart className="text-blue-500 text-xl" />
+            <Typography variant="h5" color="white">
+              Merzz MLBB
+            </Typography>
+          </div>
+
+          <button onClick={closeDrawerBottomCicil}>
+            <FaTimes className="text-white text-lg opacity-70 hover:opacity-100" />
+          </button>
+        </div>
+
+        {/* Promo Section */}
+        <div className="bg-gray-800 rounded-xl p-4 mb-6 space-y-3">
+          <div className="flex items-center gap-2 text-sm text-gray-300">
+            <FaTag className="text-yellow-400" />
+            Gunakan kode promo
+          </div>
+
+          <input
+            type="text"
+            placeholder={t("promo_placeholder")}
+            value={promoCode}
+            onChange={(e) => setPromoCode(e.target.value)}
+            className="w-full p-3 rounded-lg bg-gray-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          />
+
+          <Button
+            disabled={promoLoading || !promoCode}
+            onClick={applyPromoCode}
+            className="w-full bg-yellow-400 text-black font-semibold py-3 rounded-lg"
+          >
+            {promoLoading ? t("loading") : t("promo_apply")}
+          </Button>
+
+          {promoError && (
+            <p className="text-red-400 text-xs text-center">
+              {t("promo_check_failed")}
+            </p>
+          )}
+
+          {promoDiscount > 0 && (
+            <p className="text-green-400 text-sm text-center font-semibold">
+              🎉 Diskon {promoDiscount}% (~{formatPrice()})
+            </p>
+          )}
+        </div>
+
+        {/* Survey Title */}
+        <Typography className="mb-4 font-medium text-white text-base">
+          Kamu tahu Merzz MLBB dari mana?
+        </Typography>
+
+        {/* Survey Options */}
+        <div className="space-y-3 mb-8">
+          {[
+            {
+              value: "instagram",
+              label: "Instagram",
+              icon: <FaInstagram />,
+            },
+            {
+              value: "influencer",
+              label: "Influencer",
+              icon: <FaBullhorn />,
+            },
+            {
+              value: "teman",
+              label: "Rekomendasi Teman",
+              icon: <FaUserFriends />,
+            },
+            {
+              value: "lain",
+              label: "Lain-lain",
+              icon: <FaQuestionCircle />,
+            },
+          ].map((item) => (
+            <div key={item.value}>
+              <label
+                className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
+            ${
+              source === item.value
+                ? "bg-blue-500/20 border border-blue-500"
+                : "bg-gray-800 hover:bg-gray-700"
+            }`}
+              >
+                <input
+                  type="radio"
+                  name="survey-source"
+                  checked={source === item.value}
+                  onChange={() => selectSource(item.value)}
+                  className="hidden"
+                />
+
+                <div
+                  className={`w-9 h-9 flex items-center justify-center rounded-full
+              ${
+                source === item.value
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-700 text-gray-300"
+              }`}
+                >
+                  {item.icon}
+                </div>
+
+                <span className="text-sm">{item.label}</span>
+              </label>
+
+              {item.value === "lain" && source === "lain" && (
+                <input
+                  type="text"
+                  placeholder="Contoh: Facebook, Google, Iklan Website"
+                  value={otherSource}
+                  onChange={(e) => setOtherSource(e.target.value)}
+                  className="mt-2 w-full p-3 rounded-lg bg-gray-700 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="w-full">
+          <Btn
+            disabled={!isSurveyValid}
+            onClick={() => {
+              try {
+                submitSurvey();
+              } catch (e) {
+                alert("Somethink went wrong, please try again");
+              }
+              sendWhatsAppOrder();
+            }}
+            className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
+      ${
+        isSurveyValid
+          ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          : "bg-blue-400 cursor-not-allowed opacity-60"
+      }`}
+          >
+            <FaShoppingCart />
+            Lanjut Ke Pembelian
           </Btn>
         </div>
       </Drawer>
