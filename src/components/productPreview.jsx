@@ -79,10 +79,12 @@ export function ProductPreview({ lang, id }) {
   const submitSurvey = async () => {
     const keterangan = source === "lain" ? otherSource.trim() : source;
 
-    await fetch("/api/survei", {
+    await fetch(getApiUrl("/api/survei"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ keterangan }),
+      body: JSON.stringify({
+        keterangan: keterangan,
+      }),
     });
   };
 
@@ -557,7 +559,7 @@ export function ProductPreview({ lang, id }) {
 
         <WhyChoose />
 
-        <div className="grid lg:grid-cols-2 gap-8 -translate-y-25 lg:-translate-y-15">
+        <div className="grid lg:grid-cols-3 gap-8 -translate-y-25 lg:-translate-y-15">
           <div className="col-span-4 lg:col-span-1 lg:sticky lg:top-24 md:mt-0 mt-10 h-fit mb-10">
             <div className="bg-gradient-to-r from-blue-700  to-blue-400 backdrop-blur-xl rounded-lg w-full max-w-full xl:max-w-md border border-slate-700/50">
               {/* MAIN SLIDER */}
@@ -596,22 +598,45 @@ export function ProductPreview({ lang, id }) {
               </div>
 
               {/* THUMBNAILS */}
-              <div className="flex mt-4 gap-2 px-10 flex-wrap py-4">
+              <div
+                className="
+    my-4
+    flex
+    gap-3
+    px-4
+    py-3
+    overflow-x-auto
+    scrollbar-hide
+    snap-x
+    snap-mandatory
+  "
+              >
                 {productData.images.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`relative w-30 h-30 border-white mb-20 rounded-md overflow-hidden cursor-pointer border-2 transition-all duration-300 hover:scale-105
-              ${
-                index === currentImageIndex
-                  ? "border-cyan-500 scale-105"
-                  : "border-transparent"
-              }`}
+                    className={`
+        relative
+        flex-shrink-0
+        w-20 h-20
+        md:w-28 md:h-28
+        rounded-lg
+        overflow-hidden
+        border-2
+        transition-all
+        duration-300
+        snap-center
+        ${
+          index === currentImageIndex
+            ? "border-cyan-500 scale-105"
+            : "border-transparent"
+        }
+      `}
                   >
                     <ImageWithFallback
                       src={img}
                       alt={`Thumbnail ${index + 1}`}
-                      className="object-cover w-full h-full"
+                      className="w-full h-full object-cover"
                     />
                   </button>
                 ))}
@@ -619,7 +644,7 @@ export function ProductPreview({ lang, id }) {
             </div>
           </div>
 
-          <div className="space-y-6 col-span-4 lg:col-span-1">
+          <div className="space-y-6 col-span-4 lg:col-span-2">
             {/* PRICE CARD */}
             <Card className="overflow-hidden border-0 shadow-2xl">
               {/* HEADER */}
@@ -687,7 +712,7 @@ export function ProductPreview({ lang, id }) {
             </div>
 
             {openDesc && (
-              <div className="bg-white rounded-md p-4 text-xl font-medium">
+              <div className="bg-white rounded-md p-4 text-lg text-blue-900 font-semibold text-justify font-sans whitespace-pre-line">
                 {productData.deskripsi}
               </div>
             )}
@@ -1079,12 +1104,13 @@ export function ProductPreview({ lang, id }) {
         <div className="w-full">
           <Btn
             disabled={!isSurveyValid}
-            onClick={() => {
+            onClick={async () => {
               try {
-                submitSurvey();
+                await submitSurvey();
               } catch (e) {
                 alert("Somethink went wrong, please try again");
               }
+              closeDrawerBottom();
               sendWhatsAppOrder();
             }}
             className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
@@ -1235,12 +1261,13 @@ export function ProductPreview({ lang, id }) {
         <div className="w-full">
           <Btn
             disabled={!isSurveyValid}
-            onClick={() => {
+            onClick={async () => {
               try {
-                submitSurvey();
+                await submitSurvey();
               } catch (e) {
                 alert("Somethink went wrong, please try again");
               }
+              closeDrawerBottomCicil();
               sendWhatsAppOrder();
             }}
             className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
