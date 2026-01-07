@@ -480,7 +480,7 @@ export function ProductPreview({ lang, id }) {
   // loading state
   if (isLoading) {
     return (
-      <section className="relative min-h-screen py-20 pt-5 overflow-hidden">
+      <section className="relative min-h-screen py-20 pt-5">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
             <Loader2 className="h-16 w-16 text-blue-500 animate-spin" />
@@ -494,7 +494,7 @@ export function ProductPreview({ lang, id }) {
   // error state (404 not found atau error lainnya)
   if (error) {
     return (
-      <section className="relative min-h-screen py-20 pt-5 overflow-hidden">
+      <section className="relative min-h-screen py-20 pt-5">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="bg-slate-800/90 backdrop-blur-xl border-red-500/50 p-8 shadow-2xl max-w-2xl mx-auto">
             <div className="flex flex-col items-center text-center space-y-6">
@@ -546,7 +546,7 @@ export function ProductPreview({ lang, id }) {
   }
 
   return (
-    <section className="relative min-h-screen py-20 pt-5 overflow-hidden">
+    <section className="relative min-h-screen py-20 pt-5">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Button
           onClick={() => navigate(-1)}
@@ -559,7 +559,7 @@ export function ProductPreview({ lang, id }) {
 
         <WhyChoose />
 
-        <div className="grid lg:grid-cols-3 gap-8 -translate-y-25 lg:-translate-y-15">
+        <div className="grid lg:grid-cols-3 gap-8 -mt-25 lg:-mt-15">
           <div className="col-span-4 lg:col-span-1 lg:sticky lg:top-24 md:mt-0 mt-10 h-fit mb-10">
             <div className="bg-gradient-to-r from-blue-700  to-blue-400 backdrop-blur-xl rounded-lg w-full max-w-full xl:max-w-md border border-slate-700/50">
               {/* MAIN SLIDER */}
@@ -720,7 +720,7 @@ export function ProductPreview({ lang, id }) {
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-8 pt-8">
         <div className="flex items-center justify-between gap-2 mb-6">
           <h2 className="flex gap-2 items-center text-[12px] md:text-2xl font-extrabold text-white">
             <FaShoppingCart className="text-blue-500" />
@@ -866,7 +866,7 @@ export function ProductPreview({ lang, id }) {
 
       {!isFlashSale && (
         <div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
-          <div class="w-full flex space-y-2 flex-col gap-2">
+          <div class="w-full flex flex-col gap-2">
             <div class="flex justify-between items-start text-white">
               <div>
                 <p class="text-xl font-bold text-white -mt-1 truncate max-w-48">
@@ -885,8 +885,8 @@ export function ProductPreview({ lang, id }) {
               </div>
             </div>
             <div class="flex justify-between">
-              <div class="text-white ">
-                <div>
+              <div class="text-white">
+                <div className="flex gap-2 flex-row-reverse">
                   <p class="text-sm text-red-500 line-through">
                     {formatOriginalPrice()}
                   </p>
