@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 
-export function WhyChoose({ lang }) {
+export function WhyChoose({ lang, classname = "" }) {
   const { t } = useTranslation("common");
 
   return (
-    <section className="py-30 pt-4">
+    <section className={`py-30 pt-4 ${classname}`}>
       <div className="mx-auto">
         {/* GRADIENT BORDER */}
         <div className="rounded-2xl bg-gradient-to-b from-blue-700 to-blue-400 p-[1px]">

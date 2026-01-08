@@ -44,7 +44,7 @@ export default function Home() {
       <FlashSaleBanner />
       <PromoCarousel lang={lang} />
       {!hasBanners && <MarqueeConnector />}
-      <WhyChoose />
+      <WhyChoose classname="px-4 sm:px-6 lg:px-8" />
       <FAQ />
       <About />
       <Footer />
