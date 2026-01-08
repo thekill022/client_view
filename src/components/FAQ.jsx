@@ -17,11 +17,11 @@ export function FAQ() {
   const { t } = useTranslation("common");
 
   return (
-    <section className="relative z-20 overflow-hidden">
+    <section className="relative z-10 overflow-hidden">
       {/* Background image */}
       <div
         className="absolute inset-0 bg-[url('/assets/images/bg-faq.png')] 
-               bg-cover bg-no-repeat bg-top min-h-[520px] opacity-80"
+               bg-cover bg-no-repeat bg-top min-h-[520px]"
       />
 
       {/* Overlay opacity */}

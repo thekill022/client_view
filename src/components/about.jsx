@@ -1,13 +1,13 @@
 export default function About() {
   const stats = [
-    { value: "1234567", label: "User Member" },
-    { value: "1234567", label: "User Member" },
-    { value: "1234567", label: "User Member" },
-    { value: "1234567", label: "User Member" },
+    { value: "22.500", label: "User Member" },
+    { value: "8.200", label: "Account Sold" },
+    { value: "620.000", label: "total jockeys" },
+    { value: "9.800.000", label: "Total Top Up" },
   ];
 
   return (
-    <div className="bg-white py-6 px-4 sm:px-6 lg:px-8 pt-16 -translate-y-6 relative z-10">
+    <div className="bg-white py-6 px-4 sm:px-6 lg:px-8 pt-16 -translate-y-6 relative z-9">
       <div className="flex justify-center">
         <div className="bg-[#172385] rounded-full p-2 mb-4">
           <img
