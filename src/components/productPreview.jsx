@@ -105,7 +105,6 @@ export function ProductPreview({ lang, id }) {
     harga_ringgit: 0,
     harga_dolar: 0,
     diskon: 0,
-    deskripsi: "",
     rank: "",
     status: true,
     gradient: "from-purple-500 via-pink-500 to-red-500",
@@ -114,7 +113,7 @@ export function ProductPreview({ lang, id }) {
     skins: [],
   });
 
-  const [descriptionTranslate, setDescriptionTranslate] = useState("");
+
 
   // promo code state
   const [promoCode, setPromoCode] = useState("");
@@ -158,7 +157,6 @@ export function ProductPreview({ lang, id }) {
         }
 
         const product = data.data;
-        setDescriptionTranslate(product.deskripsi);
 
         console.log(product);
 
@@ -192,19 +190,7 @@ export function ProductPreview({ lang, id }) {
     getData();
   }, [id]);
 
-  async function translateDescription() {
-    const res = await fetch(getApiUrl("/api/translate"), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: descriptionTranslate, lang: lang }),
-    });
-    const data = await res.json();
-    if (data.text) setDescriptionTranslate(data.text);
-  }
 
-  useEffect(() => {
-    if (productData.deskripsi) translateDescription();
-  }, [lang, productData.deskripsi]);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) =>
