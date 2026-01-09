@@ -160,19 +160,34 @@ export function ProductPreview({ lang, id }) {
 
         console.log(product);
 
-        const images = product.produkimg.map((img) => img.link);
+        // Safely map images with fallback to empty array
+        const images = Array.isArray(product.produkimg)
+          ? product.produkimg.map((img) => img.link).filter(Boolean)
+          : [];
 
-        const heroes = product.produkimg.flatMap((img) =>
-          img.hero.map((h) => ({ id: h.id, name: h.nama }))
-        );
+        // Safely map heroes with null checks
+        const heroes = Array.isArray(product.produkimg)
+          ? product.produkimg.flatMap((img) =>
+            Array.isArray(img.hero)
+              ? img.hero.map((h) => ({ id: h.id, name: h.nama }))
+              : []
+          )
+          : [];
 
-        const skins = product.produkimg.flatMap((img) =>
-          img.hero.map((h) => ({
-            id: h.skin.id,
-            name: h.skin.nama,
-            hero: h.nama,
-          }))
-        );
+        // Safely map skins with null checks
+        const skins = Array.isArray(product.produkimg)
+          ? product.produkimg.flatMap((img) =>
+            Array.isArray(img.hero)
+              ? img.hero
+                .filter((h) => h.skin) // Only include if skin exists
+                .map((h) => ({
+                  id: h.skin.id,
+                  name: h.skin.nama,
+                  hero: h.nama,
+                }))
+              : []
+          )
+          : [];
 
         setProductData({
           ...product,
@@ -698,50 +713,51 @@ export function ProductPreview({ lang, id }) {
               <div className="bg-white rounded-md p-4 text-lg text-blue-900 font-semibold text-justify font-sans whitespace-pre-line">
                 {lang === "ms" ? (
                   <>
-                    🎮 ACC MLBB Sedia Digunakan 🎮
+                    🎮 ACC MLBB Sedia Digunakan 🎮<br />
                     Berbagai pilihan akaun dengan keadaan berbeza, boleh disesuaikan mengikut keperluan.
-
-                    📍 Tak boleh DM?
+                    <br /><br />
+                    📍 Tak boleh DM?<br />
                     👉 Reply Story ya
-
-                    📩 Follow & Hubungi melalui DM
+                    <br /><br />
+                    📩 Follow & Hubungi melalui DM<br />
                     Untuk maklumat lanjut, spesifikasi akaun, dan proses urus niaga.
-
+                    <br /><br />
                     ⚠️ Nota Penting ⚠️
-                    Akaun diserahkan dalam keadaan baik semasa transaksi selesai.
-                    Sila buat semakan sebelum pengesahan.
+                    <br />
+                    Akaun diserahkan dalam keadaan baik semasa transaksi selesai.<br />
+                    Sila buat semakan sebelum pengesahan.<br />
                     Garansi diberikan selama 30 hari mengikut terma yang ditetapkan.
                   </>
                 ) : lang === "id" ? (
                   <>
-                    🎮 ACC MLBB Siap Pakai 🎮
+                    🎮 ACC MLBB Siap Pakai 🎮<br />
                     Berbagai pilihan akun dengan kondisi berbeda, bisa disesuaikan dengan kebutuhan.
-
-                    📍 Tidak bisa DM?
+                    <br /><br />
+                    📍 Tidak bisa DM?<br />
                     👉 Reply Story ya
-
-                    📩 Follow & Hubungi melalui DM
+                    <br /><br />
+                    📩 Follow & Hubungi melalui DM<br />
                     Untuk informasi lebih lanjut, spesifikasi akun, dan proses transaksi.
-
-                    ⚠️ Catatan Penting ⚠️
-                    Akun diserahkan dalam kondisi baik saat transaksi selesai.
-                    Silakan lakukan pengecekan sebelum konfirmasi.
+                    <br /><br />
+                    ⚠️ Catatan Penting ⚠️<br />
+                    Akun diserahkan dalam kondisi baik saat transaksi selesai.<br />
+                    Silakan lakukan pengecekan sebelum konfirmasi.<br />
                     Garansi diberikan selama 30 hari sesuai ketentuan yang berlaku.
                   </>
                 ) : (
                   <>
-                    🎮 MLBB ACC Ready to Use 🎮
+                    🎮 MLBB ACC Ready to Use 🎮<br />
                     Various account options with different conditions, can be customized according to your needs.
-
-                    📍 Can't DM?
+                    <br /><br />
+                    📍 Can't DM?<br />
                     👉 Reply to Story
-
-                    📩 Follow & Contact via DM
+                    <br /><br />
+                    📩 Follow & Contact via DM<br />
                     For more information, account specifications, and transaction process.
-
-                    ⚠️ Important Note ⚠️
-                    Account is delivered in good condition when transaction is completed.
-                    Please check before confirmation.
+                    <br /><br />
+                    ⚠️ Important Note ⚠️<br />
+                    Account is delivered in good condition when transaction is completed.<br />
+                    Please check before confirmation.<br />
                     Warranty is provided for 30 days according to the terms and conditions.
                   </>
                 )}
