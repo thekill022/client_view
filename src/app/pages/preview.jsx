@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function Preview() {
   const route = useLocation();
   const router = useNavigate();
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState(localStorage.getItem("lang") || "ms");
   const { id } = useParams();
 
   return (

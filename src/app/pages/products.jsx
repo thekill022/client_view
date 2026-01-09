@@ -8,7 +8,7 @@ import BottomMenu from "../../components/bottomMenu";
 export default function Products() {
   const route = useLocation();
   const navigate = useNavigate();
-  const [lang, setLang] = useState(localStorage.getItem("lang") || "my");
+  const [lang, setLang] = useState(localStorage.getItem("lang") || "ms");
 
   return (
     <div className="bg-[url('/assets/images/bg-merzz.png')] bg-cover bg-center">

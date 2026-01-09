@@ -148,9 +148,9 @@ export function Product({ onProductClick, lang }) {
     const price =
       lang === "id"
         ? product.harga_rupiah
-        : lang === "my"
-        ? product.harga_ringgit
-        : product.harga_dolar;
+        : lang === "ms"
+          ? product.harga_ringgit
+          : product.harga_dolar;
 
     const matchesPrice = price >= minPrice && price <= maxPrice;
 
@@ -396,9 +396,8 @@ export function Product({ onProductClick, lang }) {
           </div>
         ) : (
           <div
-            className={`grid grid-cols-2 ${
-              gridView === "4" ? "lg:grid-cols-4" : "md:grid-cols-6"
-            } gap-4 mb-12`}
+            className={`grid grid-cols-2 ${gridView === "4" ? "lg:grid-cols-4" : "md:grid-cols-6"
+              } gap-4 mb-12`}
           >
             {displayedProducts.map((product) => (
               <div key={product.id} className="relative group h-full">
@@ -442,9 +441,9 @@ export function Product({ onProductClick, lang }) {
                           <span className="text-white/60 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs font-bold italic whitespace-nowrap">
                             {lang === "id"
                               ? `Rp.${product.harga_rupiah.toLocaleString()}`
-                              : lang === "my"
-                              ? `RM${product.harga_ringgit.toLocaleString()}`
-                              : `$${product.harga_dolar.toLocaleString()}`}
+                              : lang === "ms"
+                                ? `RM${product.harga_ringgit.toLocaleString()}`
+                                : `$${product.harga_dolar.toLocaleString()}`}
                           </span>
                           <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-red-600 -rotate-2" />
                         </div>
@@ -453,20 +452,20 @@ export function Product({ onProductClick, lang }) {
                         <div className="text-white font-black text-xs xs:text-sm sm:text-base md:text-2xl italic leading-none tracking-tight">
                           {lang === "id"
                             ? `Rp.${Math.round(
-                                (product.harga_rupiah *
-                                  (100 - parseInt(product.discount))) /
-                                  100
-                              ).toLocaleString()}`
-                            : lang === "my"
-                            ? `RM${Math.round(
+                              (product.harga_rupiah *
+                                (100 - parseInt(product.discount))) /
+                              100
+                            ).toLocaleString()}`
+                            : lang === "ms"
+                              ? `RM${Math.round(
                                 (product.harga_ringgit *
                                   (100 - parseInt(product.discount))) /
-                                  100
+                                100
                               ).toLocaleString()}`
-                            : `$${Math.round(
+                              : `$${Math.round(
                                 (product.harga_dolar *
                                   (100 - parseInt(product.discount))) /
-                                  100
+                                100
                               ).toLocaleString()}`}
                         </div>
                       </div>

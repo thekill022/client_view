@@ -15,7 +15,7 @@ import FlashSaleBanner from "../../components/flasSale";
 export default function Home() {
   const route = useLocation();
   const router = useNavigate();
-  const [lang, setLang] = useState(localStorage.getItem("lang") || "my");
+  const [lang, setLang] = useState(localStorage.getItem("lang") || "ms");
   const [hasBanners, setHasBanners] = useState(true); // asumsi ada banner
 
   useEffect(() => {

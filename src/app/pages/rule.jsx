@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export default function Rules() {
   const route = useLocation();
   const router = useNavigate();
-  const [lang, setLang] = useState(localStorage.getItem("lang") || "my");
+  const [lang, setLang] = useState(localStorage.getItem("lang") || "ms");
 
   useEffect(() => {
     console.log(route.pathname);
