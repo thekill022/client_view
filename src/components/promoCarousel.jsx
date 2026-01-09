@@ -234,15 +234,6 @@ export function PromoCarousel({ lang }) {
                                 ).toLocaleString()}`}
                           </div>
                         </div>
-
-                        {/* Logo Free Change Name (Kanan) */}
-                        <div className="flex-shrink-0">
-                          <img
-                            src="/assets/images/free.png"
-                            alt="Free Change Name"
-                            className="h-5 xs:h-6 sm:h-7 md:h-10 w-auto object-contain drop-shadow-lg translate-y-1 sm:translate-y-2"
-                          />
-                        </div>
                       </div>
 
                       {/* --- TOMBOL BUY (Dibawah Free/Harga) --- */}
@@ -273,8 +264,8 @@ export function PromoCarousel({ lang }) {
                 key={i}
                 onClick={() => setCurrentIndex(i)}
                 className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 shadow ${currentIndex === i
-                    ? "w-8 sm:w-10 bg-[#FFD700]"
-                    : "w-2 sm:w-3 bg-white/30 hover:bg-white/50"
+                  ? "w-8 sm:w-10 bg-[#FFD700]"
+                  : "w-2 sm:w-3 bg-white/30 hover:bg-white/50"
                   }`}
               />
             ))}

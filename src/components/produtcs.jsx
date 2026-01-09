@@ -469,13 +469,6 @@ export function Product({ onProductClick, lang }) {
                               ).toLocaleString()}`}
                         </div>
                       </div>
-
-                      {/* FREE ICON */}
-                      <img
-                        src="/assets/images/free.png"
-                        alt="Free"
-                        className="h-5 xs:h-6 sm:h-7 md:h-10 w-auto object-contain drop-shadow-lg translate-y-1 sm:translate-y-2"
-                      />
                     </div>
 
                     {/* BUTTON */}

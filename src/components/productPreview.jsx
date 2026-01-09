@@ -883,15 +883,6 @@ export function ProductPreview({ lang, id }) {
                               ).toLocaleString()}`}
                         </div>
                       </div>
-
-                      {/* Logo Free Change Name (Kanan) */}
-                      <div className="flex-shrink-0">
-                        <img
-                          src="/assets/images/free.png"
-                          alt="Free Change Name"
-                          className="h-5 xs:h-6 sm:h-7 md:h-10 w-auto object-contain drop-shadow-lg translate-y-1 sm:translate-y-2"
-                        />
-                      </div>
                     </div>
 
                     {/* --- TOMBOL BUY (Dibawah Free/Harga) --- */}
