@@ -438,7 +438,7 @@ export function ProductPreview({ lang, id }) {
           `%0A%0AMohon kabari jika akun ini masih tersedia.%0A%0ATerima kasih.`;
     }
 
-    const waNumber = "601128011202";
+    const waNumber = "601164498139";
     window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
   }
 
@@ -451,7 +451,7 @@ export function ProductPreview({ lang, id }) {
     switch (lang) {
       case "ms":
         message =
-          `Halo Admin,%0ASaya ingin membuat pembelian akaun secara ansuran dengan butiran berikut:%0A%0A` +
+          `Halo Admin,%0ASaya ingin membuat pembelian akaun secara ansur dengan butiran berikut:%0A%0A` +
           `Kod Akaun: ${window.location.href}%0A` +
           promoMessage +
           `%0A%0AMohon maklumkan sama ada akaun tersebut masih tersedia.%0A%0ATerima kasih.`;
@@ -473,7 +473,7 @@ export function ProductPreview({ lang, id }) {
           `%0A%0AMohon kabari jika akun ini masih tersedia.%0A%0ATerima kasih.`;
     }
 
-    const waNumber = "601128011202";
+    const waNumber = "601164498139";
     window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
   }
 
@@ -516,9 +516,9 @@ export function ProductPreview({ lang, id }) {
               <p className="text-slate-300 max-w-md">
                 {error === "Product not found"
                   ? t("product_not_found_desc") ||
-                    "The product you're looking for doesn't exist or has been removed."
+                  "The product you're looking for doesn't exist or has been removed."
                   : t("error_desc") ||
-                    "An error occurred while loading this product. Please try again later."}
+                  "An error occurred while loading this product. Please try again later."}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md pt-4">
@@ -626,11 +626,10 @@ export function ProductPreview({ lang, id }) {
         transition-all
         duration-300
         snap-center
-        ${
-          index === currentImageIndex
-            ? "border-cyan-500 scale-105"
-            : "border-transparent"
-        }
+        ${index === currentImageIndex
+                        ? "border-cyan-500 scale-105"
+                        : "border-transparent"
+                      }
       `}
                   >
                     <ImageWithFallback
@@ -682,11 +681,10 @@ export function ProductPreview({ lang, id }) {
                   <div>
                     <Btn
                       className={`py-2 text-center mb-4 font-bold rounded-lg w-full border
-            ${
-              productData.status
-                ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-white text-2xl"
-                : "bg-gradient-to-r from-red-600 to-red-500 text-blue-950 text-2xl"
-            }`}
+            ${productData.status
+                          ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-white text-2xl"
+                          : "bg-gradient-to-r from-red-600 to-red-500 text-blue-950 text-2xl"
+                        }`}
                     >
                       Status: {productData.status ? "Tersedia" : "Sold Out"}
                     </Btn>
@@ -705,15 +703,62 @@ export function ProductPreview({ lang, id }) {
             >
               {t("desc")}{" "}
               <Triangle
-                className={`fill-black w-4 translate-y-0.5 ${
-                  openDesc ? "rotate-180" : ""
-                } duration-300`}
+                className={`fill-black w-4 translate-y-0.5 ${openDesc ? "rotate-180" : ""
+                  } duration-300`}
               />
             </div>
 
             {openDesc && (
               <div className="bg-white rounded-md p-4 text-lg text-blue-900 font-semibold text-justify font-sans whitespace-pre-line">
-                {productData.deskripsi}
+                {lang === "ms" ? (
+                  <>
+                    🎮 ACC MLBB Sedia Digunakan 🎮
+                    Berbagai pilihan akaun dengan keadaan berbeza, boleh disesuaikan mengikut keperluan.
+
+                    📍 Tak boleh DM?
+                    👉 Reply Story ya
+
+                    📩 Follow & Hubungi melalui DM
+                    Untuk maklumat lanjut, spesifikasi akaun, dan proses urus niaga.
+
+                    ⚠️ Nota Penting ⚠️
+                    Akaun diserahkan dalam keadaan baik semasa transaksi selesai.
+                    Sila buat semakan sebelum pengesahan.
+                    Garansi diberikan selama 30 hari mengikut terma yang ditetapkan.
+                  </>
+                ) : lang === "id" ? (
+                  <>
+                    🎮 ACC MLBB Siap Pakai 🎮
+                    Berbagai pilihan akun dengan kondisi berbeda, bisa disesuaikan dengan kebutuhan.
+
+                    📍 Tidak bisa DM?
+                    👉 Reply Story ya
+
+                    📩 Follow & Hubungi melalui DM
+                    Untuk informasi lebih lanjut, spesifikasi akun, dan proses transaksi.
+
+                    ⚠️ Catatan Penting ⚠️
+                    Akun diserahkan dalam kondisi baik saat transaksi selesai.
+                    Silakan lakukan pengecekan sebelum konfirmasi.
+                    Garansi diberikan selama 30 hari sesuai ketentuan yang berlaku.
+                  </>
+                ) : (
+                  <>
+                    🎮 MLBB ACC Ready to Use 🎮
+                    Various account options with different conditions, can be customized according to your needs.
+
+                    📍 Can't DM?
+                    👉 Reply to Story
+
+                    📩 Follow & Contact via DM
+                    For more information, account specifications, and transaction process.
+
+                    ⚠️ Important Note ⚠️
+                    Account is delivered in good condition when transaction is completed.
+                    Please check before confirmation.
+                    Warranty is provided for 30 days according to the terms and conditions.
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -802,11 +847,11 @@ export function ProductPreview({ lang, id }) {
                           <span className="text-white/60 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs font-bold italic whitespace-nowrap">
                             {lang === "id"
                               ? `RP.${Number(
-                                  item.harga_rupiah
-                                ).toLocaleString()}`
+                                item.harga_rupiah
+                              ).toLocaleString()}`
                               : lang === "en"
-                              ? `${Number(item.harga_dolar).toLocaleString()}`
-                              : `RM${Number(
+                                ? `${Number(item.harga_dolar).toLocaleString()}`
+                                : `RM${Number(
                                   item.harga_ringgit
                                 ).toLocaleString()}`}
                           </span>
@@ -816,23 +861,23 @@ export function ProductPreview({ lang, id }) {
                         <div className="text-white font-black text-xs xs:text-sm sm:text-base md:text-2xl italic leading-none tracking-tight">
                           {lang === "id"
                             ? `Rp.${Math.round(
-                                (item.harga_rupiah *
-                                  (100 -
-                                    parseInt(item.discount.replace("%", "")))) /
-                                  100
-                              ).toLocaleString()}`
+                              (item.harga_rupiah *
+                                (100 -
+                                  parseInt(item.discount.replace("%", "")))) /
+                              100
+                            ).toLocaleString()}`
                             : lang === "en"
-                            ? `$${Math.round(
+                              ? `$${Math.round(
                                 (item.harga_dolar *
                                   (100 -
                                     parseInt(item.discount.replace("%", "")))) /
-                                  100
+                                100
                               ).toLocaleString()}`
-                            : `RM${Math.round(
+                              : `RM${Math.round(
                                 (item.harga_ringgit *
                                   (100 -
                                     parseInt(item.discount.replace("%", "")))) /
-                                  100
+                                100
                               ).toLocaleString()}`}
                         </div>
                       </div>
@@ -880,8 +925,8 @@ export function ProductPreview({ lang, id }) {
                     ? "Available"
                     : "Tersedia"
                   : lang == "en"
-                  ? "Sold Out"
-                  : "Terjual"}
+                    ? "Sold Out"
+                    : "Terjual"}
               </div>
             </div>
             <div class="flex justify-between">
@@ -901,7 +946,7 @@ export function ProductPreview({ lang, id }) {
                 onClick={openDrawerBottomCicil}
                 class="font-bold w-1/2 px-5 py-3 rounded-lg border text-sm transition-opacity border-white text-white bg-transparent"
               >
-                {lang == "en" ? "Negotiate" : "Nego"}
+                {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Ansur"}
               </button>
               <button
                 onClick={openDrawerBottom}
@@ -930,8 +975,8 @@ export function ProductPreview({ lang, id }) {
                     ? "Available"
                     : "Tersedia"
                   : lang == "en"
-                  ? "Sold Out"
-                  : "Terjual"}
+                    ? "Sold Out"
+                    : "Terjual"}
               </div>
             </div>
             <div class="flex justify-between">
@@ -956,7 +1001,7 @@ export function ProductPreview({ lang, id }) {
                 onClick={openDrawerBottomCicil}
                 class="font-bold w-1/2 px-5 py-2 rounded-lg border text-sm transition-opacity bg-transparent border-white text-white"
               >
-                {lang == "en" ? "Negotiate" : "Nego"}
+                {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Nego"}
               </Btn>
               <Btn
                 onClick={openDrawerBottom}
@@ -995,7 +1040,7 @@ export function ProductPreview({ lang, id }) {
         <div className="bg-gray-800 rounded-xl p-4 mb-6 space-y-3">
           <div className="flex items-center gap-2 text-sm text-gray-300">
             <FaTag className="text-yellow-400" />
-            Gunakan kode promo
+            {lang === "ms" ? "Gunakan kode promo (Jika Ada)" : lang === "id" ? "Gunakan kode promo (Jika Ada)" : "Use promo code (If Available)"}
           </div>
 
           <input
@@ -1029,7 +1074,7 @@ export function ProductPreview({ lang, id }) {
 
         {/* Survey Title */}
         <Typography className="mb-4 font-medium text-white text-base">
-          Kamu tahu Merzz MLBB dari mana?
+          {lang === "ms" ? "Kamu tahu Merzz MLBB dari mana?" : lang === "id" ? "Kamu tahu Merzz MLBB dari mana?" : "How did you know about Merzz MLBB?"}
         </Typography>
 
         {/* Survey Options */}
@@ -1059,11 +1104,10 @@ export function ProductPreview({ lang, id }) {
             <div key={item.value}>
               <label
                 className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
-            ${
-              source === item.value
-                ? "bg-blue-500/20 border border-blue-500"
-                : "bg-gray-800 hover:bg-gray-700"
-            }`}
+            ${source === item.value
+                    ? "bg-blue-500/20 border border-blue-500"
+                    : "bg-gray-800 hover:bg-gray-700"
+                  }`}
               >
                 <input
                   type="radio"
@@ -1075,11 +1119,10 @@ export function ProductPreview({ lang, id }) {
 
                 <div
                   className={`w-9 h-9 flex items-center justify-center rounded-full
-              ${
-                source === item.value
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-700 text-gray-300"
-              }`}
+              ${source === item.value
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-700 text-gray-300"
+                    }`}
                 >
                   {item.icon}
                 </div>
@@ -1114,14 +1157,13 @@ export function ProductPreview({ lang, id }) {
               sendWhatsAppOrder();
             }}
             className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
-      ${
-        isSurveyValid
-          ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
-          : "bg-blue-400 cursor-not-allowed opacity-60"
-      }`}
+      ${isSurveyValid
+                ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                : "bg-blue-400 cursor-not-allowed opacity-60"
+              }`}
           >
             <FaShoppingCart />
-            Lanjut Ke Pembelian
+            {lang === "ms" ? "Lanjut Ke Pembelian" : lang === "id" ? "Lanjut Ke Pembelian" : "Continue to Purchase"}
           </Btn>
         </div>
       </Drawer>
@@ -1152,7 +1194,7 @@ export function ProductPreview({ lang, id }) {
         <div className="bg-gray-800 rounded-xl p-4 mb-6 space-y-3">
           <div className="flex items-center gap-2 text-sm text-gray-300">
             <FaTag className="text-yellow-400" />
-            Gunakan kode promo
+            {lang === "ms" ? "Gunakan kode promo (Jika Ada)" : lang === "id" ? "Gunakan kode promo (Jika Ada)" : "Use promo code (If Available)"}
           </div>
 
           <input
@@ -1186,7 +1228,7 @@ export function ProductPreview({ lang, id }) {
 
         {/* Survey Title */}
         <Typography className="mb-4 font-medium text-white text-base">
-          Kamu tahu Merzz MLBB dari mana?
+          {lang === "ms" ? "Kamu tahu Merzz MLBB dari mana?" : lang === "id" ? "Kamu tahu Merzz MLBB dari mana?" : "How did you know about Merzz MLBB?"}
         </Typography>
 
         {/* Survey Options */}
@@ -1216,11 +1258,10 @@ export function ProductPreview({ lang, id }) {
             <div key={item.value}>
               <label
                 className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
-            ${
-              source === item.value
-                ? "bg-blue-500/20 border border-blue-500"
-                : "bg-gray-800 hover:bg-gray-700"
-            }`}
+            ${source === item.value
+                    ? "bg-blue-500/20 border border-blue-500"
+                    : "bg-gray-800 hover:bg-gray-700"
+                  }`}
               >
                 <input
                   type="radio"
@@ -1232,11 +1273,10 @@ export function ProductPreview({ lang, id }) {
 
                 <div
                   className={`w-9 h-9 flex items-center justify-center rounded-full
-              ${
-                source === item.value
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-700 text-gray-300"
-              }`}
+              ${source === item.value
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-700 text-gray-300"
+                    }`}
                 >
                   {item.icon}
                 </div>
@@ -1268,17 +1308,16 @@ export function ProductPreview({ lang, id }) {
                 alert("Somethink went wrong, please try again");
               }
               closeDrawerBottomCicil();
-              sendWhatsAppOrder();
+              sendWhatsAppOrderCicil();
             }}
             className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
-      ${
-        isSurveyValid
-          ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
-          : "bg-blue-400 cursor-not-allowed opacity-60"
-      }`}
+      ${isSurveyValid
+                ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                : "bg-blue-400 cursor-not-allowed opacity-60"
+              }`}
           >
             <FaShoppingCart />
-            Lanjut Ke Pembelian
+            {lang === "ms" ? "Lanjut Ke Pembelian" : lang === "id" ? "Lanjut Ke Pembelian" : "Continue to Purchase"}
           </Btn>
         </div>
       </Drawer>

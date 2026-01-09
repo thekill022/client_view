@@ -85,7 +85,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="https://wa.me/601128011202"
+                  href="https://wa.me/601164498139"
                   className="flex items-start gap-3 text-gray-400 hover:text-blue-400 transition-colors duration-300 group"
                 >
                   <div className="flex gap-2 items-center">

@@ -5,8 +5,8 @@
 
 export const API_CONFIG = {
   // Base URL dari environment variable
-  BASE_URL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
-  PAYMENT_URL: import.meta.env.VITE_PAYMENT_API_URL || 'http://localhost:3000',
+  BASE_URL: "https://superadmin.merzzmlbb.com",
+  PAYMENT_URL: "https://superadmin.merzzmlbb.com",
 };
 
 /**
@@ -16,7 +16,7 @@ export const API_CONFIG = {
  */
 export const getApiUrl = (path) => {
   // Pastikan path diawali dengan /
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   return `${API_CONFIG.BASE_URL}${normalizedPath}`;
 };
 
@@ -26,6 +26,6 @@ export const getApiUrl = (path) => {
  * @returns {string} Full Payment API URL
  */
 export const getPaymentApiUrl = (path) => {
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   return `${API_CONFIG.PAYMENT_URL}${normalizedPath}`;
 };

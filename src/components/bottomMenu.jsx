@@ -11,35 +11,34 @@ export default function BottomMenu() {
     <div className="sticky lg:hidden bottom-0 w-full bg-[#09052b] z-999999 py-2 flex justify-around px-2 border-t-3 border-white">
       <a
         href="/"
-        className={`flex flex-col justify-center items-center ${
-          route.pathname === "/" ? "text-blue-600" : "text-white"
-        }`}
+        className={`flex flex-col justify-center items-center ${route.pathname === "/" ? "text-blue-600" : "text-white"
+          }`}
       >
         <GoHomeFill
-          className={` ${
-            route.pathname === "/" ? "fill-blue-600" : "fill-white"
-          } text-sm`}
+          className={` ${route.pathname === "/" ? "fill-blue-600" : "fill-white"
+            } text-sm`}
         />
         <div className="text-sm">BERANDA</div>
       </a>
-      <div className="flex flex-col justify-center items-center text-white">
+      <a
+        href="https://merzzofficial.com/id" className="flex flex-col justify-center items-center text-white">
         <FiGrid className="fill-white text-sm rotate-45" />
         <div className="text-sm">TOPUP</div>
-      </div>
+      </a>
       <a
         href="/product"
-        className={`flex flex-col justify-center items-center ${
-          route.pathname === "/product" ? "text-blue-600" : "text-white"
-        }`}
+        className={`flex flex-col justify-center items-center ${route.pathname === "/product" ? "text-blue-600" : "text-white"
+          }`}
       >
         <FiFolder
-          className={`${
-            route.pathname === "/product" ? "fill-blue-600" : "fill-white"
-          } text-sm`}
+          className={`${route.pathname === "/product" ? "fill-blue-600" : "fill-white"
+            } text-sm`}
         />
         <div className="text-sm">BELI AKUN</div>
       </a>
-      <div className="flex flex-col justify-center items-center text-white">
+      <a
+        href="https://merzzofficial.com/joki/mlbb-joki-rank"
+        className="flex flex-col justify-center items-center text-white">
         <svg
           width="253"
           height="254"
@@ -66,11 +65,13 @@ export default function BottomMenu() {
           />
         </svg>
         <div className="text-sm">JOKI</div>
-      </div>
-      <div className="flex flex-col justify-center items-center text-white">
+      </a>
+      <a
+        href="https://wa.me/601164498139"
+        className="flex flex-col justify-center items-center text-white">
         <FiMessageCircle className="fill-white text-sm" />
         <div className="text-sm">CHAT CS</div>
-      </div>
+      </a>
     </div>
   );
 }
