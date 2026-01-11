@@ -994,7 +994,7 @@ export function ProductPreview({ lang, id }) {
                 onClick={openDrawerBottomCicil}
                 className="font-bold w-1/2 px-5 py-2 rounded-lg border text-sm transition-opacity bg-transparent border-white text-white"
               >
-                {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Nego"}
+                {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Ansur"}
               </Btn>
               <Btn
                 onClick={openDrawerBottom}
