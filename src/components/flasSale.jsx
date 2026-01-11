@@ -20,21 +20,33 @@ const FlashSaleBanner = () => {
 
         if (!data || !data.data.end_date) {
           console.error("Format waktu flash sale tidak valid");
+          setIsVisible(false);
           return;
         }
 
-        const targetDate = new Date(data.data.end_date).getTime();
+        const startDate = data.data.start_date ? new Date(data.data.start_date).getTime() : 0;
+        const endDate = new Date(data.data.end_date).getTime();
 
         const updateTimer = () => {
           const now = new Date().getTime();
 
-          const distance = targetDate - now;
+          // Cek apakah flash sale sudah dimulai dan belum berakhir
+          if (now < startDate) {
+            // Flash sale belum dimulai
+            setIsVisible(false);
+            return;
+          }
+
+          const distance = endDate - now;
 
           if (distance < 0) {
+            // Flash sale sudah berakhir
             clearInterval(interval);
             setIsVisible(false);
             return;
           }
+
+          // Flash sale sedang berlangsung
           setIsVisible(true);
 
           const hours = Math.floor(
@@ -61,7 +73,7 @@ const FlashSaleBanner = () => {
   }, []);
 
   const formatNumber = (num) => String(num).padStart(2, "0");
-  if (!isVisible) return null;
+  if (!isVisible) return <></>;
 
   return (
     <div className="w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-10">

@@ -903,15 +903,15 @@ export function ProductPreview({ lang, id }) {
       </div>
 
       {!isFlashSale && (
-        <div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
-          <div class="w-full flex flex-col gap-2">
-            <div class="flex justify-between items-start text-white">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
+          <div className="w-full flex flex-col gap-2">
+            <div className="flex justify-between items-start text-white">
               <div>
-                <p class="text-xl font-bold text-white -mt-1 truncate max-w-48">
+                <p className="text-xl font-bold text-white -mt-1 truncate max-w-48">
                   {productData.nama}
                 </p>
               </div>
-              <div class="border border-green-400 bg-green-900/50 text-green-300 text-xs font-semibold px-3 py-1 rounded-md">
+              <div className="border border-green-400 bg-green-900/50 text-green-300 text-xs font-semibold px-3 py-1 rounded-md">
                 Status:{" "}
                 {productData.status
                   ? lang == "en"
@@ -922,46 +922,46 @@ export function ProductPreview({ lang, id }) {
                     : "Terjual"}
               </div>
             </div>
-            <div class="flex justify-between">
-              <div class="text-white">
+            <div className="flex justify-between">
+              <div className="text-white">
                 <div className="flex gap-2 flex-row-reverse">
-                  <p class="text-sm text-red-500 line-through">
+                  <p className="text-sm text-red-500 line-through">
                     {formatOriginalPrice()}
                   </p>
-                  <p class="text-2xl font-bold text-green-400 -mt-1">
+                  <p className="text-2xl font-bold text-green-400 -mt-1">
                     {formatPrice()}
                   </p>
                 </div>
               </div>
             </div>
-            <div class="flex items-center gap-2">
-              <button
+            <div className="flex items-center gap-2">
+              <Btn
                 onClick={openDrawerBottomCicil}
-                class="font-bold w-1/2 px-5 py-3 rounded-lg border text-sm transition-opacity border-white text-white bg-transparent"
+                className="font-bold w-1/2 px-5 py-3 rounded-lg border text-sm transition-opacity border-white text-white bg-transparent"
               >
                 {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Ansur"}
-              </button>
-              <button
+              </Btn>
+              <Btn
                 onClick={openDrawerBottom}
-                class="bg-white w-1/2 text-[#042057] font-bold px-6 py-3 rounded-lg shadow-md text-sm"
+                className="bg-white w-1/2 text-[#042057] font-bold px-6 py-3 rounded-lg shadow-md text-sm"
               >
                 {t("buy")}
-              </button>
+              </Btn>
             </div>
           </div>
         </div>
       )}
 
       {isFlashSale && (
-        <div class="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
-          <div class="w-full flex space-y-2 flex-col gap-2">
-            <div class="flex justify-between items-start text-white">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
+          <div className="w-full flex space-y-2 flex-col gap-2">
+            <div className="flex justify-between items-start text-white">
               <div>
-                <p class="text-xl font-bold text-white -mt-1 truncate max-w-48">
+                <p className="text-xl font-bold text-white -mt-1 truncate max-w-48">
                   {productData.nama}
                 </p>
               </div>
-              <div class="border border-green-400 bg-green-900/50 text-green-300 text-xs font-semibold px-3 py-1 rounded-md">
+              <div className="border border-green-400 bg-green-900/50 text-green-300 text-xs font-semibold px-3 py-1 rounded-md">
                 Status:{" "}
                 {productData.status
                   ? lang == "en"
@@ -972,33 +972,33 @@ export function ProductPreview({ lang, id }) {
                     : "Terjual"}
               </div>
             </div>
-            <div class="flex justify-between">
-              <div class="text-white ">
+            <div className="flex justify-between">
+              <div className="text-white ">
                 <div>
-                  <p class="text-sm text-red-500 line-through">
+                  <p className="text-sm text-red-500 line-through">
                     {formatOriginalPrice()}
                   </p>
-                  <p class="text-2xl font-bold text-green-400 -mt-1">
+                  <p className="text-2xl font-bold text-green-400 -mt-1">
                     {formatPrice()}
                   </p>
                 </div>
               </div>
-              <div class="flex flex-col items-end">
-                <p class="text-3xl font-extrabold text-white italic -mb-1">
+              <div className="flex flex-col items-end">
+                <p className="text-3xl font-extrabold text-white italic -mb-1">
                   FLASHSALE
                 </p>
               </div>
             </div>
-            <div class="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Btn
                 onClick={openDrawerBottomCicil}
-                class="font-bold w-1/2 px-5 py-2 rounded-lg border text-sm transition-opacity bg-transparent border-white text-white"
+                className="font-bold w-1/2 px-5 py-2 rounded-lg border text-sm transition-opacity bg-transparent border-white text-white"
               >
                 {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Nego"}
               </Btn>
               <Btn
                 onClick={openDrawerBottom}
-                class="bg-white w-1/2 text-[#042057] font-bold px-6 py-3 rounded-lg shadow-md text-sm"
+                className="bg-white w-1/2 text-[#042057] font-bold px-6 py-3 rounded-lg shadow-md text-sm"
               >
                 {t("buy")}
               </Btn>
