@@ -270,7 +270,7 @@ export function ProductPreview({ lang, id }) {
 
     switch (lang) {
       case "id":
-        return `${(
+        return `Rp ${(
           productData.harga_rupiah -
           productData.harga_rupiah * (totalDisc / 100)
         ).toLocaleString("id-ID")}`;
