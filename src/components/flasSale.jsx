@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getApiUrl } from "../config/api";
 
 const FlashSaleBanner = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -13,8 +14,7 @@ const FlashSaleBanner = () => {
 
     const fetchFlashSaleTime = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/flash-sale`
+        const response = await fetch(getApiUrl(`/api/flash-sale`)
         );
         const data = await response.json();
 
