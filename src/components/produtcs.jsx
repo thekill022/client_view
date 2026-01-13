@@ -81,6 +81,7 @@ export function Product({ onProductClick, lang }) {
           image:
             item.produkimg[0]?.link || "https://via.placeholder.com/300x400",
           gradient: getRandomGradient(),
+          status: item.status ?? true,
         }));
         setAllProducts(products);
         setOriginalProducts(products);
@@ -223,6 +224,7 @@ export function Product({ onProductClick, lang }) {
           image:
             item.produkimg[0]?.link || "https://via.placeholder.com/300x400",
           gradient: getRandomGradient(),
+          status: item.status ?? true,
         }));
         setAllProducts(products);
         setCurrentPage(1);
@@ -403,6 +405,15 @@ export function Product({ onProductClick, lang }) {
               <div key={product.id} className="relative group h-full">
                 {/* CARD UTAMA */}
                 <div className="relative flex flex-col h-full bg-[#007aff] rounded-lg sm:rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10 hover:-translate-y-2 transition-transform duration-300">
+                  {/* --- SOLD OVERLAY --- */}
+                  {!product.status && (
+                    <div className="absolute inset-0 bg-black/70 z-30 flex items-center justify-center">
+                      <h2 className="text-red-600 font-black text-md sm:text-lg md:text-xl italic uppercase drop-shadow-[0_0_10px_rgba(220,38,38,0.8)] p-2 rounded-md border-2 border-red-600">
+                        {lang === "en" ? "SOLD" : "TERJUAL"}
+                      </h2>
+                    </div>
+                  )}
+
                   <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 z-20">
                     {isFlashSaleActive && product.highlight == 1 ? (
                       <img

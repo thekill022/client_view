@@ -684,10 +684,13 @@ export function ProductPreview({ lang, id }) {
                       className={`py-2 text-center mb-4 font-bold rounded-lg w-full border
             ${productData.status
                           ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-white text-2xl"
-                          : "bg-gradient-to-r from-red-600 to-red-500 text-blue-950 text-2xl"
+                          : "bg-gradient-to-r from-red-600 to-red-500 text-white text-2xl"
                         }`}
                     >
-                      Status: {productData.status ? "Tersedia" : "Sold Out"}
+                      Status: {productData.status
+                        ? (lang === "en" ? "Available" : "Tersedia")
+                        : (lang === "en" ? "SOLD" : "TERJUAL")
+                      }
                     </Btn>
 
                     <Btn className="py-2 text-center bg-[radial-gradient(circle,_#fcb205,_#fc7905)] font-bold rounded-lg w-full text-2xl text-white">
@@ -902,7 +905,7 @@ export function ProductPreview({ lang, id }) {
         )}
       </div>
 
-      {!isFlashSale && (
+      {!isFlashSale && productData.status && (
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
           <div className="w-full flex flex-col gap-2">
             <div className="flex justify-between items-start text-white">
@@ -952,7 +955,7 @@ export function ProductPreview({ lang, id }) {
         </div>
       )}
 
-      {isFlashSale && (
+      {isFlashSale && productData.status && (
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-b from-[#042057] via-[#0D3FA0] to-[#042057] p-4 shadow-top border-t border-blue-800">
           <div className="w-full flex space-y-2 flex-col gap-2">
             <div className="flex justify-between items-start text-white">

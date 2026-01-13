@@ -89,13 +89,76 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
               />
             </div>
 
-            <div className="flex-1">
+            <div className="flex-1 relative">
               <Input
+                type="search"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setQuery(val);
+
+                  if (val.trim() === "") {
+                    clearTimeout(window.searchDelay);
+                    setResults([]);
+                    setLoading(false);
+                    return;
+                  }
+
+                  clearTimeout(window.searchDelay);
+                  window.searchDelay = setTimeout(() => {
+                    handleSearch(val);
+                  }, 400);
+                }}
                 placeholder={t("src")}
                 className="bg-[#383966] text-white rounded-full h-9 text-sm py-0 placeholder:text-white"
               />
+
+              {(results.length > 0 ||
+                loading ||
+                (query.trim() !== "" && results.length === 0)) && (
+                  <div
+                    className="
+                    absolute top-full left-0 w-full mt-1
+                    bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2
+                    max-h-60 sm:max-h-72
+                    overflow-y-auto
+                  "
+                  >
+                    {loading && (
+                      <div className="text-center py-2 text-sm text-gray-500 animate-pulse">
+                        {t("loading")}
+                      </div>
+                    )}
+
+                    {!loading &&
+                      results.length > 0 &&
+                      results.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm"
+                          onClick={() => {
+                            setSelectedItem(item);
+                            setResults([]);
+                            setQuery(item);
+
+                            window.location.href = `/product?search=${encodeURIComponent(
+                              item
+                            )}`;
+                          }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+
+                    {!loading &&
+                      query.trim() !== "" &&
+                      results.length === 0 && (
+                        <div className="px-3 py-2 text-gray-700 text-sm">
+                          {t("no_result")}
+                        </div>
+                      )}
+                  </div>
+                )}
             </div>
 
             <Button
@@ -183,8 +246,8 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
               >
                 <FiFolder
                   className={`${route.pathname === "/product"
-                      ? "fill-blue-600"
-                      : "fill-white"
+                    ? "fill-blue-600"
+                    : "fill-white"
                     } text-sm`}
                 />
                 <div className="text-sm">BELI AKUN</div>
