@@ -116,49 +116,47 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
               {(results.length > 0 ||
                 loading ||
                 (query.trim() !== "" && results.length === 0)) && (
-                  <div
-                    className="
+                <div
+                  className="
                     absolute top-full left-0 w-full mt-1
                     bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2
                     max-h-60 sm:max-h-72
                     overflow-y-auto
                   "
-                  >
-                    {loading && (
-                      <div className="text-center py-2 text-sm text-gray-500 animate-pulse">
-                        {t("loading")}
+                >
+                  {loading && (
+                    <div className="text-center py-2 text-sm text-gray-500 animate-pulse">
+                      {t("loading")}
+                    </div>
+                  )}
+
+                  {!loading &&
+                    results.length > 0 &&
+                    results.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm"
+                        onClick={() => {
+                          setSelectedItem(item);
+                          setResults([]);
+                          setQuery(item);
+
+                          window.location.href = `/product?search=${encodeURIComponent(
+                            item,
+                          )}`;
+                        }}
+                      >
+                        {item}
                       </div>
-                    )}
+                    ))}
 
-                    {!loading &&
-                      results.length > 0 &&
-                      results.map((item, idx) => (
-                        <div
-                          key={idx}
-                          className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm"
-                          onClick={() => {
-                            setSelectedItem(item);
-                            setResults([]);
-                            setQuery(item);
-
-                            window.location.href = `/product?search=${encodeURIComponent(
-                              item
-                            )}`;
-                          }}
-                        >
-                          {item}
-                        </div>
-                      ))}
-
-                    {!loading &&
-                      query.trim() !== "" &&
-                      results.length === 0 && (
-                        <div className="px-3 py-2 text-gray-700 text-sm">
-                          {t("no_result")}
-                        </div>
-                      )}
-                  </div>
-                )}
+                  {!loading && query.trim() !== "" && results.length === 0 && (
+                    <div className="px-3 py-2 text-gray-700 text-sm">
+                      {t("no_result")}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <Button
@@ -178,7 +176,7 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
           {openMobileMenu && (
             <div className="lg:hidden absolute top-16 left-0 w-full bg-[#09052b] border-t border-gray-800 p-4 space-y-4">
               <a
-                href="https://wa.me/601164498139"
+                href="https://api.whatsapp.com/send?phone=601164498139"
                 className="flex items-center gap-2 text-white"
               >
                 <FaClipboardList />
@@ -226,12 +224,14 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
             <div className="flex justify-evenly px-2 mx-2 gap-5">
               <a
                 href="/"
-                className={`flex justify-center gap-2 items-center ${route.pathname === "/" ? "text-blue-600" : "text-white"
-                  }`}
+                className={`flex justify-center gap-2 items-center ${
+                  route.pathname === "/" ? "text-blue-600" : "text-white"
+                }`}
               >
                 <GoHomeFill
-                  className={` ${route.pathname === "/" ? "fill-blue-600" : "fill-white"
-                    } text-sm`}
+                  className={` ${
+                    route.pathname === "/" ? "fill-blue-600" : "fill-white"
+                  } text-sm`}
                 />
                 <div className="text-sm">BERANDA</div>
               </a>
@@ -241,21 +241,24 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
               </div>
               <a
                 href="/product"
-                className={`flex justify-center gap-2 items-center ${route.pathname === "/product" ? "text-blue-600" : "text-white"
-                  }`}
+                className={`flex justify-center gap-2 items-center ${
+                  route.pathname === "/product" ? "text-blue-600" : "text-white"
+                }`}
               >
                 <FiFolder
-                  className={`${route.pathname === "/product"
-                    ? "fill-blue-600"
-                    : "fill-white"
-                    } text-sm`}
+                  className={`${
+                    route.pathname === "/product"
+                      ? "fill-blue-600"
+                      : "fill-white"
+                  } text-sm`}
                 />
                 <div className="text-sm">BELI AKUN</div>
               </a>
               <a
                 href="/joki"
-                className={`flex justify-center gap-2 items-center ${route.pathname === "/joki" ? "text-blue-600" : "text-white"
-                  }`}
+                className={`flex justify-center gap-2 items-center ${
+                  route.pathname === "/joki" ? "text-blue-600" : "text-white"
+                }`}
               >
                 <svg
                   width="253"
@@ -378,49 +381,49 @@ export default function Navbar({ currentPage, onNavigate, languange }) {
                 {(results.length > 0 ||
                   loading ||
                   (query.trim() !== "" && results.length === 0)) && (
-                    <div
-                      className="
+                  <div
+                    className="
                   absolute top-full left-0 w-full mt-1
                   bg-white border border-gray-200 rounded-md shadow-lg z-50 p-2
                   max-h-60 sm:max-h-72
                   overflow-y-auto
                 "
-                    >
-                      {loading && (
-                        <div className="text-center py-2 text-sm text-gray-500 animate-pulse">
-                          {t("loading")}
+                  >
+                    {loading && (
+                      <div className="text-center py-2 text-sm text-gray-500 animate-pulse">
+                        {t("loading")}
+                      </div>
+                    )}
+
+                    {!loading &&
+                      results.length > 0 &&
+                      results.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm"
+                          onClick={() => {
+                            setSelectedItem(item);
+                            setResults([]);
+                            setQuery(item);
+
+                            window.location.href = `/product?search=${encodeURIComponent(
+                              item,
+                            )}`;
+                          }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+
+                    {!loading &&
+                      query.trim() !== "" &&
+                      results.length === 0 && (
+                        <div className="px-3 py-2 text-gray-700 text-sm">
+                          {t("no_result")}
                         </div>
                       )}
-
-                      {!loading &&
-                        results.length > 0 &&
-                        results.map((item, idx) => (
-                          <div
-                            key={idx}
-                            className="px-3 py-2 hover:bg-blue-50 cursor-pointer text-sm"
-                            onClick={() => {
-                              setSelectedItem(item);
-                              setResults([]);
-                              setQuery(item);
-
-                              window.location.href = `/product?search=${encodeURIComponent(
-                                item
-                              )}`;
-                            }}
-                          >
-                            {item}
-                          </div>
-                        ))}
-
-                      {!loading &&
-                        query.trim() !== "" &&
-                        results.length === 0 && (
-                          <div className="px-3 py-2 text-gray-700 text-sm">
-                            {t("no_result")}
-                          </div>
-                        )}
-                    </div>
-                  )}
+                  </div>
+                )}
               </div>
             </div>
           </div>

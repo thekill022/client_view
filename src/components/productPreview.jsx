@@ -113,8 +113,6 @@ export function ProductPreview({ lang, id }) {
     skins: [],
   });
 
-
-
   // promo code state
   const [promoCode, setPromoCode] = useState("");
   const [promoDiscount, setPromoDiscount] = useState(0);
@@ -168,25 +166,25 @@ export function ProductPreview({ lang, id }) {
         // Safely map heroes with null checks
         const heroes = Array.isArray(product.produkimg)
           ? product.produkimg.flatMap((img) =>
-            Array.isArray(img.hero)
-              ? img.hero.map((h) => ({ id: h.id, name: h.nama }))
-              : []
-          )
+              Array.isArray(img.hero)
+                ? img.hero.map((h) => ({ id: h.id, name: h.nama }))
+                : [],
+            )
           : [];
 
         // Safely map skins with null checks
         const skins = Array.isArray(product.produkimg)
           ? product.produkimg.flatMap((img) =>
-            Array.isArray(img.hero)
-              ? img.hero
-                .filter((h) => h.skin) // Only include if skin exists
-                .map((h) => ({
-                  id: h.skin.id,
-                  name: h.skin.nama,
-                  hero: h.nama,
-                }))
-              : []
-          )
+              Array.isArray(img.hero)
+                ? img.hero
+                    .filter((h) => h.skin) // Only include if skin exists
+                    .map((h) => ({
+                      id: h.skin.id,
+                      name: h.skin.nama,
+                      hero: h.nama,
+                    }))
+                : [],
+            )
           : [];
 
         setProductData({
@@ -205,17 +203,15 @@ export function ProductPreview({ lang, id }) {
     getData();
   }, [id]);
 
-
-
   const nextImage = () => {
     setCurrentImageIndex((prev) =>
-      prev === productData.images.length - 1 ? 0 : prev + 1
+      prev === productData.images.length - 1 ? 0 : prev + 1,
     );
   };
 
   const prevImage = () => {
     setCurrentImageIndex((prev) =>
-      prev === 0 ? productData.images.length - 1 : prev - 1
+      prev === 0 ? productData.images.length - 1 : prev - 1,
     );
   };
 
@@ -440,7 +436,10 @@ export function ProductPreview({ lang, id }) {
     }
 
     const waNumber = "601164498139";
-    window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
+    window.open(
+      `https://api.whatsapp.com/send?phone=/${waNumber}&text=${message}`,
+      "_blank",
+    );
   }
 
   function sendWhatsAppOrderCicil() {
@@ -475,7 +474,10 @@ export function ProductPreview({ lang, id }) {
     }
 
     const waNumber = "601164498139";
-    window.open(`https://wa.me/${waNumber}?text=${message}`, "_blank");
+    window.open(
+      `https://api.whatsapp.com/send?phone=${waNumber}&text=${message}`,
+      "_blank",
+    );
   }
 
   // loading state
@@ -517,9 +519,9 @@ export function ProductPreview({ lang, id }) {
               <p className="text-slate-300 max-w-md">
                 {error === "Product not found"
                   ? t("product_not_found_desc") ||
-                  "The product you're looking for doesn't exist or has been removed."
+                    "The product you're looking for doesn't exist or has been removed."
                   : t("error_desc") ||
-                  "An error occurred while loading this product. Please try again later."}
+                    "An error occurred while loading this product. Please try again later."}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md pt-4">
@@ -627,10 +629,11 @@ export function ProductPreview({ lang, id }) {
         transition-all
         duration-300
         snap-center
-        ${index === currentImageIndex
-                        ? "border-cyan-500 scale-105"
-                        : "border-transparent"
-                      }
+        ${
+          index === currentImageIndex
+            ? "border-cyan-500 scale-105"
+            : "border-transparent"
+        }
       `}
                   >
                     <ImageWithFallback
@@ -682,15 +685,20 @@ export function ProductPreview({ lang, id }) {
                   <div>
                     <Btn
                       className={`py-2 text-center mb-4 font-bold rounded-lg w-full border
-            ${productData.status
-                          ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-white text-2xl"
-                          : "bg-gradient-to-r from-red-600 to-red-500 text-white text-2xl border-2 border-red-400"
-                        }`}
+            ${
+              productData.status
+                ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-white text-2xl"
+                : "bg-gradient-to-r from-red-600 to-red-500 text-white text-2xl border-2 border-red-400"
+            }`}
                     >
-                      Status: {productData.status
-                        ? (lang === "en" ? "Available" : "Tersedia")
-                        : (lang === "en" ? "SOLD" : "TERJUAL")
-                      }
+                      Status:{" "}
+                      {productData.status
+                        ? lang === "en"
+                          ? "Available"
+                          : "Tersedia"
+                        : lang === "en"
+                          ? "SOLD"
+                          : "TERJUAL"}
                     </Btn>
 
                     <Btn className="py-2 text-center bg-[radial-gradient(circle,_#fcb205,_#fc7905)] font-bold rounded-lg w-full text-2xl text-white">
@@ -707,8 +715,9 @@ export function ProductPreview({ lang, id }) {
             >
               {t("desc")}{" "}
               <Triangle
-                className={`fill-black w-4 translate-y-0.5 ${openDesc ? "rotate-180" : ""
-                  } duration-300`}
+                className={`fill-black w-4 translate-y-0.5 ${
+                  openDesc ? "rotate-180" : ""
+                } duration-300`}
               />
             </div>
 
@@ -716,52 +725,89 @@ export function ProductPreview({ lang, id }) {
               <div className="bg-white rounded-md p-4 text-lg text-blue-900 font-semibold text-justify font-sans whitespace-pre-line">
                 {lang === "ms" ? (
                   <>
-                    🎮 ACC MLBB Sedia Digunakan 🎮<br />
-                    Berbagai pilihan akaun dengan keadaan berbeza, boleh disesuaikan mengikut keperluan.
-                    <br /><br />
-                    📍 Tak boleh DM?<br />
+                    🎮 ACC MLBB Sedia Digunakan 🎮
+                    <br />
+                    Berbagai pilihan akaun dengan keadaan berbeza, boleh
+                    disesuaikan mengikut keperluan.
+                    <br />
+                    <br />
+                    📍 Tak boleh DM?
+                    <br />
                     👉 Reply Story ya
-                    <br /><br />
-                    📩 Follow & Hubungi melalui DM<br />
-                    Untuk maklumat lanjut, spesifikasi akaun, dan proses urus niaga.
-                    <br /><br />
+                    <br />
+                    <br />
+                    📩 Follow & Hubungi melalui DM
+                    <br />
+                    Untuk maklumat lanjut, spesifikasi akaun, dan proses urus
+                    niaga.
+                    <br />
+                    <br />
                     ⚠️ Nota Penting ⚠️
                     <br />
-                    Akaun diserahkan dalam keadaan baik semasa transaksi selesai.<br />
-                    Sila buat semakan sebelum pengesahan.<br />
-                    Garansi diberikan selama 30 hari mengikut terma yang ditetapkan.
+                    Akaun diserahkan dalam keadaan baik semasa transaksi
+                    selesai.
+                    <br />
+                    Sila buat semakan sebelum pengesahan.
+                    <br />
+                    Garansi diberikan selama 30 hari mengikut terma yang
+                    ditetapkan.
                   </>
                 ) : lang === "id" ? (
                   <>
-                    🎮 ACC MLBB Siap Pakai 🎮<br />
-                    Berbagai pilihan akun dengan kondisi berbeda, bisa disesuaikan dengan kebutuhan.
-                    <br /><br />
-                    📍 Tidak bisa DM?<br />
+                    🎮 ACC MLBB Siap Pakai 🎮
+                    <br />
+                    Berbagai pilihan akun dengan kondisi berbeda, bisa
+                    disesuaikan dengan kebutuhan.
+                    <br />
+                    <br />
+                    📍 Tidak bisa DM?
+                    <br />
                     👉 Reply Story ya
-                    <br /><br />
-                    📩 Follow & Hubungi melalui DM<br />
-                    Untuk informasi lebih lanjut, spesifikasi akun, dan proses transaksi.
-                    <br /><br />
-                    ⚠️ Catatan Penting ⚠️<br />
-                    Akun diserahkan dalam kondisi baik saat transaksi selesai.<br />
-                    Silakan lakukan pengecekan sebelum konfirmasi.<br />
-                    Garansi diberikan selama 30 hari sesuai ketentuan yang berlaku.
+                    <br />
+                    <br />
+                    📩 Follow & Hubungi melalui DM
+                    <br />
+                    Untuk informasi lebih lanjut, spesifikasi akun, dan proses
+                    transaksi.
+                    <br />
+                    <br />
+                    ⚠️ Catatan Penting ⚠️
+                    <br />
+                    Akun diserahkan dalam kondisi baik saat transaksi selesai.
+                    <br />
+                    Silakan lakukan pengecekan sebelum konfirmasi.
+                    <br />
+                    Garansi diberikan selama 30 hari sesuai ketentuan yang
+                    berlaku.
                   </>
                 ) : (
                   <>
-                    🎮 MLBB ACC Ready to Use 🎮<br />
-                    Various account options with different conditions, can be customized according to your needs.
-                    <br /><br />
-                    📍 Can't DM?<br />
+                    🎮 MLBB ACC Ready to Use 🎮
+                    <br />
+                    Various account options with different conditions, can be
+                    customized according to your needs.
+                    <br />
+                    <br />
+                    📍 Can't DM?
+                    <br />
                     👉 Reply to Story
-                    <br /><br />
-                    📩 Follow & Contact via DM<br />
-                    For more information, account specifications, and transaction process.
-                    <br /><br />
-                    ⚠️ Important Note ⚠️<br />
-                    Account is delivered in good condition when transaction is completed.<br />
-                    Please check before confirmation.<br />
-                    Warranty is provided for 30 days according to the terms and conditions.
+                    <br />
+                    <br />
+                    📩 Follow & Contact via DM
+                    <br />
+                    For more information, account specifications, and
+                    transaction process.
+                    <br />
+                    <br />
+                    ⚠️ Important Note ⚠️
+                    <br />
+                    Account is delivered in good condition when transaction is
+                    completed.
+                    <br />
+                    Please check before confirmation.
+                    <br />
+                    Warranty is provided for 30 days according to the terms and
+                    conditions.
                   </>
                 )}
               </div>
@@ -852,13 +898,13 @@ export function ProductPreview({ lang, id }) {
                           <span className="text-white/60 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs font-bold italic whitespace-nowrap">
                             {lang === "id"
                               ? `RP.${Number(
-                                item.harga_rupiah
-                              ).toLocaleString()}`
+                                  item.harga_rupiah,
+                                ).toLocaleString()}`
                               : lang === "en"
                                 ? `${Number(item.harga_dolar).toLocaleString()}`
                                 : `RM${Number(
-                                  item.harga_ringgit
-                                ).toLocaleString()}`}
+                                    item.harga_ringgit,
+                                  ).toLocaleString()}`}
                           </span>
                           <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-red-600 -rotate-2"></div>
                         </div>
@@ -866,24 +912,28 @@ export function ProductPreview({ lang, id }) {
                         <div className="text-white font-black text-xs xs:text-sm sm:text-base md:text-2xl italic leading-none tracking-tight">
                           {lang === "id"
                             ? `Rp.${Math.round(
-                              (item.harga_rupiah *
-                                (100 -
-                                  parseInt(item.discount.replace("%", "")))) /
-                              100
-                            ).toLocaleString()}`
+                                (item.harga_rupiah *
+                                  (100 -
+                                    parseInt(item.discount.replace("%", "")))) /
+                                  100,
+                              ).toLocaleString()}`
                             : lang === "en"
                               ? `$${Math.round(
-                                (item.harga_dolar *
-                                  (100 -
-                                    parseInt(item.discount.replace("%", "")))) /
-                                100
-                              ).toLocaleString()}`
+                                  (item.harga_dolar *
+                                    (100 -
+                                      parseInt(
+                                        item.discount.replace("%", ""),
+                                      ))) /
+                                    100,
+                                ).toLocaleString()}`
                               : `RM${Math.round(
-                                (item.harga_ringgit *
-                                  (100 -
-                                    parseInt(item.discount.replace("%", "")))) /
-                                100
-                              ).toLocaleString()}`}
+                                  (item.harga_ringgit *
+                                    (100 -
+                                      parseInt(
+                                        item.discount.replace("%", ""),
+                                      ))) /
+                                    100,
+                                ).toLocaleString()}`}
                         </div>
                       </div>
                     </div>
@@ -942,7 +992,11 @@ export function ProductPreview({ lang, id }) {
                 onClick={openDrawerBottomCicil}
                 className="font-bold w-1/2 px-5 py-3 rounded-lg border text-sm transition-opacity border-white text-white bg-transparent"
               >
-                {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Ansur"}
+                {lang === "en"
+                  ? "Installment"
+                  : lang === "id"
+                    ? "Angsur"
+                    : "Ansur"}
               </Btn>
               <Btn
                 onClick={openDrawerBottom}
@@ -997,7 +1051,11 @@ export function ProductPreview({ lang, id }) {
                 onClick={openDrawerBottomCicil}
                 className="font-bold w-1/2 px-5 py-2 rounded-lg border text-sm transition-opacity bg-transparent border-white text-white"
               >
-                {lang === "en" ? "Installment" : lang === "id" ? "Angsur" : "Ansur"}
+                {lang === "en"
+                  ? "Installment"
+                  : lang === "id"
+                    ? "Angsur"
+                    : "Ansur"}
               </Btn>
               <Btn
                 onClick={openDrawerBottom}
@@ -1036,7 +1094,11 @@ export function ProductPreview({ lang, id }) {
         <div className="bg-gray-800 rounded-xl p-4 mb-6 space-y-3">
           <div className="flex items-center gap-2 text-sm text-gray-300">
             <FaTag className="text-yellow-400" />
-            {lang === "ms" ? "Gunakan kode promo (Jika Ada)" : lang === "id" ? "Gunakan kode promo (Jika Ada)" : "Use promo code (If Available)"}
+            {lang === "ms"
+              ? "Gunakan kode promo (Jika Ada)"
+              : lang === "id"
+                ? "Gunakan kode promo (Jika Ada)"
+                : "Use promo code (If Available)"}
           </div>
 
           <input
@@ -1070,7 +1132,11 @@ export function ProductPreview({ lang, id }) {
 
         {/* Survey Title */}
         <Typography className="mb-4 font-medium text-white text-base">
-          {lang === "ms" ? "Kamu tahu Merzz MLBB dari mana?" : lang === "id" ? "Kamu tahu Merzz MLBB dari mana?" : "How did you know about Merzz MLBB?"}
+          {lang === "ms"
+            ? "Kamu tahu Merzz MLBB dari mana?"
+            : lang === "id"
+              ? "Kamu tahu Merzz MLBB dari mana?"
+              : "How did you know about Merzz MLBB?"}
         </Typography>
 
         {/* Survey Options */}
@@ -1100,10 +1166,11 @@ export function ProductPreview({ lang, id }) {
             <div key={item.value}>
               <label
                 className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
-            ${source === item.value
-                    ? "bg-blue-500/20 border border-blue-500"
-                    : "bg-gray-800 hover:bg-gray-700"
-                  }`}
+            ${
+              source === item.value
+                ? "bg-blue-500/20 border border-blue-500"
+                : "bg-gray-800 hover:bg-gray-700"
+            }`}
               >
                 <input
                   type="radio"
@@ -1115,10 +1182,11 @@ export function ProductPreview({ lang, id }) {
 
                 <div
                   className={`w-9 h-9 flex items-center justify-center rounded-full
-              ${source === item.value
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-700 text-gray-300"
-                    }`}
+              ${
+                source === item.value
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-700 text-gray-300"
+              }`}
                 >
                   {item.icon}
                 </div>
@@ -1153,13 +1221,18 @@ export function ProductPreview({ lang, id }) {
               sendWhatsAppOrder();
             }}
             className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
-      ${isSurveyValid
-                ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
-                : "bg-blue-400 cursor-not-allowed opacity-60"
-              }`}
+      ${
+        isSurveyValid
+          ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          : "bg-blue-400 cursor-not-allowed opacity-60"
+      }`}
           >
             <FaShoppingCart />
-            {lang === "ms" ? "Lanjut Ke Pembelian" : lang === "id" ? "Lanjut Ke Pembelian" : "Continue to Purchase"}
+            {lang === "ms"
+              ? "Lanjut Ke Pembelian"
+              : lang === "id"
+                ? "Lanjut Ke Pembelian"
+                : "Continue to Purchase"}
           </Btn>
         </div>
       </Drawer>
@@ -1190,7 +1263,11 @@ export function ProductPreview({ lang, id }) {
         <div className="bg-gray-800 rounded-xl p-4 mb-6 space-y-3">
           <div className="flex items-center gap-2 text-sm text-gray-300">
             <FaTag className="text-yellow-400" />
-            {lang === "ms" ? "Gunakan kode promo (Jika Ada)" : lang === "id" ? "Gunakan kode promo (Jika Ada)" : "Use promo code (If Available)"}
+            {lang === "ms"
+              ? "Gunakan kode promo (Jika Ada)"
+              : lang === "id"
+                ? "Gunakan kode promo (Jika Ada)"
+                : "Use promo code (If Available)"}
           </div>
 
           <input
@@ -1224,7 +1301,11 @@ export function ProductPreview({ lang, id }) {
 
         {/* Survey Title */}
         <Typography className="mb-4 font-medium text-white text-base">
-          {lang === "ms" ? "Kamu tahu Merzz MLBB dari mana?" : lang === "id" ? "Kamu tahu Merzz MLBB dari mana?" : "How did you know about Merzz MLBB?"}
+          {lang === "ms"
+            ? "Kamu tahu Merzz MLBB dari mana?"
+            : lang === "id"
+              ? "Kamu tahu Merzz MLBB dari mana?"
+              : "How did you know about Merzz MLBB?"}
         </Typography>
 
         {/* Survey Options */}
@@ -1254,10 +1335,11 @@ export function ProductPreview({ lang, id }) {
             <div key={item.value}>
               <label
                 className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition
-            ${source === item.value
-                    ? "bg-blue-500/20 border border-blue-500"
-                    : "bg-gray-800 hover:bg-gray-700"
-                  }`}
+            ${
+              source === item.value
+                ? "bg-blue-500/20 border border-blue-500"
+                : "bg-gray-800 hover:bg-gray-700"
+            }`}
               >
                 <input
                   type="radio"
@@ -1269,10 +1351,11 @@ export function ProductPreview({ lang, id }) {
 
                 <div
                   className={`w-9 h-9 flex items-center justify-center rounded-full
-              ${source === item.value
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-700 text-gray-300"
-                    }`}
+              ${
+                source === item.value
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-700 text-gray-300"
+              }`}
                 >
                   {item.icon}
                 </div>
@@ -1307,13 +1390,18 @@ export function ProductPreview({ lang, id }) {
               sendWhatsAppOrderCicil();
             }}
             className={`flex items-center justify-center gap-2 py-3 rounded-xl font-semibold w-full transition
-      ${isSurveyValid
-                ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
-                : "bg-blue-400 cursor-not-allowed opacity-60"
-              }`}
+      ${
+        isSurveyValid
+          ? "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          : "bg-blue-400 cursor-not-allowed opacity-60"
+      }`}
           >
             <FaShoppingCart />
-            {lang === "ms" ? "Lanjut Ke Pembelian" : lang === "id" ? "Lanjut Ke Pembelian" : "Continue to Purchase"}
+            {lang === "ms"
+              ? "Lanjut Ke Pembelian"
+              : lang === "id"
+                ? "Lanjut Ke Pembelian"
+                : "Continue to Purchase"}
           </Btn>
         </div>
       </Drawer>
