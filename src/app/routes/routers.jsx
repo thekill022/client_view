@@ -8,10 +8,16 @@ import PaymentSuccess from "../pages/paymentSuccess";
 import PaymentFailed from "../pages/paymentFailed";
 import PaymentCallback from "../pages/paymentCallback";
 
+import JokiPage from "../pages/joki";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/joki",
+    element: <JokiPage />,
   },
   {
     path: "/product",

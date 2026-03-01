@@ -684,7 +684,7 @@ export function ProductPreview({ lang, id }) {
                       className={`py-2 text-center mb-4 font-bold rounded-lg w-full border
             ${productData.status
                           ? "bg-[radial-gradient(circle,_#3db360,_#53d07a)] from- to-green-500 text-white text-2xl"
-                          : "bg-gradient-to-r from-red-600 to-red-500 text-white text-2xl"
+                          : "bg-gradient-to-r from-red-600 to-red-500 text-white text-2xl border-2 border-red-400"
                         }`}
                     >
                       Status: {productData.status

@@ -57,10 +57,10 @@ export function MarqueeConnector() {
     announcements.length > 0
       ? announcements
       : defaultMessages.map((msg) => ({
-          html: msg,
-          icon: null,
-          icon_position: "start",
-        }));
+        html: msg,
+        icon: null,
+        icon_position: "start",
+      }));
 
   const renderIcon = (iconName, position) => {
     if (!iconName) return null;
@@ -76,6 +76,7 @@ export function MarqueeConnector() {
     const shouldShowEnd =
       item.icon_position === "end" || item.icon_position === "both";
 
+    // Jika teks biasa tanpa HTML
     if (typeof item.html === "string" && !item.html.includes("<")) {
       return (
         <span className="text-lg md:text-xl gaming-text text-white/90 drop-shadow-lg">
@@ -84,46 +85,15 @@ export function MarqueeConnector() {
       );
     }
 
+    // Render HTML dengan class untuk styling via CSS
     return (
       <div className="flex items-center gap-2 md:gap-4">
         {shouldShowStart && renderIcon(item.icon, "start")}
 
-        {/* Ini kuncinya bro — kita tambah class Tailwind berdasarkan color attribute */}
         <div
-          className="text-lg md:text-xl gaming-text"
-          dangerouslySetInnerHTML={{
-            __html: item.html
-              .replace(
-                /<mark color="yellow">/g,
-                '<mark class="bg-yellow-500/85 px-3 py-1.5 rounded-xl font-bold text-white shadow-lg">'
-              )
-              .replace(
-                /<mark color="red">/g,
-                '<mark class="bg-red-600/85 px-3 py-1.5 rounded-xl font-bold text-white shadow-lg">'
-              )
-              .replace(
-                /<mark color="blue">/g,
-                '<mark class="bg-blue-600/85 px-3 py-1.5 rounded-xl font-bold text-white shadow-lg">'
-              )
-              .replace(
-                /<mark color="green">/g,
-                '<mark class="bg-green-600/85 px-3 py-1.5 rounded-xl font-bold text-white shadow-lg">'
-              )
-              .replace(
-                /<mark color="purple">/g,
-                '<mark class="bg-purple-600/85 px-3 py-1.5 rounded-xl font-bold text-white shadow-lg">'
-              )
-              .replace(
-                /<mark color="pink">/g,
-                '<mark class="bg-pink-600/85 px-3 py-1.5 rounded-xl font-bold text-white shadow-lg">'
-              )
-              .replace(
-                /<mark color="orange">/g,
-                '<mark class="bg-orange-600/85 px-3 py-1.5 rounded-xl font-bold text-white shadow-lg">'
-              )
-              // Hapus attribute color biar bersih
-              .replace(/ color="[^"]*"/g, ""),
-          }}
+          className="marquee-announcement text-lg md:text-xl"
+          style={{ fontFamily: "'Rajdhani', sans-serif", color: 'white' }}
+          dangerouslySetInnerHTML={{ __html: item.html }}
         />
 
         {shouldShowEnd && renderIcon(item.icon, "end")}
@@ -140,7 +110,8 @@ export function MarqueeConnector() {
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-blue-500/5 pointer-events-none" />
 
       <div className="relative flex animate-marquee whitespace-nowrap">
-        {[...Array(3)].map((_, i) => (
+        {/* 2 set duplikat konten untuk seamless infinite scroll */}
+        {[...Array(2)].map((_, i) => (
           <div key={i} className="flex items-center gap-10 md:gap-16 px-4">
             {items.map((item, idx) => (
               <div key={idx} className="flex-shrink-0 text-white">

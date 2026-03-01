@@ -408,9 +408,11 @@ export function Product({ onProductClick, lang }) {
                   {/* --- SOLD OVERLAY --- */}
                   {!product.status && (
                     <div className="absolute inset-0 bg-black/70 z-30 flex items-center justify-center">
-                      <h2 className="text-red-600 font-black text-md sm:text-lg md:text-xl italic uppercase drop-shadow-[0_0_10px_rgba(220,38,38,0.8)] p-2 rounded-md border-2 border-red-600">
-                        {lang === "en" ? "SOLD" : "TERJUAL"}
-                      </h2>
+                      <div className="border-4 border-red-600 rounded-xl px-6 py-3 bg-black/50 backdrop-blur-sm">
+                        <h2 className="text-red-500 font-black text-lg sm:text-xl md:text-2xl italic uppercase tracking-wider drop-shadow-[0_0_15px_rgba(220,38,38,0.9)]">
+                          {lang === "en" ? "SOLD" : "TERJUAL"}
+                        </h2>
+                      </div>
                     </div>
                   )}
 

@@ -14,8 +14,7 @@ const FlashSaleBanner = () => {
 
     const fetchFlashSaleTime = async () => {
       try {
-        const response = await fetch(getApiUrl(`/api/flash-sale`)
-        );
+        const response = await fetch(getApiUrl(`/api/flash-sale`));
         const data = await response.json();
 
         if (!data || !data.data.end_date) {
@@ -24,7 +23,9 @@ const FlashSaleBanner = () => {
           return;
         }
 
-        const startDate = data.data.start_date ? new Date(data.data.start_date).getTime() : 0;
+        const startDate = data.data.start_date
+          ? new Date(data.data.start_date).getTime()
+          : 0;
         const endDate = new Date(data.data.end_date).getTime();
 
         const updateTimer = () => {
@@ -50,10 +51,10 @@ const FlashSaleBanner = () => {
           setIsVisible(true);
 
           const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
           );
           const minutes = Math.floor(
-            (distance % (1000 * 60 * 60)) / (1000 * 60)
+            (distance % (1000 * 60 * 60)) / (1000 * 60),
           );
           const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
@@ -76,7 +77,7 @@ const FlashSaleBanner = () => {
   if (!isVisible) return <></>;
 
   return (
-    <div className="w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-10">
+    <div className="w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-5 mb-10">
       <div className="w-full flex items-center justify-center">
         <svg
           className="w-full h-auto drop-shadow-xl"

@@ -5,8 +5,8 @@
 
 export const API_CONFIG = {
   // Base URL dari environment variable
-  BASE_URL: "https://superadmin.merzzmlbb.com",
-  PAYMENT_URL: "https://superadmin.merzzmlbb.com",
+  BASE_URL: "http://localhost:3300",
+  PAYMENT_URL: "http://localhost:3300",
 };
 
 /**
