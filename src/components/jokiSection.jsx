@@ -9,6 +9,7 @@ import {
   Star,
   ArrowRight,
   Loader2,
+  AlertCircle,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -23,6 +24,68 @@ import {
   FaCreditCard,
   FaTimes,
 } from "react-icons/fa";
+
+// Helper untuk mendapatkan info rank Mythical berdasarkan jumlah bintang
+const getMythicalRankByStars = (stars) => {
+  const starCount = parseInt(stars) || 0;
+  if (starCount >= 1 && starCount <= 25) {
+    return {
+      id: "mythic",
+      name: "Mythical Romawi",
+      tier: "Mythical Romawi",
+      stars: 25,
+      min: 1,
+      max: 25,
+    };
+  } else if (starCount >= 26 && starCount <= 50) {
+    return {
+      id: "honor",
+      name: "Mythical Honor",
+      tier: "Mythical Honor",
+      stars: 25,
+      min: 26,
+      max: 50,
+    };
+  } else if (starCount >= 51 && starCount <= 100) {
+    return {
+      id: "glory",
+      name: "Mythical Glory",
+      tier: "Mythical Glory",
+      stars: 50,
+      min: 51,
+      max: 100,
+    };
+  } else if (starCount >= 101 && starCount <= 5000) {
+    return {
+      id: "immortal",
+      name: "Mythical Immortal",
+      tier: "Mythical Immortal",
+      stars: 4900,
+      min: 101,
+      max: 5000,
+    };
+  }
+  return null;
+};
+
+// Helper untuk mendapatkan range bintang yang valid
+const getValidStarRange = (rankId) => {
+  switch (rankId) {
+    case "mythic":
+      return { min: 1, max: 25, label: "1 - 25" };
+    case "honor":
+      return { min: 26, max: 50, label: "26 - 50" };
+    case "glory":
+      return { min: 51, max: 100, label: "51 - 100" };
+    case "immortal":
+      return { min: 101, max: 5000, label: "101 - 5000" };
+    default:
+      const rank = MANUAL_RANKS.find((r) => r.id === rankId);
+      return rank
+        ? { min: 0, max: rank.stars, label: `0 - ${rank.stars}` }
+        : { min: 0, max: 0, label: "0" };
+  }
+};
 
 const MANUAL_RANKS = [
   { id: "m4", name: "Master IV", tier: "Master", stars: 4 },
@@ -44,14 +107,42 @@ const MANUAL_RANKS = [
   { id: "l3", name: "Legend III", tier: "Legend", stars: 5 },
   { id: "l2", name: "Legend II", tier: "Legend", stars: 5 },
   { id: "l1", name: "Legend I", tier: "Legend", stars: 5 },
-  { id: "mythic", name: "Mythical Romawi", tier: "Mythical Romawi", stars: 25 },
-  { id: "honor", name: "Mythical Honor", tier: "Mythical Honor", stars: 25 },
-  { id: "glory", name: "Mythical Glory", tier: "Mythical Glory", stars: 50 },
+  // Mythical ranks dengan ID terpisah
+  {
+    id: "mythic",
+    name: "Mythical Romawi",
+    tier: "Mythical Romawi",
+    stars: 25,
+    isMythical: true,
+    minStars: 1,
+    maxStars: 25,
+  },
+  {
+    id: "honor",
+    name: "Mythical Honor",
+    tier: "Mythical Honor",
+    stars: 25,
+    isMythical: true,
+    minStars: 26,
+    maxStars: 50,
+  },
+  {
+    id: "glory",
+    name: "Mythical Glory",
+    tier: "Mythical Glory",
+    stars: 50,
+    isMythical: true,
+    minStars: 51,
+    maxStars: 100,
+  },
   {
     id: "immortal",
     name: "Mythical Immortal",
     tier: "Mythical Immortal",
-    stars: 100,
+    stars: 4900,
+    isMythical: true,
+    minStars: 101,
+    maxStars: 5000,
   },
 ];
 
@@ -64,8 +155,10 @@ export function JokiSection({ lang }) {
   // Calculator states
   const [startRank, setStartRank] = useState("");
   const [targetRank, setTargetRank] = useState("");
-  const [startStars, setStartStars] = useState(0);
-  const [targetStars, setTargetStars] = useState(0);
+  const [startStars, setStartStars] = useState("");
+  const [targetStars, setTargetStars] = useState("");
+  const [startStarError, setStartStarError] = useState("");
+  const [targetStarError, setTargetStarError] = useState("");
   const [jokiType, setJokiType] = useState("reguler");
   const [totalStarsDiff, setTotalStarsDiff] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -119,7 +212,7 @@ export function JokiSection({ lang }) {
     closeSurveyDrawer();
     if (pendingOrderData?.message) {
       window.open(
-        `https://wa.me/601164498139?text= ${encodeURIComponent(pendingOrderData.message)}`,
+        `https://wa.me/601164498139?text=  ${encodeURIComponent(pendingOrderData.message)}`,
         "_blank",
       );
     }
@@ -159,15 +252,57 @@ export function JokiSection({ lang }) {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const sRank = MANUAL_RANKS.find((r) => r.id === startRank);
-    if (sRank && startStars > sRank.stars) setStartStars(sRank.stars);
-  }, [startRank]);
+  // Validasi input bintang
+  const validateStars = (value, rankId, isStart) => {
+    if (!rankId || value === "") {
+      isStart ? setStartStarError("") : setTargetStarError("");
+      return;
+    }
 
-  useEffect(() => {
-    const tRank = MANUAL_RANKS.find((r) => r.id === targetRank);
-    if (tRank && targetStars > tRank.stars) setTargetStars(tRank.stars);
-  }, [targetRank]);
+    const numValue = parseInt(value);
+    const range = getValidStarRange(rankId);
+
+    if (isNaN(numValue)) {
+      const error = `Masukkan angka valid (${range.label})`;
+      isStart ? setStartStarError(error) : setTargetStarError(error);
+      return;
+    }
+
+    if (numValue < range.min || numValue > range.max) {
+      const error = `Bintang ${
+        rankId === "mythic"
+          ? "Mythical Romawi"
+          : rankId === "honor"
+            ? "Mythical Honor"
+            : rankId === "glory"
+              ? "Mythical Glory"
+              : rankId === "immortal"
+                ? "Mythical Immortal"
+                : MANUAL_RANKS.find((r) => r.id === rankId)?.name
+      } adalah ${range.label}`;
+      isStart ? setStartStarError(error) : setTargetStarError(error);
+    } else {
+      isStart ? setStartStarError("") : setTargetStarError("");
+    }
+  };
+
+  const handleStartStarsChange = (e) => {
+    const value = e.target.value;
+    // Hanya izinkan angka
+    if (value !== "" && !/^\d+$/.test(value)) return;
+
+    setStartStars(value);
+    validateStars(value, startRank, true);
+  };
+
+  const handleTargetStarsChange = (e) => {
+    const value = e.target.value;
+    // Hanya izinkan angka
+    if (value !== "" && !/^\d+$/.test(value)) return;
+
+    setTargetStars(value);
+    validateStars(value, targetRank, false);
+  };
 
   useEffect(() => {
     calculatePrice();
@@ -177,10 +312,13 @@ export function JokiSection({ lang }) {
   const calculatePrice = () => {
     if (!startRank || !targetRank || ranks.length === 0) return;
 
+    const startNum = parseInt(startStars) || 0;
+    const targetNum = parseInt(targetStars) || 0;
+
     const sIdx = MANUAL_RANKS.findIndex((r) => r.id === startRank);
     const tIdx = MANUAL_RANKS.findIndex((r) => r.id === targetRank);
 
-    if (tIdx < sIdx) {
+    if (tIdx < sIdx || (tIdx === sIdx && targetNum <= startNum)) {
       setTotalPrice(0);
       setTotalStarsDiff(0);
       return;
@@ -201,19 +339,28 @@ export function JokiSection({ lang }) {
       const rankPrice = dbRank?.joki_per_star?.[0]?.[currencyField] || 0;
 
       if (i === sIdx && i === tIdx) {
-        const stars = Math.max(0, targetStars - startStars);
+        // Same rank
+        const stars = Math.max(0, targetNum - startNum);
         price += stars * rankPrice;
         totalStars += stars;
       } else if (i === sIdx) {
-        const starsLeft = Math.max(0, mRank.stars - startStars);
+        // First rank
+        const range = getValidStarRange(mRank.id);
+        const starsLeft = Math.max(0, range.max - startNum + 1);
         price += starsLeft * rankPrice;
         totalStars += starsLeft;
       } else if (i === tIdx) {
-        price += targetStars * rankPrice;
-        totalStars += targetStars;
+        // Last rank
+        const range = getValidStarRange(mRank.id);
+        const starsInTarget = targetNum - range.min + 1;
+        price += Math.max(0, starsInTarget) * rankPrice;
+        totalStars += Math.max(0, starsInTarget);
       } else {
-        price += mRank.stars * rankPrice;
-        totalStars += mRank.stars;
+        // Middle ranks
+        const range = getValidStarRange(mRank.id);
+        const starsInRank = range.max - range.min + 1;
+        price += starsInRank * rankPrice;
+        totalStars += starsInRank;
       }
     }
 
@@ -275,6 +422,11 @@ export function JokiSection({ lang }) {
       </div>
     );
   }
+
+  const getStarPlaceholder = (rankId) => {
+    const range = getValidStarRange(rankId);
+    return range.label;
+  };
 
   return (
     <section className="py-30 pt-4 scroll-smooth">
@@ -440,7 +592,11 @@ export function JokiSection({ lang }) {
                       </label>
                       <select
                         value={startRank}
-                        onChange={(e) => setStartRank(e.target.value)}
+                        onChange={(e) => {
+                          setStartRank(e.target.value);
+                          setStartStars("");
+                          setStartStarError("");
+                        }}
                         className="w-full bg-[#e2e8f0] text-gray-800 font-bold rounded-full px-2 md:px-4 py-2 md:py-3 border-none outline-none text-center appearance-none shadow-inner text-xs md:text-sm"
                       >
                         <option value="" disabled hidden>
@@ -457,25 +613,30 @@ export function JokiSection({ lang }) {
                       <label className="block text-center text-[#0066cc] font-black text-[10px] md:text-xs uppercase">
                         {t("joki.label_stars")}
                       </label>
-                      <select
-                        value={startStars}
-                        onChange={(e) =>
-                          setStartStars(parseInt(e.target.value))
-                        }
-                        disabled={!startRank}
-                        className="w-full bg-[#e2e8f0] text-gray-800 font-bold rounded-full px-2 md:px-4 py-2 md:py-3 border-none outline-none text-center appearance-none shadow-inner text-xs md:text-sm disabled:opacity-50"
-                      >
-                        {[
-                          ...Array(
-                            (MANUAL_RANKS.find((r) => r.id === startRank)
-                              ?.stars || 0) + 1,
-                          ),
-                        ].map((_, i) => (
-                          <option key={i} value={i}>
-                            {i}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={startStars}
+                          onChange={handleStartStarsChange}
+                          disabled={!startRank}
+                          placeholder={
+                            startRank ? getStarPlaceholder(startRank) : "-"
+                          }
+                          className={`w-full bg-[#e2e8f0] text-gray-800 font-bold rounded-full px-2 md:px-4 py-2 md:py-3 border-none outline-none text-center shadow-inner text-xs md:text-sm disabled:opacity-50 placeholder:text-gray-400 ${
+                            startStarError ? "ring-2 ring-red-500" : ""
+                          }`}
+                        />
+                      </div>
+                      {startStarError && (
+                        <div className="flex items-center gap-1 text-red-500 text-[9px] md:text-xs mt-1 animate-pulse">
+                          <AlertCircle className="w-3 h-3 flex-shrink-0" />
+                          <span className="leading-tight">
+                            {startStarError}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -492,7 +653,11 @@ export function JokiSection({ lang }) {
                       </label>
                       <select
                         value={targetRank}
-                        onChange={(e) => setTargetRank(e.target.value)}
+                        onChange={(e) => {
+                          setTargetRank(e.target.value);
+                          setTargetStars("");
+                          setTargetStarError("");
+                        }}
                         className="w-full bg-[#e2e8f0] text-gray-800 font-bold rounded-full px-2 md:px-4 py-2 md:py-3 border-none outline-none text-center appearance-none shadow-inner text-xs md:text-sm"
                       >
                         <option value="" disabled hidden>
@@ -509,25 +674,30 @@ export function JokiSection({ lang }) {
                       <label className="block text-center text-[#0066cc] font-black text-[10px] md:text-xs uppercase">
                         {t("joki.label_stars")}
                       </label>
-                      <select
-                        value={targetStars}
-                        onChange={(e) =>
-                          setTargetStars(parseInt(e.target.value))
-                        }
-                        disabled={!targetRank}
-                        className="w-full bg-[#e2e8f0] text-gray-800 font-bold rounded-full px-2 md:px-4 py-2 md:py-3 border-none outline-none text-center appearance-none shadow-inner text-xs md:text-sm disabled:opacity-50"
-                      >
-                        {[
-                          ...Array(
-                            (MANUAL_RANKS.find((r) => r.id === targetRank)
-                              ?.stars || 0) + 1,
-                          ),
-                        ].map((_, i) => (
-                          <option key={i} value={i}>
-                            {i}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={targetStars}
+                          onChange={handleTargetStarsChange}
+                          disabled={!targetRank}
+                          placeholder={
+                            targetRank ? getStarPlaceholder(targetRank) : "-"
+                          }
+                          className={`w-full bg-[#e2e8f0] text-gray-800 font-bold rounded-full px-2 md:px-4 py-2 md:py-3 border-none outline-none text-center shadow-inner text-xs md:text-sm disabled:opacity-50 placeholder:text-gray-400 ${
+                            targetStarError ? "ring-2 ring-red-500" : ""
+                          }`}
+                        />
+                      </div>
+                      {targetStarError && (
+                        <div className="flex items-center gap-1 text-red-500 text-[9px] md:text-xs mt-1 animate-pulse">
+                          <AlertCircle className="w-3 h-3 flex-shrink-0" />
+                          <span className="leading-tight">
+                            {targetStarError}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -578,7 +748,7 @@ export function JokiSection({ lang }) {
                             className="w-full h-full object-contain filter drop-shadow-2xl animate-slide-in-left"
                           />
                           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white text-[#0190FF] font-black text-xs md:text-2xl px-2 md:px-5 py-0.5 md:py-1 rounded-full shadow-2xl border-2 border-[#0190FF]">
-                            {startStars}
+                            {startStars || "-"}
                           </div>
                         </div>
                       )}
@@ -613,7 +783,7 @@ export function JokiSection({ lang }) {
                             className="w-full h-full object-contain filter drop-shadow-2xl animate-slide-in-right"
                           />
                           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white text-[#0190FF] font-black text-xs md:text-2xl px-2 md:px-5 py-0.5 md:py-1 rounded-full shadow-2xl border-2 border-[#0190FF]">
-                            {targetStars}
+                            {targetStars || "-"}
                           </div>
                         </div>
                       )}
@@ -667,7 +837,9 @@ export function JokiSection({ lang }) {
                       openSurveyDrawerForOrder({ message: msg });
                     }
                   }}
-                  disabled={totalStarsDiff < 5}
+                  disabled={
+                    totalStarsDiff < 5 || startStarError || targetStarError
+                  }
                   className={`w-full hover:bg-[#007cdb] text-white font-black italic uppercase py-4 md:py-8 rounded-2xl md:rounded-3xl text-xl md:text-3xl shadow-[0_4px_0_#0070c8] md:shadow-[0_8px_0_#0070c8] active:translate-y-1 active:shadow-none transition-all disabled:grayscale disabled:opacity-50 ${
                     showPrice
                       ? "bg-green-500 shadow-[0_4px_0_#15803d] md:shadow-[0_8px_0_#15803d] hover:bg-green-600"
@@ -716,7 +888,7 @@ export function JokiSection({ lang }) {
                   >
                     <div className="w-10 h-10 md:w-14 md:h-14 flex-shrink-0 bg-white/20 rounded-lg p-1 md:p-2">
                       <img
-                        src={pkg.image || "https://via.placeholder.com/56x56 "}
+                        src={pkg.image || "https://via.placeholder.com/56x56  "}
                         alt={pkg.nama_paket}
                         className="w-full h-full object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
                       />
