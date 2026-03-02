@@ -213,7 +213,7 @@ export function JokiSection({ lang }) {
     if (pendingOrderData?.message) {
       window.open(
         `https://api.whatsapp.com/send?phone=601164498139&text=${encodeURIComponent(pendingOrderData.message)}`,
-        "_blank",
+        "_self",
       );
     }
   };

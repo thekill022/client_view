@@ -438,7 +438,7 @@ export function ProductPreview({ lang, id }) {
     const waNumber = "601164498139";
     window.open(
       `https://api.whatsapp.com/send?phone=/${waNumber}&text=${message}`,
-      "_blank",
+      "_self",
     );
   }
 
@@ -476,7 +476,7 @@ export function ProductPreview({ lang, id }) {
     const waNumber = "601164498139";
     window.open(
       `https://api.whatsapp.com/send?phone=${waNumber}&text=${message}`,
-      "_blank",
+      "_self",
     );
   }
 
