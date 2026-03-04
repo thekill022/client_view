@@ -882,7 +882,10 @@ export function JokiSection({ lang }) {
                   >
                     <div className="w-10 h-10 md:w-14 md:h-14 flex-shrink-0 bg-white/20 rounded-lg p-1 md:p-2">
                       <img
-                        src={pkg.image || "https://via.placeholder.com/56x56  "}
+                        src={
+                          import.meta.env.VITE_IMG_URL + pkg.image ||
+                          "https://via.placeholder.com/56x56  "
+                        }
                         alt={pkg.nama_paket}
                         className="w-full h-full object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
                       />
