@@ -532,22 +532,10 @@ export function JokiSection({ lang }) {
                       <span className="text-white/80 text-[7px] md:text-xs italic leading-tight mt-0.5">
                         {t("joki.express")} +
                         {(() => {
-                          let regular =
-                            rank.joki_per_star?.[0]?.[
-                              lang === "id"
-                                ? "harga_rupiah"
-                                : lang === "ms"
-                                  ? "harga_ringgit"
-                                  : "harga_dolar"
-                            ] || 0;
                           let surcharge = 1000;
                           if (lang === "ms") surcharge = 0.3;
                           else if (lang === "en") surcharge = 0.07;
-                          return (
-                            formatCurrency(regular + surcharge) +
-                            " / " +
-                            t("joki.per_star")
-                          );
+                          return surcharge + " / " + t("joki.per_star");
                         })()}
                       </span>
                     </div>

@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { getApiUrl } from "../../config/api";
 import About from "../../components/about";
 import BottomMenu from "../../components/bottomMenu";
+import Sosmed from "../../components/sosmed";
 
 export default function Home() {
   const route = useLocation();
@@ -40,6 +41,7 @@ export default function Home() {
       />
       <PromoBanner />
       {hasBanners && <MarqueeConnector />}
+      <Sosmed lang={lang} />
       <PromoCarousel lang={lang} />
       {!hasBanners && <MarqueeConnector />}
       <WhyChoose classname="px-4 sm:px-6 lg:px-8" />

@@ -57,10 +57,10 @@ export function MarqueeConnector() {
     announcements.length > 0
       ? announcements
       : defaultMessages.map((msg) => ({
-        html: msg,
-        icon: null,
-        icon_position: "start",
-      }));
+          html: msg,
+          icon: null,
+          icon_position: "start",
+        }));
 
   const renderIcon = (iconName, position) => {
     if (!iconName) return null;
@@ -92,7 +92,7 @@ export function MarqueeConnector() {
 
         <div
           className="marquee-announcement text-lg md:text-xl"
-          style={{ fontFamily: "'Rajdhani', sans-serif", color: 'white' }}
+          style={{ fontFamily: "'Rajdhani', sans-serif", color: "white" }}
           dangerouslySetInnerHTML={{ __html: item.html }}
         />
 
@@ -102,7 +102,7 @@ export function MarqueeConnector() {
   };
 
   return (
-    <div className="relative py-2 bg-[#0b0530] border-4 border-x-0 border-white overflow-hidden">
+    <div className="relative py-2 bg-[#0b0530] border-1 border-x-0 border-white overflow-hidden">
       {/* Shimmer Glow */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent animate-pulse pointer-events-none" />
 

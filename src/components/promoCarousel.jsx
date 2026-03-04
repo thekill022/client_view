@@ -147,8 +147,9 @@ export function PromoCarousel({ lang }) {
         ) : (
           <div className="mx-auto">
             <div
-              className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 transition-all duration-300 ${isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
-                }`}
+              className={`grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 transition-all duration-300 ${
+                isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
+              }`}
             >
               {displayedProducts.map((product, index) => (
                 <div
@@ -207,15 +208,15 @@ export function PromoCarousel({ lang }) {
                             <span className="text-white/60 text-[8px] xs:text-[9px] sm:text-[10px] md:text-xs font-bold italic whitespace-nowrap">
                               {lang === "id"
                                 ? `RP.${Number(
-                                  product.harga_rupiah
-                                ).toLocaleString()}`
+                                    product.harga_rupiah,
+                                  ).toLocaleString()}`
                                 : lang === "ms"
                                   ? `RM${Number(
-                                    product.harga_ringgit
-                                  ).toLocaleString()}`
+                                      product.harga_ringgit,
+                                    ).toLocaleString()}`
                                   : `$${Number(
-                                    product.harga_dolar
-                                  ).toLocaleString()}`}
+                                      product.harga_dolar,
+                                    ).toLocaleString()}`}
                             </span>
                             <div className="absolute top-1/2 left-0 w-full h-[1.5px] bg-red-600 -rotate-2"></div>
                           </div>
@@ -223,30 +224,30 @@ export function PromoCarousel({ lang }) {
                           <div className="text-white font-black text-xs xs:text-sm sm:text-base md:text-2xl italic leading-none tracking-tight">
                             {lang === "id"
                               ? `Rp.${Math.round(
-                                (product.harga_rupiah *
-                                  (100 -
-                                    parseInt(
-                                      product.discount.replace("%", "")
-                                    ))) /
-                                100
-                              ).toLocaleString()}`
+                                  (product.harga_rupiah *
+                                    (100 -
+                                      parseInt(
+                                        product.discount.replace("%", ""),
+                                      ))) /
+                                    100,
+                                ).toLocaleString()}`
                               : lang === "ms"
                                 ? `RM${Math.round(
-                                  (product.harga_ringgit *
-                                    (100 -
-                                      parseInt(
-                                        product.discount.replace("%", "")
-                                      ))) /
-                                  100
-                                ).toLocaleString()}`
+                                    (product.harga_ringgit *
+                                      (100 -
+                                        parseInt(
+                                          product.discount.replace("%", ""),
+                                        ))) /
+                                      100,
+                                  ).toLocaleString()}`
                                 : `$${Math.round(
-                                  (product.harga_dolar *
-                                    (100 -
-                                      parseInt(
-                                        product.discount.replace("%", "")
-                                      ))) /
-                                  100
-                                ).toLocaleString()}`}
+                                    (product.harga_dolar *
+                                      (100 -
+                                        parseInt(
+                                          product.discount.replace("%", ""),
+                                        ))) /
+                                      100,
+                                  ).toLocaleString()}`}
                           </div>
                         </div>
                       </div>
@@ -278,10 +279,11 @@ export function PromoCarousel({ lang }) {
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 shadow ${currentIndex === i
+                className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 shadow ${
+                  currentIndex === i
                     ? "w-8 sm:w-10 bg-[#FFD700]"
                     : "w-2 sm:w-3 bg-white/30 hover:bg-white/50"
-                  }`}
+                }`}
               />
             ))}
           </div>
