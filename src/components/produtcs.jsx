@@ -166,7 +166,7 @@ export function Product({ onProductClick, lang }) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const displayedProducts = filteredProducts.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
   // untuk search
@@ -203,8 +203,8 @@ export function Product({ onProductClick, lang }) {
 
     const url = getApiUrl(
       `/api/akun?hero=${encodeURIComponent(hero)}&skin=${encodeURIComponent(
-        skin
-      )}`
+        skin,
+      )}`,
     );
 
     fetch(url)
@@ -398,8 +398,9 @@ export function Product({ onProductClick, lang }) {
           </div>
         ) : (
           <div
-            className={`grid grid-cols-2 ${gridView === "4" ? "lg:grid-cols-4" : "md:grid-cols-6"
-              } gap-4 mb-12`}
+            className={`grid grid-cols-2 ${
+              gridView === "4" ? "lg:grid-cols-4" : "md:grid-cols-6"
+            } gap-4 mb-12`}
           >
             {displayedProducts.map((product) => (
               <div key={product.id} className="relative group h-full">
@@ -408,7 +409,7 @@ export function Product({ onProductClick, lang }) {
                   {/* --- SOLD OVERLAY --- */}
                   {!product.status && (
                     <div className="absolute inset-0 bg-black/70 z-30 flex items-center justify-center">
-                      <div className="border-4 border-red-600 rounded-xl px-6 py-3 bg-black/50 backdrop-blur-sm">
+                      <div className=" px-6 py-3 bg-black/50 backdrop-blur-sm">
                         <h2 className="text-red-500 font-black text-lg sm:text-xl md:text-2xl italic uppercase tracking-wider drop-shadow-[0_0_15px_rgba(220,38,38,0.9)]">
                           {lang === "en" ? "SOLD" : "TERJUAL"}
                         </h2>
@@ -465,21 +466,21 @@ export function Product({ onProductClick, lang }) {
                         <div className="text-white font-black text-xs xs:text-sm sm:text-base md:text-2xl italic leading-none tracking-tight">
                           {lang === "id"
                             ? `Rp.${Math.round(
-                              (product.harga_rupiah *
-                                (100 - parseInt(product.discount))) /
-                              100
-                            ).toLocaleString()}`
+                                (product.harga_rupiah *
+                                  (100 - parseInt(product.discount))) /
+                                  100,
+                              ).toLocaleString()}`
                             : lang === "ms"
                               ? `RM${Math.round(
-                                (product.harga_ringgit *
-                                  (100 - parseInt(product.discount))) /
-                                100
-                              ).toLocaleString()}`
+                                  (product.harga_ringgit *
+                                    (100 - parseInt(product.discount))) /
+                                    100,
+                                ).toLocaleString()}`
                               : `$${Math.round(
-                                (product.harga_dolar *
-                                  (100 - parseInt(product.discount))) /
-                                100
-                              ).toLocaleString()}`}
+                                  (product.harga_dolar *
+                                    (100 - parseInt(product.discount))) /
+                                    100,
+                                ).toLocaleString()}`}
                         </div>
                       </div>
                     </div>
