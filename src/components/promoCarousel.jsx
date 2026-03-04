@@ -161,7 +161,7 @@ export function PromoCarousel({ lang }) {
                     {/* --- SOLD OVERLAY --- */}
                     {!product.status && (
                       <div className="absolute inset-0 bg-black/70 z-30 flex items-center justify-center">
-                        <div className=" px-6 py-3 bg-black/50 backdrop-blur-sm">
+                        <div className=" px-6 py-3">
                           <h2 className="text-red-500 font-black text-lg sm:text-xl md:text-2xl italic uppercase tracking-wider drop-shadow-[0_0_15px_rgba(220,38,38,0.9)]">
                             {lang === "en" ? "SOLD" : "TERJUAL"}
                           </h2>
