@@ -443,12 +443,6 @@ export function JokiSection({ lang }) {
             ];
             return (
               <>
-                <h1 className="text-3xl md:text-5xl font-black text-white mb-10 tracking-wide drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] z-10 text-center">
-                  {lang === "en"
-                    ? "Rank Jockey Calculator"
-                    : "Kalkulator Joki Rangked"}
-                </h1>
-
                 <div className="flex items-center justify-center drop-shadow-[0_0_10px_rgba(0,191,255,0.3)] z-10">
                   {tabs.map((tab, index) => {
                     const isFirst = index === 0;

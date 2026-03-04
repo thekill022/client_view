@@ -165,6 +165,7 @@
     "continue_purchase": "Teruskan ke Pembelian",
     "order_message_joki": "Hai Admin, saya mahu order joki {{type}} dari {{startName}} ({{startStars}} Bintang) ke {{targetName}} ({{targetStars}} Bintang). Anggaran Harga: {{price}}",
     "order_message_package": "Hai Admin, saya mahu order Pakej Joki: {{packageName}}. Harga: {{price}}",
-    "per_star": "per bintang"
+    "per_star": "per bintang",
+    "calculator_title": "Kalkulator Joki Ranked"
   }
 }
