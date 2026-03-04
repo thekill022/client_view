@@ -165,7 +165,6 @@
     "continue_purchase": "Continue to Purchase",
     "order_message_joki": "Hello Admin, I'd like to order {{type}} boosting from {{startName}} ({{startStars}} Stars) to {{targetName}} ({{targetStars}} Stars). Estimated Total: {{price}}",
     "order_message_package": "Hello Admin, I'd like to order Package: {{packageName}}. Price: {{price}}",
-    "per_star": "per star",
-    "calculator_title": "Rank Jockey Calculator"
+    "per_star": "per star"
   }
 }
